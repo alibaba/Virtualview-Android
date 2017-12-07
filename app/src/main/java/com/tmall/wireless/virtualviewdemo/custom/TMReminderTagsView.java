@@ -110,16 +110,16 @@ public class TMReminderTagsView extends View implements IViewInterface {
 
     }
 
-    public void setTags(com.alibaba.fastjson.JSONArray tags) {
-        if (tags != null) {
-            int length = tags.size();
-            String[] newTags = new String[length];
-            for (int i = 0; i < length; i++) {
-                newTags[i] = tags.getString(i);
-            }
-            setTags(newTags);
-        }
-    }
+    //public void setTags(com.alibaba.fastjson.JSONArray tags) {
+    //    if (tags != null) {
+    //        int length = tags.size();
+    //        String[] newTags = new String[length];
+    //        for (int i = 0; i < length; i++) {
+    //            newTags[i] = tags.getString(i);
+    //        }
+    //        setTags(newTags);
+    //    }
+    //}
 
     public void setTags(String[] tags) {
         if (tags != null && this.tags != tags) {
