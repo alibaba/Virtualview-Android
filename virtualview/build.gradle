@@ -24,6 +24,30 @@
 
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'Tangram'
+    bintrayName = 'Virtualview-Android'
+
+    publishedGroupId = GROUP
+    libraryName = ARTIFACT
+    artifact = ARTIFACT
+
+    libraryDescription = ''
+
+    siteUrl = 'https://github.com/alibaba/Virtualview-Android'
+    gitUrl = 'git@github.com:alibaba/Virtualview-Android.git'
+
+    libraryVersion = VERSION_NAME
+
+    developerId = 'longerian'
+    developerName = 'longerian'
+    developerEmail = 'xlhongultimate@gmail.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -51,14 +75,19 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:23.1.1@aar'
     compile 'com.android.support:support-annotations:23.1.1'
-    compile ('com.alibaba.android:virtual-common:1.1.4.11') {
+    compile ('com.alibaba.android:virtual-common:1.0.0') {
         changing = true
     }
-    provided 'com.google.android:support-v7-recyclerview:22'
+    provided 'com.google.android:support-v7-recyclerview:23.1.1'
 
 }
 
-File deployConfig = rootProject.file('deploy.gradle')
+File deployConfig = rootProject.file('jcenterInstall.gradle')
 if (deployConfig.exists()) {
-    apply from: rootProject.file('deploy.gradle')
+    apply from: rootProject.file('jcenterInstall.gradle')
+}
+
+deployConfig = rootProject.file('jcenterDeploy.gradle')
+if (deployConfig.exists()) {
+    apply from: rootProject.file('jcenterDeploy.gradle')
 }

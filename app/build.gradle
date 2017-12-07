@@ -55,7 +55,7 @@ configurations.all {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.1.0'
     compile project(path: ':virtualview')
     compile 'com.google.android:support-v7-recyclerview:22'
 
@@ -63,10 +63,10 @@ dependencies {
 //    compile 'com.android.volley:volley:1.0.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
-    provided ('com.tmall.android:virtual-common:1.1.0-SNAPSHOT') {
+    provided ('com.alibaba.android:virtual-common:1.0.0-SNAPSHOT') {
         changing = true
     }
-    compile ('com.tmall.android:virtual-compiler:1.1.0-SNAPSHOT') {
+    compile ('com.alibaba.android:virtual-compiler:1.0.0-SNAPSHOT') {
         exclude group: 'xmlpull', module: 'xmlpull'
         exclude group: 'net.sf.kxml', module: 'kxml2'
         changing = true

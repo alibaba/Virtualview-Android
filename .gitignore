@@ -59,3 +59,6 @@ dependencies.gradle
 #dependencies_login.gradle
 
 captures/
+
+jcenterDeploy.gradle
+jcenterInstall.gradle
