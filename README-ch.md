@@ -10,7 +10,7 @@
 
 XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性能，这两点就是使用 VirtualView 技术的主要意义所在。
 
-更多详细信息参考文档：TODO
+更多详细信息参考[文档](http://tangram.pingguohe.net/docs/virtualview/about-virtualview)。
 
 ## 主要功能
 
@@ -78,14 +78,14 @@ viewManager.loadBinFileSync(TMALLCOMPONENT2_PATH);
 ......
 ```
 
-如果开发了自定义的基础组件，注册自定义组件的构造器：(开发自定义组件的说明参考：TODO)
+如果开发了自定义的基础组件，注册自定义组件的构造器：(开发自定义组件的说明参考[这里](http://tangram.pingguohe.net/docs/android/add-a-custom-element))
 
 ```
 viewManager.getViewFactory().registerBuilder(BizCommon.TM_PRICE_TEXTVIEW, new TMPriceView.Builder());
 viewManager.getViewFactory().registerBuilder(BizCommon.TM_TOTAL_CONTAINER, new TotalContainer.Builder());
 ```
 
-注册事件处理器，比如常用的点击、曝光处理：(更多事件处理信息的说明参考：TODO）
+注册事件处理器，比如常用的点击、曝光处理：(更多事件处理信息的说明参考[这里](http://tangram.pingguohe.net/docs/android/event-handler)）
 
 ```
 vafContext.getEventManager().register(EventManager.TYPE_Click, new IEventProcessor() {
@@ -123,7 +123,7 @@ if (json != null) {
 }
 ```
 
-当然在使用之前，先编写组件模板，在 Demo 程序里已经提供了大量的例子，结合例子和教程学习如何写一个模板并编译出来。TODO
+当然在使用之前，先编写组件模板，在 Demo 程序里已经提供了大量的例子，结合例子和教程学习如何写一个模板并编译出来。
 
 ### 在 Tangram 中使用
 
@@ -175,7 +175,7 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
 });
 ```
 
-更多关于在 Tangram 中使用 VirtualView 的信息，参考文档。TODO
+更多关于在 Tangram 中使用 VirtualView 的信息，参考[文档](http://tangram.pingguohe.net/docs/android/use-virtualview-in-tangram)。
 
 
 # 贡献代码

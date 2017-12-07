@@ -10,7 +10,7 @@ And just as its name implies, this library introduces a concept of virtual view,
 
 XML template to build business component dynamically and virtual view to improve performance, these are two most important reason to use VirtualView.
 
-For more information, see this. TODO (Chinese language only now)
+For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/about-virtualview).
 
 ## Features
 
@@ -180,7 +180,7 @@ vafContext.getEventManager().register(EventManager.TYPE_Exposure, new IEventProc
 });
 ```
 
-More about running VirtualView in Tangram can be found here. TODO (Chinese language only now)
+More about running VirtualView in Tangram can be found [here](http://tangram.pingguohe.net/docs/android/use-virtualview-in-tangram).
 
 # Contributing
 
