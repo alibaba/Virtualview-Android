@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<FrameLayout
+        flag="flag_exposure|flag_clickable"
+        action="action"
+        orientation="V"
+        background="#ECE5D3"
+        layoutWidth="345rp"
+        layoutHeight="wrap_content"
+        autoDimDirection="X"
+        paddingTop="3"
+        paddingRight="3"
+        paddingBottom="3"
+        paddingLeft="3"
+        autoDimX="335"
+        autoDimY="639">
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content">
+        <GridLayout
+                colCount="2"
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                itemHorizontalMargin="5"
+                itemVerticalMargin="5"
+                background="#FFFFFF"
+                paddingTop="7"
+                paddingRight="7"
+                paddingBottom="7"
+                paddingLeft="7">
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[0]} ? visible : gone }"
+                    src="${data[0]}"/>
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[1]} ? visible : gone }"
+                    src="${data[1]}"/>
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[2]} ? visible : gone }"
+                    src="${data[2]}"/>
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[3]} ? visible : gone }"
+                    src="${data[3]}"/>
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[4]} ? visible : gone }"
+                    src="${data[4]}"/>
+            <NImage
+                    layoutWidth="match_parent"
+                    layoutHeight="70"
+                    scaleType="center_crop"
+                    visibility="@{${data[5]} ? visible : gone }"
+                    src="${data[5]}"/>
+        </GridLayout>
+        <NImage
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                src="tk_recommend_toplist_mask_image"/>
+    </FrameLayout>
+
+    <VHLayout
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            paddingTop="8"
+            paddingBottom="8"
+            background="#ECE5D3"
+            layoutGravity="bottom"
+            orientation="V">
+        <NText
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                paddingLeft="10"
+                paddingRight="10"
+                text="${title}"
+                textSize="13"
+                textStyle="bold"
+                textColor="#232323"
+                layoutGravity="h_center"
+                maxLines="2"
+                ellipsize="end"/>
+        <VHLayout
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                paddingTop="3"
+                orientation="H">
+            <NText
+                    layoutWidth="wrap_content"
+                    layoutHeight="wrap_content"
+                    paddingLeft="10"
+                    paddingRight="3"
+                    text="${subTitle}"
+                    textSize="12"
+                    textColor="#232323"
+                    maxLines="1"
+                    layoutGravity="v_center"/>
+            <NImage
+                    layoutWidth="11"
+                    layoutHeight="12"
+                    layoutGravity="v_center"
+                    src="tk_component_toplist_double_arrow"/>
+
+        </VHLayout>
+    </VHLayout>
+    <NImage
+            layoutWidth="35.5"
+            layoutHeight="54.5"
+            layoutMarginTop="-3"
+            layoutGravity="left|top"
+            layoutMarginLeft="7"
+            scaleType="center_crop"
+            src="${logoUrl}"/>
+</FrameLayout>

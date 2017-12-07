@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: orientation = H"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VHLayout
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            orientation="H"
+        >
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#0000FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#0088FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#8888FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#88FFFF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#FFFFFF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#FFFF88"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+    </VHLayout>
+
+    <VText
+            text="Title: orientation = V"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VHLayout
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            orientation="V"
+    >
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#0000FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#0088FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#8888FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#88FFFF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#FFFFFF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+        <VText
+                layoutWidth="50"
+                layoutHeight="50"
+                background="#FFFF88"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="1" />
+
+    </VHLayout>
+
+</VHLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<VHLayout
+    flag="flag_exposure|flag_clickable"
+    action="action"
+    orientation="V"
+    layoutWidth="227rp"
+    layoutHeight="285rp">
+    <VHLayout
+        layoutHeight="227rp"
+        layoutWidth="227rp"
+        background="#FFFFFF">
+        <NImage
+            id="5"
+            src="${imgUrl}"
+            scaleType="center_crop"
+            layoutGravity="v_center|h_center"
+            layoutWidth="match_parent"
+            layoutHeight="match_parent"
+            paddingTop="@{${hasImgPadding} ? 10 : 0 }"
+            paddingRight="@{${hasImgPadding} ? 10 : 0 }"
+            paddingBottom="@{${hasImgPadding} ? 10 : 0 }"
+            paddingLeft="@{${hasImgPadding} ? 10 : 0 }"/>
+    </VHLayout>
+    <VHLayout
+        id="3"
+        dataTag="titleBar"
+        orientation="V"
+        gravity="v_center|h_center"
+        background="${bgColor}"
+        layoutHeight="58rp"
+        layoutWidth="227rp" >
+        <VHLayout
+            id="999"
+            orientation="H"
+            layoutGravity="v_center|h_center"
+            layoutHeight="42rp"
+            layoutWidth="wrap_content" >
+            <VText
+                layoutGravity="h_center|v_center"
+                gravity="v_center|h_center"
+                id="4"
+                text="${title}"
+                textColor="#000000"
+                textSize="14"
+                layoutHeight="match_parent"
+                layoutWidth="wrap_content" />
+        </VHLayout>
+    </VHLayout>
+</VHLayout>

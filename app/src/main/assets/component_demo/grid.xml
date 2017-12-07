@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: colCount = 2"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <Grid
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            colCount="2"
+            dataTag="${items}"
+        >
+
+    </Grid>
+
+    <VText
+            text="Title: gap = 10"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <Grid
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            itemVerticalMargin="10"
+            itemHorizontalMargin="10"
+            colCount="2"
+            itemHeight="200"
+            dataTag="${items}"
+    >
+
+    </Grid>
+
+</VHLayout>

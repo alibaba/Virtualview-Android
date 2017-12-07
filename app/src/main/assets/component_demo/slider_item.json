@@ -1,0 +1,65 @@
+{
+  "style": {
+    "hGap": "12.5",
+    "bgColor": "#FFFFFF",
+    "vGap": "12.5",
+    "padding": "[15,15,15,15]"
+  },
+  "items": [
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2HWVhppXXXXc8XXXXXXXXXXXX_!!655983464.png",
+      "title": "家有萌娃",
+      "waterfall": "1",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2tDyXnwNlpuFjy0FfXXX3CpXa_!!0-juitemmedia.jpg",
+      "title": "囤货小当家",
+      "waterfall": "1",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2M3.FmNxmpuFjSZFNXXXrRXXa_!!2368290057-0-beehive-scenes.jpg",
+      "title": "养生达人",
+      "waterfall": "1",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2RShWdiBnpuFjSZFzXXaSrpXa_!!0-juitemmedia.jpg",
+      "title": "吃货的后裔",
+      "waterfall": "1",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom///img.alicdn.com/bao/uploaded/TB1h3f5LFXXXXc.XXXXSutbFXXX.jpg",
+      "title": "想要瘦瘦瘦",
+      "waterfall": "1",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB1hmEYJVXXXXaLXXXXwu0bFXXX.png",
+      "title": "萌宠大作战",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2XJF3jHXlpuFjSszfXXcSGXXa_!!0-juitemmedia.jpg",
+      "title": "新时代主妇",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB1Q9OYRpXXXXaoXFXXSutbFXXX.jpg",
+      "title": "健身狂人",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB1ChWzJXXXXXc2XFXXXXXXXXXX_!!0-item_pic.jpg",
+      "title": "火锅爱好者",
+      "type": "SliderItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB1hXx6LpXXXXaMXFXXSutbFXXX.jpg",
+      "title": "女神范",
+      "type": "SliderItem"
+    }
+  ]
+}

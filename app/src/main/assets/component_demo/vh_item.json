@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2HWVhppXXXXc8XXXXXXXXXXXX_!!655983464.png",
+      "title": "家有萌娃",
+      "type": "GridItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2tDyXnwNlpuFjy0FfXXX3CpXa_!!0-juitemmedia.jpg",
+      "title": "囤货小当家",
+      "type": "GridItem"
+    },
+    {
+      "imgUrl": "https://gw.alicdn.com/tfscom/TB2M3.FmNxmpuFjSZFNXXXrRXXa_!!2368290057-0-beehive-scenes.jpg",
+      "title": "养生达人",
+      "type": "GridItem"
+    }
+  ]
+}

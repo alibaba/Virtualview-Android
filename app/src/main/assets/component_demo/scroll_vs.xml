@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: orientation = V | mode = staggered"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <Scroller
+            dataTag="${items}"
+            firstSpace="10rp"
+            lastSpace="10rp"
+            lineSpace="10rp"
+            span="5rp"
+            orientation="V"
+            mode="staggeredGrid"
+            layoutWidth="match_parent"
+            layoutHeight="800rp" />
+
+</VHLayout>

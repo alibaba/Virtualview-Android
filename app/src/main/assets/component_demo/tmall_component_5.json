@@ -1,0 +1,35 @@
+{
+  "bgImgUrl": "https://img.alicdn.com/tfs/TB11mGXRpXXXXcAXpXXXXXXXXXX-782-610.png",
+  "data": [
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1ZdpvRpXXXXX9aFXXXXXXXXXX-134-176.png",
+      "hasImgPadding": "true",
+      "price": "￥99.5",
+      "title": "商品标题如果很长的话怎么办",
+      "titleColor": "#ff00ff",
+      "benefitColor": "#00ff00",
+      "benefitTitle": "利益标",
+      "type": "TmallComponent6"
+    },
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1CS1nRpXXXXauXXXXXXXXXXXX-215-215.png",
+      "hasImgPadding": "false",
+      "price": "￥199",
+      "title": "花美男",
+      "titleColor": "#000000",
+      "benefitColor": "#ff0000",
+      "benefitTitle": "一起来",
+      "type": "TmallComponent6"
+    },
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1eYKVPpXXXXa3XVXXXXXXXXXX-244-196.png",
+      "price": "￥9.9",
+      "hasImgPadding": "9.9",
+      "title": "高跟美鞋",
+      "titleColor": "#000000",
+      "benefitColor": "#0000ff",
+      "benefitTitle": "",
+      "type": "TmallComponent6"
+    }
+  ]
+}

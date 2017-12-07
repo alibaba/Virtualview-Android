@@ -1,0 +1,28 @@
+{
+  "style": {
+    "scrollInterval": 5000,
+    "background-color": "#ffffff"
+  },
+  "color": [
+    -16777216,
+    -65281,
+    -16711936
+  ],
+  "data": [
+    {
+      "type": "PageItem",
+      "title1": "1 Xiaomi Xiaomi",
+      "title2": "1 Xiaomi in on Top 10"
+    },
+    {
+      "type": "PageItem",
+      "title1": "2NASA NASA",
+      "title2": "2NASA is on the way"
+    },
+    {
+      "type": "PageItem",
+      "title1": "3Sales Sales",
+      "title2": "3 70% off"
+    }
+  ]
+}

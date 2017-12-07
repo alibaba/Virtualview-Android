@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<FrameLayout
+    action="action"
+    borderColor="#DADBD8"
+    borderWidth="1"
+    background="#F2F2F2"
+    flag="flag_exposure|flag_clickable"
+    layoutHeight="wrap_content"
+    layoutWidth="345rp"
+    autoDimDirection="X"
+    autoDimX="335"
+    autoDimY="639">
+    <NImage
+        src="${bgImgUrl}"
+        layoutHeight="match_parent"
+        layoutWidth="match_parent"/>
+    <VHLayout
+            layoutHeight="match_parent"
+            layoutWidth="match_parent"
+            paddingTop="20"
+            paddingLeft="20"
+            paddingRight="20"
+            paddingBottom="20"
+            orientation="V">
+        <VH2Layout
+                layoutHeight="wrap_content"
+                layoutWidth="130"
+                layoutGravity="h_center"
+                orientation="H">
+            <NLine
+                    layoutWidth="27"
+                    layoutHeight="2"
+                    layoutGravity="left|v_center"
+                    color="#CBCBCB"/>
+            <NText
+                    layoutWidth="wrap_content"
+                    layoutHeight="wrap_content"
+                    text="${title}"
+                    textSize="14"
+                    textColor="#000000"
+                    layoutGravity="v_center"
+                    paddingLeft="9"
+                    paddingRight="9"
+                    textStyle="bold"
+                    lines="1"
+                    ellipsize="end"/>
+            <NLine
+                    layoutWidth="27"
+                    layoutHeight="2"
+                    layoutGravity="right|v_center"
+                    layoutDirection="right"
+                    color="#CBCBCB"/>
+        </VH2Layout>
+
+        <NText
+                flag="flag_exposure|flag_clickable"
+                action="item1Action"
+                layoutWidth="130"
+                layoutHeight="33"
+                layoutMarginTop="24"
+                background="#FFFFFF"
+                borderColor="#C7C7C7"
+                gravity="v_center|h_center"
+                layoutGravity="h_center"
+                borderWidth="0.5"
+                text="${item1Title}"
+                textSize="12"
+                textColor="#3D4245"
+                lines="1"
+                ellipsize="end"
+                visibility="@{${item1Title} ? visible : gone }"/>
+        <NText
+                flag="flag_exposure|flag_clickable"
+                action="item2Action"
+                layoutWidth="130"
+                layoutHeight="33"
+                layoutMarginTop="15"
+                background="#FFFFFF"
+                borderColor="#C7C7C7"
+                gravity="v_center|h_center"
+                layoutGravity="h_center"
+                borderWidth="0.5"
+                text="${item2Title}"
+                textSize="12"
+                textColor="#3D4245"
+                lines="1"
+                ellipsize="end"
+                visibility="@{${item2Title} ? visible : gone }"/>
+        <NText
+                flag="flag_exposure|flag_clickable"
+                action="item3Action"
+                layoutWidth="130"
+                layoutHeight="33"
+                layoutMarginTop="15"
+                background="#FFFFFF"
+                borderColor="#C7C7C7"
+                gravity="v_center|h_center"
+                layoutGravity="h_center"
+                borderWidth="0.5"
+                text="${item3Title}"
+                textSize="12"
+                textColor="#3D4245"
+                lines="1"
+                ellipsize="end"
+                visibility="@{${item3Title} ? visible : gone }"/>
+        <NText
+                flag="flag_exposure|flag_clickable"
+                action="item4Action"
+                layoutWidth="130"
+                layoutHeight="33"
+                layoutMarginTop="15"
+                background="#FFFFFF"
+                borderColor="#C7C7C7"
+                gravity="v_center|h_center"
+                layoutGravity="h_center"
+                borderWidth="0.5"
+                text="${item4Title}"
+                textSize="12"
+                textColor="#3D4245"
+                lines="1"
+                ellipsize="end"
+                visibility="@{${item4Title} ? visible : gone }"/>
+        <NText
+                flag="flag_exposure|flag_clickable"
+                action="item5Action"
+                layoutWidth="130"
+                layoutHeight="33"
+                layoutMarginTop="15"
+                background="#FFFFFF"
+                borderColor="#C7C7C7"
+                gravity="v_center|h_center"
+                layoutGravity="h_center"
+                borderWidth="0.5"
+                text="${item5Title}"
+                textSize="12"
+                textColor="#3D4245"
+                lines="1"
+                ellipsize="end"
+                visibility="@{${item5Title} ? visible : gone }"/>
+
+    </VHLayout>
+
+</FrameLayout>

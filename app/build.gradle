@@ -1,0 +1,75 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2017 Alibaba Group
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.tmall.wireless.virtualviewdemo"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/anim'] } }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 10, 'seconds'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile project(path: ':virtualview')
+    compile 'com.google.android:support-v7-recyclerview:22'
+
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+//    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    provided ('com.tmall.android:virtual-common:1.1.0-SNAPSHOT') {
+        changing = true
+    }
+    compile ('com.tmall.android:virtual-compiler:1.1.0-SNAPSHOT') {
+        exclude group: 'xmlpull', module: 'xmlpull'
+        exclude group: 'net.sf.kxml', module: 'kxml2'
+        changing = true
+    }
+
+}

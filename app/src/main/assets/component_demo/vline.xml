@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: color = #123456"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="20"
+    >
+        <VLine
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                layoutGravity="v_center"
+                paintWidth="1"
+                orientation="H"
+                color="#123456" />
+    </FrameLayout>
+
+
+    <VText
+        text="Title: orientation = H"
+        textSize="12"
+        textColor="#333333"
+        background="#008899"
+        layoutWidth="match_parent"
+        layoutHeight="20" />
+
+    <FrameLayout
+        layoutWidth="match_parent"
+        layoutHeight="20"
+        >
+        <VLine
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                layoutGravity="v_center"
+                paintWidth="1"
+                orientation="H"
+                color="#A0D0A0" />
+    </FrameLayout>
+
+    <VText
+            text="Title: orientation = V"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="50"
+    >
+        <VLine
+                layoutWidth="1"
+                layoutHeight="50"
+                layoutGravity="h_center"
+                paintWidth="1"
+                orientation="V"
+                color="#A0D0A0" />
+    </FrameLayout>
+
+    <VText
+            text="Title: paintWidth = 5"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="20"
+    >
+        <VLine
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                layoutGravity="v_center"
+                paintWidth="5"
+                orientation="H"
+                color="#A0D0A0" />
+    </FrameLayout>
+
+    <VText
+            text="Title: style = dash | dashEffect = [6,10,6,10]"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="20"
+    >
+        <VLine
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                layoutGravity="v_center"
+                paintWidth="2"
+                orientation="H"
+                style="dash"
+                dashEffect="[6,10,6,10]"
+                color="#A0D0A0" />
+    </FrameLayout>
+</VHLayout>

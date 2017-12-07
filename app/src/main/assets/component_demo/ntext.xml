@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <NText
+            text="Title: text"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: textSize = 16"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="16"
+            textColor="#333333"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: textColor = #FF0000"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#FF0000"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: textStyle = bold"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            textStyle="bold"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: textStyle = strike"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            textStyle="strike"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: textStyle = italic"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            textStyle="italic"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: borderWidth = 1 borderColor = #0088FF"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            borderColor="#0088FF"
+            borderWidth="1"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: gravity = h_center|v_center"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            borderColor="#0088FF"
+            borderWidth="1"
+            gravity="h_center|v_center"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: background = #008899"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            gravity="h_center|v_center"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: ellipsize = end | maxLines = 1"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            maxLines="1"
+            ellipsize="end"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: lines = 2 | layoutHeight=wrap_content (layoutHeight > lines)"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            borderColor="#0088FF"
+            borderWidth="1"
+            lines="2"
+            ellipsize="end"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: lines = 2 | layoutHeight=20 (layoutHeight > lines)"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            borderColor="#0088FF"
+            borderWidth="1"
+            lines="2"
+            ellipsize="end"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Title: no lineSpaceMultiplier or lineSpaceExtra"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: lineSpaceMultiplier = 2"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            lineSpaceMultiplier="2"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: lineSpaceExtra = 10"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            lineSpaceExtra="10"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: lineSpaceMultiplier | lineSpaceExtra"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            lineSpaceMultiplier="2"
+            lineSpaceExtra="10"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: rich text"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="<h2>Title</h2><br><p>Description here</p>"
+            textSize="12"
+            textColor="#333333"
+            supportHTMLStyle="true"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+</VHLayout>

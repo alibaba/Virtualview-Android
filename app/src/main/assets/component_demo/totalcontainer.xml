@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: native = TMTag"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="20"
+    >
+        <TotalContainer
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"
+                native="TMTags"
+                dataTag="${tags}"
+        />
+    </FrameLayout>
+
+</VHLayout>

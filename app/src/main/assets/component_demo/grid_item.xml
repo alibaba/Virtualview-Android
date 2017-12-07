@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<VHLayout
+    flag="flag_exposure|flag_clickable"
+    action="action"
+    orientation="V"
+    layoutWidth="match_parent"
+    layoutHeight="180">
+    <NImage
+        id="5"
+        src="${imgUrl}"
+        scaleType="center_crop"
+        layoutGravity="v_center|h_center"
+        layoutWidth="match_parent"
+        layoutHeight="150"/>
+    <VText
+        layoutGravity="h_center|v_center"
+        gravity="v_center|h_center"
+        id="4"
+        text="${title}"
+        textColor="#000000"
+        textSize="14"
+        layoutHeight="30"
+        layoutWidth="match_parent" />
+</VHLayout>

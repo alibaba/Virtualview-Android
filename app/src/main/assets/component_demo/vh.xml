@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: orientation = H"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VH
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            itemWidth="100"
+            itemHeight="180"
+            dataTag="${items}"
+        >
+
+    </VH>
+
+    <VText
+            text="Title: gap = 10"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VH
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            itemMargin="10"
+            itemWidth="100"
+            itemHeight="180"
+            dataTag="${items}"
+    >
+
+    </VH>
+
+    <VText
+            text="Title: orientation = V"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VH
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            orientation="V"
+            itemWidth="180"
+            itemHeight="180"
+            dataTag="${items}"
+    >
+
+    </VH>
+
+</VHLayout>

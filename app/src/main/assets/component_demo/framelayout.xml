@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2017 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="match_parent"
+>
+    <VText
+            text="Title: overlay"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="200"
+        >
+        <VGraph
+                layoutWidth="wrap_content"
+                layoutHeight="wrap_content"
+                diameterX="150"
+                diameterY="150"
+                type="circle"
+                color="#0000FF" />
+
+        <VGraph
+                layoutWidth="wrap_content"
+                layoutHeight="wrap_content"
+                diameterX="100"
+                diameterY="100"
+                type="circle"
+                color="#0088FF" />
+
+        <VGraph
+                layoutWidth="wrap_content"
+                layoutHeight="wrap_content"
+                diameterX="50"
+                diameterY="50"
+                type="circle"
+                color="#8888FF" />
+    </FrameLayout>
+
+    <VText
+            text="Title: child layoutGravity = left,right,top,bottom..."
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <FrameLayout
+            layoutWidth="match_parent"
+            layoutHeight="250"
+    >
+        <VText
+                layoutWidth="150"
+                layoutHeight="150"
+                background="#0000FF"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="default position" />
+
+        <VText
+                layoutWidth="150"
+                layoutHeight="150"
+                background="#0088FF"
+                layoutGravity="right"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="layoutGravity=right" />
+
+        <VText
+                layoutWidth="150"
+                layoutHeight="150"
+                background="#8888FF"
+                layoutGravity="right|bottom"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="layoutGravity=right|bottom" />
+
+        <VText
+                layoutWidth="150"
+                layoutHeight="150"
+                background="#FF8888"
+                layoutGravity="left|bottom"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="layoutGravity=left|bottom" />
+
+        <VText
+                layoutWidth="100"
+                layoutHeight="100"
+                background="#FF8800"
+                layoutGravity="v_center|h_center"
+                textSize="12"
+                gravity="v_center|h_center"
+                text="center" />
+    </FrameLayout>
+
+</VHLayout>
