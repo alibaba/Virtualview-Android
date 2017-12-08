@@ -25,10 +25,10 @@ XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性�
 
 ### 单独使用
 
-版本请参考 mvn repository 上的最新版本（目前最新版本是 1.0.0），最新的 aar 都会发布到 jcenter 和 MavenCentral 上，确保配置了这两个仓库源，然后引入aar依赖：
+版本请参考 mvn repository 上的最新版本（目前最新版本是 1.0.1），最新的 aar 都会发布到 jcenter 和 MavenCentral 上，确保配置了这两个仓库源，然后引入aar依赖：
 
 ``` gradle
-compile ('com.alibaba.android:virtualview:1.0.0@aar') {
+compile ('com.alibaba.android:virtualview:1.0.1@aar') {
 	transitive = true
 }
 ```
@@ -39,7 +39,7 @@ pom.XML
 <dependency>
   <groupId>com.alibaba.android</groupId>
   <artifactId>virtualview</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>aar</type>
 </dependency>
 ```
