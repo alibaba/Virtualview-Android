@@ -36,7 +36,6 @@ import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.framework.tools.dataloader.IDataLoader;
 import com.tmall.wireless.vaf.virtualview.core.NativeViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -119,12 +118,6 @@ public class Scroller extends NativeViewBase {
             } else {
                 Log.e(TAG, "callAutoRefresh execute failed");
             }
-        }
-
-        String url = getDataUrl();
-        if (!TextUtils.isEmpty(url)) {
-            IDataLoader loader = mContext.getDataLoader();
-            loader.load(url, getDataParam(), null, getUuid(), getDataMode());
         }
 
         mContext.getEventManager().emitEvent(EventManager.TYPE_Load, EventData.obtainData(mContext, this));

@@ -49,7 +49,6 @@ import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.framework.tools.dataloader.IDataLoader;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
@@ -62,7 +61,6 @@ import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_Y;
 import static com.libra.virtualview.common.ViewBaseCommon.FLAG_CLICKABLE;
-import static com.libra.virtualview.common.ViewBaseCommon.FLAG_DRAW;
 import static com.libra.virtualview.common.ViewBaseCommon.FLAG_DYNAMIC;
 import static com.libra.virtualview.common.ViewBaseCommon.FLAG_EVENT;
 import static com.libra.virtualview.common.ViewBaseCommon.FLAG_EXPOSURE;
@@ -503,11 +501,9 @@ public abstract class ViewBase implements IView {
         return mDataMode;
     }
 
+    @Deprecated
     public void loadData() {
-        if (!TextUtils.isEmpty(mDataUrl)) {
-            IDataLoader loader = mContext.getDataLoader();
-            loader.load(mDataUrl,mDataParam, null, mUuid, mDataMode);
-        }
+
     }
 
     protected void clickRoute(int id, boolean isLong) {

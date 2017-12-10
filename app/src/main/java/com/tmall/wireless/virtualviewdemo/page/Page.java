@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tmall.wireless.vaf.framework.page;
+package com.tmall.wireless.virtualviewdemo.page;
 
 import android.content.Context;
 import android.text.TextUtils;
