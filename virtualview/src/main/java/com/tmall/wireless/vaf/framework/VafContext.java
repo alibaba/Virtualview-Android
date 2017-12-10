@@ -26,22 +26,17 @@ package com.tmall.wireless.vaf.framework;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
+import android.view.View;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.expr.engine.NativeObjectManager;
 import com.tmall.wireless.vaf.framework.cm.ComContainerTypeMap;
 import com.tmall.wireless.vaf.framework.cm.ContainerService;
-import com.tmall.wireless.vaf.framework.dataprocess.DownloadProcessorManager;
 import com.tmall.wireless.vaf.framework.tools.ImageResLoader;
-import com.tmall.wireless.vaf.framework.tools.dataloader.DataLoader;
-import com.tmall.wireless.vaf.framework.tools.dataloader.IDataLoader;
 import com.tmall.wireless.vaf.virtualview.Helper.BeanManager;
-import com.tmall.wireless.vaf.virtualview.Helper.NativeViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.DataOpt;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.NativeViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.ServiceManager;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -66,11 +61,9 @@ public class VafContext {
     protected NativeObjectManager mNativeObjManager = new NativeObjectManager();
     protected static StringLoader mStringLoader = new StringLoader();
     protected ContainerService mContainerService;
-    protected IDataLoader mDataLoader;
     protected ImageResLoader mImageResLoader;
     protected static ImageLoader sImageLoader;
     protected EventManager mEventManager = new EventManager();
-    protected DownloadProcessorManager mDownloadProcessorManager;
     protected UserData mUserData = new UserData();
     protected ComContainerTypeMap mComContainerTypeMap = new ComContainerTypeMap();
     protected ServiceManager serviceManager = new ServiceManager();
@@ -104,8 +97,6 @@ public class VafContext {
 
     public VafContext(Context context) {
         this(context, false);
-
-        mDownloadProcessorManager = new DownloadProcessorManager(this);
     }
 
     public void init(Context context) {
@@ -136,9 +127,6 @@ public class VafContext {
         if (!coreOnly) {
             mContainerService = new ContainerService();
             mContainerService.setPageContext(this);
-            mDataLoader = new DataLoader(this);
-            mNativeObjManager.registerObject("DL", mDataLoader);
-            mDataLoader.setDownloadProcessorManager(mDownloadProcessorManager);
         }
     }
 
@@ -166,14 +154,6 @@ public class VafContext {
         mCurActivity = activity;
     }
 
-    public VafPage createPage() {
-        return new VafPage(this);
-    }
-
-    final public DownloadProcessorManager getDownloadProcessorManager() {
-        return mDownloadProcessorManager;
-    }
-
     final public EventManager getEventManager() { return mEventManager; }
 
     final public BeanManager getBeanManager() {return mBeanManager; }
@@ -186,10 +166,6 @@ public class VafContext {
 
     final public ImageLoader getImageLoader() {
         return sImageLoader;
-    }
-
-    final public IDataLoader getDataLoader() {
-        return mDataLoader;
     }
 
     final public ExprEngine getExprEngine() {
@@ -272,11 +248,6 @@ public class VafContext {
         if (null != mContainerService) {
             mContainerService.destroy();
             mContainerService = null;
-        }
-
-        if (null != mDataLoader) {
-            mDataLoader.destroy();
-            mDataLoader = null;
         }
     }
 }

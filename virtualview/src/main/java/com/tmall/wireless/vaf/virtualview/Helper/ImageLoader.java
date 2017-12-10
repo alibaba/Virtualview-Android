@@ -63,6 +63,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Deprecated
 public class ImageLoader {
 
     private static final String TAG = "ImageLoader_TMTEST";
