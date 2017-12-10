@@ -22,24 +22,17 @@
  * SOFTWARE.
  */
 
-package com.tmall.wireless.vaf.framework.tools.dataloader;
-
-import com.tmall.wireless.vaf.framework.dataprocess.DownloadProcessorManager;
-
-import org.json.JSONObject;
-
-import java.util.Map;
+package com.tmall.wireless.virtualviewdemo.page;
 
 /**
- * Created by gujicheng on 17/1/3.
+ * Created by gujicheng on 16/9/13.
  */
+public class PageManager {
+    private final static String TAG = "PageManager_TMTEST";
 
-public interface IDataLoader {
+    private String mName;
 
-    JSONObject loadSync(String url, String param, int mode);
-    boolean load(String url, String param, Map<String, String> dynamicParams, int destUuid, int mode);
-    void cancelAll();
-    void destroy();
-    void setDownloader(IDownloader downloader);
-    void setDownloadProcessorManager(DownloadProcessorManager processorManager);
+    public PageManager() {
+    }
+
 }
