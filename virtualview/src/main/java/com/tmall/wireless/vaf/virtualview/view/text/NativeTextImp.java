@@ -28,6 +28,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.widget.TextView;
 
 import com.tmall.wireless.vaf.virtualview.core.IView;
@@ -37,13 +38,19 @@ import com.tmall.wireless.vaf.virtualview.core.IView;
  */
 public class NativeTextImp extends TextView implements IView {
 
+    private int mBorderRadius = 0;
     private int mBorderWidth = 0;
     private int mBorderColor = Color.BLACK;
     private Paint mBorderPaint;
+    private RectF mBorderRect;
 
     public NativeTextImp(Context context) {
         super(context);
         this.getPaint().setAntiAlias(true);
+    }
+
+    public void setBorderRadius(int borderRadius) {
+        mBorderRadius = borderRadius;
     }
 
     public void setBorderWidth(int borderWidth) {
@@ -61,11 +68,22 @@ public class NativeTextImp extends TextView implements IView {
             if (null == mBorderPaint) {
                 mBorderPaint = new Paint();
                 mBorderPaint.setStyle(Paint.Style.STROKE);
+                mBorderPaint.setAntiAlias(true);
             }
             mBorderPaint.setStrokeWidth(mBorderWidth);
             mBorderPaint.setColor(mBorderColor);
             float halfBorderWidth = (mBorderWidth / 2.0f);
-            canvas.drawRect(halfBorderWidth, halfBorderWidth, canvas.getWidth() - halfBorderWidth, canvas.getHeight() - halfBorderWidth, mBorderPaint);
+            if (mBorderRadius > 0) {
+                if (mBorderRect == null) {
+                    mBorderRect = new RectF();
+                }
+                mBorderRect.set(halfBorderWidth, halfBorderWidth, canvas.getWidth() - halfBorderWidth,
+                    canvas.getHeight() - halfBorderWidth);
+                canvas.drawRoundRect(mBorderRect, mBorderRadius, mBorderRadius, mBorderPaint);
+            } else {
+                canvas.drawRect(halfBorderWidth, halfBorderWidth, canvas.getWidth() - halfBorderWidth,
+                    canvas.getHeight() - halfBorderWidth, mBorderPaint);
+            }
         }
     }
 

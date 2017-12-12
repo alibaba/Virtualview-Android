@@ -27,6 +27,7 @@ package com.tmall.wireless.vaf.virtualview.view.text;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,8 +60,9 @@ public class VirtualText extends TextBase {
         if (mBorderWidth > 0) {
             if (mBorderPaint == null) {
                 mBorderPaint = new Paint();
+                mBorderPaint.setStyle(Paint.Style.STROKE);
+                mBorderPaint.setAntiAlias(true);
             }
-            mBorderPaint.setStyle(Paint.Style.STROKE);
             mBorderPaint.setColor(mBorderColor);
             mBorderPaint.setStrokeWidth(mBorderWidth);
         }
@@ -160,7 +162,17 @@ public class VirtualText extends TextBase {
 
             if (mBorderWidth > 0) {
                 float halfBorderWidth = (mBorderWidth / 2.0f);
-                canvas.drawRect(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth, mMeasuredHeight - halfBorderWidth, mBorderPaint);
+                if (mBorderRadius > 0) {
+                    if (mBorderRect == null) {
+                        mBorderRect = new RectF();
+                    }
+                    mBorderRect.set(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth,
+                        mMeasuredHeight - halfBorderWidth);
+                    canvas.drawRoundRect(mBorderRect, mBorderRadius, mBorderRadius, mBorderPaint);
+                } else {
+                    canvas.drawRect(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth,
+                        mMeasuredHeight - halfBorderWidth, mBorderPaint);
+                }
             }
 
         } else {
@@ -172,7 +184,11 @@ public class VirtualText extends TextBase {
     protected void makeContentRect() {
         float width;
         width = mPaint.measureText(mDrawText);
-        mContentRect = new Rect(0, 0, (int)width, mTextHeight);
+        if (mContentRect == null) {
+            mContentRect = new Rect(0, 0, (int)width, mTextHeight);
+        } else {
+            mContentRect.set(0, 0, (int)width, mTextHeight);
+        }
     }
 
     @Override

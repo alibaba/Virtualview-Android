@@ -63,12 +63,20 @@ public class VirtualImage extends ImageBase {
     @Override
     protected void makeContentRect() {
         if (null != mBitmap) {
-            mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+            if (mContentRect == null) {
+                mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+            } else {
+                mContentRect.set(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+            }
         } else {
             if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0) {
                 if (!TextUtils.isEmpty(mData)) {
                     if (1 == mContext.getImageLoader().bindBitmap(mData, this, this.mMeasuredWidth, this.mMeasuredHeight) ) {
-                        mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+                        if (mContentRect == null) {
+                            mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+                        } else {
+                            mContentRect.set(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
+                        }
                     }
                 } else if (!TextUtils.isEmpty(mSrc)) {
                     loadImage(mSrc);
