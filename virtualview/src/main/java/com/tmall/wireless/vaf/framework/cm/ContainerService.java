@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.ViewGroup.MarginLayoutParams;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
@@ -159,7 +160,12 @@ public class ContainerService {
             container.setVirtualView(vb);
             if (createParam) {
                 Layout.Params p = vb.getComLayoutParams();
-                ((View)container).setLayoutParams(new ViewGroup.LayoutParams(p.mLayoutWidth, p.mLayoutHeight));
+                MarginLayoutParams marginLayoutParams = new MarginLayoutParams(p.mLayoutWidth, p.mLayoutHeight);
+                marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
+                marginLayoutParams.topMargin = p.mLayoutMarginTop;
+                marginLayoutParams.rightMargin = p.mLayoutMarginRight;
+                marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
+                ((View)container).setLayoutParams(marginLayoutParams);
             }
 
             container.attachViews();

@@ -1163,6 +1163,7 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_layoutWidth:
                 mViewCache.put(this, StringBase.STR_ID_layoutWidth, stringValue, Item.TYPE_FLOAT);
+                this.mParams.mLayoutWidth = LayoutCommon.WRAP_CONTENT;
                 break;
             case StringBase.STR_ID_layoutMarginLeft:
                 mViewCache.put(this, StringBase.STR_ID_layoutMarginLeft, stringValue, Item.TYPE_FLOAT);
@@ -1178,6 +1179,7 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_layoutHeight:
                 mViewCache.put(this, StringBase.STR_ID_layoutHeight, stringValue, Item.TYPE_FLOAT);
+                this.mParams.mLayoutHeight = LayoutCommon.WRAP_CONTENT;
                 break;
             case StringBase.STR_ID_paddingLeft:
                 mViewCache.put(this, StringBase.STR_ID_paddingLeft, stringValue, Item.TYPE_FLOAT);
