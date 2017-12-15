@@ -115,7 +115,8 @@ public abstract class Layout extends ViewBase {
     public boolean click(int x, int y, boolean isLong) {
         boolean deal = false;
 
-        for (ViewBase v : mSubViews) {
+        for (int i = mSubViews.size() - 1; i >= 0; i--) {
+            ViewBase v = mSubViews.get(i);
             int l = v.getDrawLeft();
             int t = v.getDrawTop();
             int w = v.getComMeasuredWidth();

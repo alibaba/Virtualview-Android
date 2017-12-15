@@ -47,20 +47,6 @@ public class NativeImage extends ImageBase {
     public NativeImage(VafContext context, ViewCache viewCache) {
     super(context, viewCache);
         mNative = new NativeImageImp(context.getContext());
-
-        mNative.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                NativeImage.this.click(0, 0, true);
-                return false;
-            }
-        });
-        mNative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NativeImage.this.click(0, 0, false);
-            }
-        });
     }
 
     @Override
