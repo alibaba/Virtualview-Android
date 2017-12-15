@@ -90,49 +90,49 @@ public class ClickHelper {
         //}
 
         //if (vb.isClickable() || vb.isLongClickable() || vb.isTouchable()) {
-            holderView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    boolean ret = false;
+        holderView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean ret = false;
 
-                    int action = motionEvent.getAction();
-                    switch (action) {
-                        case MotionEvent.ACTION_DOWN:
-                            ret = true;
+                int action = motionEvent.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        ret = true;
 
-                            mClickFinished = false;
-                            mStartX = (int)motionEvent.getX();
-                            mStartY = (int)motionEvent.getY();
+                        mClickFinished = false;
+                        mStartX = (int)motionEvent.getX();
+                        mStartY = (int)motionEvent.getY();
 
-                            Handler h = holderView.getHandler();
-                            h.removeCallbacks(mRunnable);
-                            mRunnable.setView(mContainer.getVirtualView());
-                            h.postDelayed(mRunnable, LONG_PRESS_THRESHOLD);
-                            vb.onTouch(view, motionEvent);
-                            break;
+                        Handler h = holderView.getHandler();
+                        h.removeCallbacks(mRunnable);
+                        mRunnable.setView(mContainer.getVirtualView());
+                        h.postDelayed(mRunnable, LONG_PRESS_THRESHOLD);
+                        vb.onTouch(view, motionEvent);
+                        break;
 
-                        case MotionEvent.ACTION_UP:
-                            final ViewBase vView = mContainer.getVirtualView();
-                            if (null != vView) {
-                                vView.click((int)motionEvent.getX(), (int)motionEvent.getY(), false);
-                            }
-                            vb.onTouch(view, motionEvent);
-                            mClickFinished = true;
-                            break;
+                    case MotionEvent.ACTION_UP:
+                        final ViewBase vView = mContainer.getVirtualView();
+                        if (null != vView) {
+                            vView.click((int)motionEvent.getX(), (int)motionEvent.getY(), false);
+                        }
+                        vb.onTouch(view, motionEvent);
+                        mClickFinished = true;
+                        break;
 
-                        case MotionEvent.ACTION_MOVE:
-                            vb.onTouch(view, motionEvent);
-                            break;
+                    case MotionEvent.ACTION_MOVE:
+                        vb.onTouch(view, motionEvent);
+                        break;
 
-                        case MotionEvent.ACTION_CANCEL:
-                            vb.onTouch(view, motionEvent);
-                            mClickFinished = true;
-                            break;
-                    }
-
-                    return ret;
+                    case MotionEvent.ACTION_CANCEL:
+                        vb.onTouch(view, motionEvent);
+                        mClickFinished = true;
+                        break;
                 }
-            });
+
+                return ret;
+            }
+        });
         //}
     }
 
