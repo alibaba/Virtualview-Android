@@ -25,11 +25,10 @@
 package com.tmall.wireless.vaf.virtualview.container;
 
 import android.os.Handler;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 
@@ -107,6 +106,7 @@ public class ClickHelper {
                         Handler h = holderView.getHandler();
                         h.removeCallbacks(mRunnable);
                         mRunnable.setView(mContainer.getVirtualView());
+                        mRunnable.setHolderView(holderView);
                         h.postDelayed(mRunnable, LONG_PRESS_THRESHOLD);
                         vb.onTouch(view, motionEvent);
                         break;
@@ -114,7 +114,11 @@ public class ClickHelper {
                     case MotionEvent.ACTION_UP:
                         final ViewBase vView = mContainer.getVirtualView();
                         if (null != vView) {
-                            vView.click((int)motionEvent.getX(), (int)motionEvent.getY(), false);
+                            ret = vView.click((int)motionEvent.getX(), (int)motionEvent.getY(), false);
+                            if (ret) {
+                                holderView.playSoundEffect(SoundEffectConstants.CLICK);
+
+                            }
                         }
                         vb.onTouch(view, motionEvent);
                         mClickFinished = true;
@@ -139,14 +143,24 @@ public class ClickHelper {
     class LongRunnable implements Runnable {
         protected ViewBase mView;
 
+        protected View mHolderView;
+
+        public void setHolderView(View holderView) {
+            mHolderView = holderView;
+        }
+
         public void setView(ViewBase v) {
             mView = v;
+
         }
 
         @Override
         public void run() {
             if (!mClickFinished && null != mView) {
-                mView.click(mStartX, mStartY, true);
+                boolean ret = mView.click(mStartX, mStartY, true);
+                if (ret && mHolderView != null) {
+                    mHolderView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
             }
         }
     }

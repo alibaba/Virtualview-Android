@@ -515,7 +515,7 @@ public abstract class ViewBase implements IView {
 
     }
 
-    protected void clickRoute(int id, boolean isLong) {
+    protected boolean clickRoute(int id, boolean isLong) {
         boolean ret;
         if (isLong) {
             ret = onLongClick(id);
@@ -524,14 +524,14 @@ public abstract class ViewBase implements IView {
         }
 
         if (!ret && null != mParent) {
-            mParent.clickRoute(id, isLong);
+            ret = mParent.clickRoute(id, isLong);
         }
+        return ret;
     }
 
     // return top view id
     public boolean click(int x, int y, boolean isLong) {
-        clickRoute(mId, isLong);
-        return true;
+        return clickRoute(mId, isLong);
     }
 
     protected boolean onLongClick(int id) {
