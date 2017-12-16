@@ -32,6 +32,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build.VERSION;
 import android.os.Trace;
 import android.text.TextUtils;
@@ -91,9 +92,11 @@ public abstract class ViewBase implements IView {
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
 
+    protected RectF mBorderRect;
     protected Paint mBorderPaint;
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
+    protected int mBorderRadius = 0;
     protected float mAlpha = Float.NaN;
 
     protected int mId;
@@ -203,6 +206,7 @@ public abstract class ViewBase implements IView {
         if (null == mBorderPaint) {
             mBorderPaint = new Paint();
             mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setAntiAlias(true);
         }
         mBorderPaint.setStrokeWidth(mBorderWidth);
         this.refresh();
@@ -214,6 +218,7 @@ public abstract class ViewBase implements IView {
         if (null == mBorderPaint) {
             mBorderPaint = new Paint();
             mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setAntiAlias(true);
         }
         mBorderPaint.setColor(mBorderColor);
         this.refresh();
@@ -335,6 +340,10 @@ public abstract class ViewBase implements IView {
 
     public int getBorderWidth() {
         return mBorderWidth;
+    }
+
+    public int getBorderRadius() {
+        return mBorderRadius;
     }
 
     public int getAlign() {
@@ -1057,6 +1066,10 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderWidth:
                 mBorderWidth = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderRadius:
+                mBorderRadius = Utils.dp2px(value);
+                break;
             default:
                 ret = false;
                 break;
@@ -1130,6 +1143,10 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderWidth:
                 mBorderWidth = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderRadius:
+                mBorderRadius = Utils.dp2px(value);
+                break;
             default:
                 ret = false;
                 break;
@@ -1272,6 +1289,9 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderColor:
                 mViewCache.put(this, StringBase.STR_ID_borderColor, stringValue, Item.TYPE_COLOR);
                 break;
+            case StringBase.STR_ID_borderRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderRadius, stringValue, Item.TYPE_FLOAT);
+                break;
             default:
                 ret = false;
         }
@@ -1348,6 +1368,9 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderWidth:
                 mBorderWidth = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderRadius:
+                mBorderRadius = Utils.rp2px(value);
                 break;
             default:
                 ret = false;
@@ -1452,6 +1475,9 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderWidth:
                 mBorderWidth = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderRadius:
+                mBorderRadius = Utils.dp2px(value);
                 break;
             default:
                 ret = false;
