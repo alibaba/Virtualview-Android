@@ -140,6 +140,7 @@ public class NativeText extends TextBase {
         mNative.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mNative.setBorderColor(mBorderColor);
         mNative.setBorderWidth(mBorderWidth);
+        mNative.setBorderRadius(mBorderRadius);
         if (Color.TRANSPARENT != mBackground) {
             mNative.setBackgroundColor(mBackground);
         }

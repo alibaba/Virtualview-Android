@@ -111,7 +111,11 @@ public class VirtualGraph extends VirtualViewBase {
 
     @Override
     protected void makeContentRect() {
-        mContentRect = new Rect(0, 0, mDiameterX, mDiameterY);
+        if (mContentRect == null) {
+            mContentRect = new Rect(0, 0, mDiameterX, mDiameterY);
+        } else {
+            mContentRect.set(0, 0, mDiameterX, mDiameterY);
+        }
     }
 
     @Override
