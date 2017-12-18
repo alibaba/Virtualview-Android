@@ -112,6 +112,26 @@ public abstract class Layout extends ViewBase {
     }
 
     @Override
+    public boolean handleEvent(int x, int y) {
+        boolean shouldHandle = false;
+        for (int i = mSubViews.size() - 1; i >= 0; i--) {
+            ViewBase v = mSubViews.get(i);
+            int l = v.getDrawLeft();
+            int t = v.getDrawTop();
+            int w = v.getComMeasuredWidth();
+            int h = v.getComMeasuredHeight();
+            if (x >= l && x < (l + w) && y >= t && y <= t + h) {
+                shouldHandle = v.handleEvent(x, y);
+                break;
+            }
+        }
+        if (!shouldHandle) {
+            shouldHandle = super.handleEvent(x, y);
+        }
+        return shouldHandle;
+    }
+
+    @Override
     public boolean click(int x, int y, boolean isLong) {
         boolean deal = false;
 

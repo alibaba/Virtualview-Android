@@ -515,6 +515,22 @@ public abstract class ViewBase implements IView {
 
     }
 
+    public boolean handleEvent(int x, int y) {
+        return handleRoute(mId);
+    }
+
+    protected boolean handleRoute(int id) {
+        boolean ret = onCheckHandle(id);
+        if (!ret && null != mParent) {
+            ret = mParent.handleRoute(id);
+        }
+        return ret;
+    }
+
+    protected boolean onCheckHandle(int id) {
+        return isClickable() || isLongClickable() || isTouchable();
+    }
+
     protected boolean clickRoute(int id, boolean isLong) {
         boolean ret;
         if (isLong) {
@@ -522,7 +538,6 @@ public abstract class ViewBase implements IView {
         } else {
             ret = onClick(id);
         }
-
         if (!ret && null != mParent) {
             ret = mParent.clickRoute(id, isLong);
         }

@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewConfiguration;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.expr.engine.NativeObjectManager;
 import com.tmall.wireless.vaf.framework.cm.ComContainerTypeMap;
@@ -54,6 +55,7 @@ public class VafContext {
 
     protected Context mContext;
 
+    public static int SLOP;
     protected ExprEngine mExprEngine = new ExprEngine();
     protected ViewManager mViewManager = new ViewManager();
     protected BeanManager mBeanManager = new BeanManager();
@@ -128,6 +130,7 @@ public class VafContext {
             mContainerService = new ContainerService();
             mContainerService.setPageContext(this);
         }
+        SLOP = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
     public void onResume(int pageId) {
