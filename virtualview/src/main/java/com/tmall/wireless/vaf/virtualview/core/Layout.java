@@ -312,14 +312,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.rp2px(value);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.rp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -336,20 +328,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.dp2px(value);
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setAntiAlias(true);
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                    }
-                    mBorderPaint.setStrokeWidth(mBorderWidth);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.dp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -366,14 +344,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.rp2px(value);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.rp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -390,26 +360,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderColor:
-                    mBorderColor = value;
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                    }
-                    mBorderPaint.setColor(mBorderColor);
-                    break;
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.dp2px(value);
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                        mBorderPaint.setAntiAlias(true);
-                    }
-                    mBorderPaint.setStrokeWidth(mBorderWidth);
-                    break;
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.dp2px(value);
-                    break;
                 default:
                     ret = false;
                     break;
