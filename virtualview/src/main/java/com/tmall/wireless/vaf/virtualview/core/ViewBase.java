@@ -515,23 +515,38 @@ public abstract class ViewBase implements IView {
 
     }
 
-    protected void clickRoute(int id, boolean isLong) {
+    public boolean handleEvent(int x, int y) {
+        return handleRoute(mId);
+    }
+
+    protected boolean handleRoute(int id) {
+        boolean ret = onCheckHandle(id);
+        if (!ret && null != mParent) {
+            ret = mParent.handleRoute(id);
+        }
+        return ret;
+    }
+
+    protected boolean onCheckHandle(int id) {
+        return isClickable() || isLongClickable() || isTouchable();
+    }
+
+    protected boolean clickRoute(int id, boolean isLong) {
         boolean ret;
         if (isLong) {
             ret = onLongClick(id);
         } else {
             ret = onClick(id);
         }
-
         if (!ret && null != mParent) {
-            mParent.clickRoute(id, isLong);
+            ret = mParent.clickRoute(id, isLong);
         }
+        return ret;
     }
 
     // return top view id
     public boolean click(int x, int y, boolean isLong) {
-        clickRoute(mId, isLong);
-        return true;
+        return clickRoute(mId, isLong);
     }
 
     protected boolean onLongClick(int id) {
@@ -1163,6 +1178,7 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_layoutWidth:
                 mViewCache.put(this, StringBase.STR_ID_layoutWidth, stringValue, Item.TYPE_FLOAT);
+                this.mParams.mLayoutWidth = LayoutCommon.WRAP_CONTENT;
                 break;
             case StringBase.STR_ID_layoutMarginLeft:
                 mViewCache.put(this, StringBase.STR_ID_layoutMarginLeft, stringValue, Item.TYPE_FLOAT);
@@ -1178,6 +1194,7 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_layoutHeight:
                 mViewCache.put(this, StringBase.STR_ID_layoutHeight, stringValue, Item.TYPE_FLOAT);
+                this.mParams.mLayoutHeight = LayoutCommon.WRAP_CONTENT;
                 break;
             case StringBase.STR_ID_paddingLeft:
                 mViewCache.put(this, StringBase.STR_ID_paddingLeft, stringValue, Item.TYPE_FLOAT);
