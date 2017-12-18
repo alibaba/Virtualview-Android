@@ -92,7 +92,6 @@ public abstract class ViewBase implements IView {
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
 
-    protected RectF mBorderRect;
     protected Paint mBorderPaint;
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
