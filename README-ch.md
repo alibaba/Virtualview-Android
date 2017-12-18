@@ -25,6 +25,8 @@
 
 XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性能，这两点就是使用 VirtualView 技术的主要意义所在。
 
+![](https://github.com/alibaba/VirtualView-iOS/raw/master/README/feature.png)
+
 更多详细信息参考[文档](http://tangram.pingguohe.net/docs/virtualview/about-virtualview)。
 
 ## 主要功能

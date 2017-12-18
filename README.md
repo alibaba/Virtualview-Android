@@ -25,6 +25,8 @@ And just as its name implies, this library introduces a concept of virtual view,
 
 XML template to build business component dynamically and virtual view to improve performance, these are two most important reason to use VirtualView.
 
+![](https://github.com/alibaba/VirtualView-iOS/raw/master/README/feature.png)
+
 For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/about-virtualview).
 
 ## Features
