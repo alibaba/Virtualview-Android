@@ -35,6 +35,7 @@ import android.util.Log;
 import com.libra.virtualview.common.TextBaseCommon;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 
@@ -161,18 +162,8 @@ public class VirtualText extends TextBase {
             canvas.drawText(mDrawText, left, top - mDescent, mPaint);
 
             if (mBorderWidth > 0) {
-                float halfBorderWidth = (mBorderWidth / 2.0f);
-                if (mBorderRadius > 0) {
-                    if (mBorderRect == null) {
-                        mBorderRect = new RectF();
-                    }
-                    mBorderRect.set(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth,
-                        mMeasuredHeight - halfBorderWidth);
-                    canvas.drawRoundRect(mBorderRect, mBorderRadius, mBorderRadius, mBorderPaint);
-                } else {
-                    canvas.drawRect(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth,
-                        mMeasuredHeight - halfBorderWidth, mBorderPaint);
-                }
+                VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             }
 
         } else {
