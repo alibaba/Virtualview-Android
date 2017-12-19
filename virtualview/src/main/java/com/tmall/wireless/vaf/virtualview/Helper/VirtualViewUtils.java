@@ -63,4 +63,52 @@ public class VirtualViewUtils {
         }
     }
 
+    //public static void drawBackground(Canvas canvas, Paint backgroundPaint, int width, int height, int borderWidth,
+    //    int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
+    //    float halfBorderWidth = (borderWidth / 2.0f);
+    //    //draw left border
+    //    canvas.drawLine(halfBorderWidth, borderTopLeftRadius > 0 ? borderTopLeftRadius : 0, halfBorderWidth,
+    //        borderBottomLeftRadius > 0 ? height - borderBottomLeftRadius : height, backgroundPaint);
+    //
+    //    //draw top border
+    //    canvas.drawLine(borderTopLeftRadius > 0 ? borderTopLeftRadius : 0, halfBorderWidth,
+    //        borderTopRightRadius > 0 ? width - borderTopRightRadius : width, halfBorderWidth, backgroundPaint);
+    //
+    //    //draw right border
+    //    canvas.drawLine(width - halfBorderWidth, borderTopRightRadius > 0 ? borderTopRightRadius : 0, width - halfBorderWidth,
+    //        borderBottomRightRadius > 0 ? height - borderBottomRightRadius : height, backgroundPaint);
+    //
+    //    //draw bottom border
+    //    canvas.drawLine(borderBottomLeftRadius > 0 ? borderBottomLeftRadius : 0, height - halfBorderWidth,
+    //        borderBottomRightRadius > 0 ? width - borderBottomRightRadius : width, height - halfBorderWidth, backgroundPaint);
+    //
+    //    //draw top left corner
+    //    if (borderTopLeftRadius > 0) {
+    //        oval.set(0, 0, 2 * borderTopLeftRadius, 2 * borderTopLeftRadius);
+    //        oval.offset(halfBorderWidth, halfBorderWidth);
+    //        canvas.drawArc(oval, 180, 90, false, backgroundPaint);
+    //    }
+    //
+    //    //draw top right corner
+    //    if (borderTopRightRadius > 0) {
+    //        oval.set(width - 2 * borderTopRightRadius, 0, width, 2 * borderTopRightRadius);
+    //        oval.offset(-halfBorderWidth, halfBorderWidth);
+    //        canvas.drawArc(oval, 270, 90, false, backgroundPaint);
+    //    }
+    //
+    //    //draw bottom right corner
+    //    if (borderBottomRightRadius > 0) {
+    //        oval.set(width - 2 * borderBottomRightRadius, height - 2 * borderBottomRightRadius, width, height);
+    //        oval.offset(-halfBorderWidth, -halfBorderWidth);
+    //        canvas.drawArc(oval, 0, 90, false, backgroundPaint);
+    //    }
+    //
+    //    //draw bottom left corner
+    //    if (borderBottomLeftRadius > 0) {
+    //        oval.set(0, height - 2 * borderBottomLeftRadius, 2 * borderBottomLeftRadius, height);
+    //        oval.offset(halfBorderWidth, -halfBorderWidth);
+    //        canvas.drawArc(oval, 90, 90, false, backgroundPaint);
+    //    }
+    //}
+
 }

@@ -1360,6 +1360,18 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderRadius:
                 mViewCache.put(this, StringBase.STR_ID_borderRadius, stringValue, Item.TYPE_FLOAT);
                 break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderTopLeftRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderTopRightRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderBottomLeftRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderBottomRightRadius, stringValue, Item.TYPE_FLOAT);
+                break;
             default:
                 ret = false;
         }

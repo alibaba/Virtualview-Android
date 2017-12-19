@@ -301,6 +301,8 @@ public abstract class Layout extends ViewBase {
                     resultMode = View.MeasureSpec.UNSPECIFIED;
                 }
                 break;
+            default:
+                break;
         }
 
         return View.MeasureSpec.makeMeasureSpec(resultSize, resultMode);
@@ -376,18 +378,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mViewCache.put(this, StringBase.STR_ID_borderWidth, stringValue, Item.TYPE_FLOAT);
-                    break;
-
-                case StringBase.STR_ID_borderColor:
-                    mViewCache.put(this, StringBase.STR_ID_borderColor, stringValue, Item.TYPE_COLOR);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mViewCache.put(this, StringBase.STR_ID_borderRadius, stringValue, Item.TYPE_FLOAT);
-                    break;
-
                 default:
                     ret = false;
             }
