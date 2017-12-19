@@ -51,6 +51,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
@@ -884,7 +885,8 @@ public abstract class ViewBase implements IView {
             //    mBackgroundPaint.setAlpha((int)(mAlpha * 255));
             //}
             if (mBackground != Color.TRANSPARENT) {
-                canvas.drawRect(mBorderWidth, mBorderWidth, mMeasuredWidth - mBorderWidth, mMeasuredHeight - mBorderWidth, mBackgroundPaint);
+                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
                 canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
