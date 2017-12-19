@@ -888,6 +888,7 @@ public abstract class ViewBase implements IView {
                 VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                     mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
+                //TODO clip canvas if border radius set
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
                 canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
             }

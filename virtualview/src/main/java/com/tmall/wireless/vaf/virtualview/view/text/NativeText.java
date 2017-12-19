@@ -145,10 +145,7 @@ public class NativeText extends TextBase {
         mNative.setBorderTopRightRadius(mBorderTopRightRadius);
         mNative.setBorderBottomLeftRadius(mBorderBottomLeftRadius);
         mNative.setBorderBottomRightRadius(mBorderBottomRightRadius);
-        if (Color.TRANSPARENT != mBackground) {
-            mNative.setBackgroundColor(mBackground);
-        }
-
+        mNative.setBackgroundColor(mBackground);
         mNative.setTextColor(mTextColor);
 
         int flag = Paint.ANTI_ALIAS_FLAG;

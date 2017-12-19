@@ -29,6 +29,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.widget.TextView;
 
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
@@ -39,12 +40,14 @@ import com.tmall.wireless.vaf.virtualview.core.IView;
  */
 public class NativeTextImp extends TextView implements IView {
 
+    private int mBackgroundColor = Color.TRANSPARENT;
     private int mBorderTopLeftRadius = 0;
     private int mBorderTopRightRadius = 0;
     private int mBorderBottomLeftRadius = 0;
     private int mBorderBottomRightRadius = 0;
     private int mBorderWidth = 0;
     private int mBorderColor = Color.BLACK;
+    private Paint mBackgroundPaint;
     private Paint mBorderPaint;
 
     public NativeTextImp(Context context) {
@@ -77,7 +80,21 @@ public class NativeTextImp extends TextView implements IView {
     }
 
     @Override
+    public void setBackgroundColor(@ColorInt int color) {
+        mBackgroundColor = color;
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
+        if (mBackgroundColor != Color.TRANSPARENT) {
+            if (null == mBackgroundPaint) {
+                mBackgroundPaint = new Paint();
+                mBackgroundPaint.setAntiAlias(true);
+            }
+            mBackgroundPaint.setColor(mBackgroundColor);
+            VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, canvas.getWidth(), canvas.getHeight(), mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
+        }
         super.onDraw(canvas);
         if (mBorderWidth > 0) {
             if (null == mBorderPaint) {
