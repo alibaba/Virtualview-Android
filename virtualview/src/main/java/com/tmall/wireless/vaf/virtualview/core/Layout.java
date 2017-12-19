@@ -35,6 +35,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
@@ -196,8 +197,8 @@ public abstract class Layout extends ViewBase {
             //    }
             //    mBorderPaint.setAlpha((int)(mAlpha * 255));
             //}
-            float halfBorderWidth = (mBorderWidth / 2.0f);
-            canvas.drawRect(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth, mMeasuredHeight - halfBorderWidth, mBorderPaint);
+            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         }
     }
 
