@@ -197,6 +197,13 @@ public abstract class Layout extends ViewBase {
             //    }
             //    mBorderPaint.setAlpha((int)(mAlpha * 255));
             //}
+            if (mBorderPaint == null) {
+                mBorderPaint = new Paint();
+                mBorderPaint.setAntiAlias(true);
+                mBorderPaint.setStyle(Paint.Style.STROKE);
+            }
+            mBorderPaint.setColor(mBorderColor);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
             VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                 mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         }

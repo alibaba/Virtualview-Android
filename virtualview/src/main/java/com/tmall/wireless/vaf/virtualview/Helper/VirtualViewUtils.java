@@ -17,6 +17,9 @@ public class VirtualViewUtils {
 
     public static void drawBorder(Canvas canvas, Paint borderPaint, int width, int height, int borderWidth,
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
+        if (canvas == null || borderPaint == null) {
+            return;
+        }
         float halfBorderWidth = (borderWidth / 2.0f);
         //draw left border
         canvas.drawLine(halfBorderWidth, borderTopLeftRadius > 0 ? borderTopLeftRadius : 0, halfBorderWidth,

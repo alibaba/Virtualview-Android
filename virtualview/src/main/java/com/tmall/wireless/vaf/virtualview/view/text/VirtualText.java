@@ -162,6 +162,13 @@ public class VirtualText extends TextBase {
             canvas.drawText(mDrawText, left, top - mDescent, mPaint);
 
             if (mBorderWidth > 0) {
+                if (mBorderPaint == null) {
+                    mBorderPaint = new Paint();
+                    mBorderPaint.setStyle(Paint.Style.STROKE);
+                    mBorderPaint.setAntiAlias(true);
+                }
+                mBorderPaint.setColor(mBorderColor);
+                mBorderPaint.setStrokeWidth(mBorderWidth);
                 VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                     mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             }
