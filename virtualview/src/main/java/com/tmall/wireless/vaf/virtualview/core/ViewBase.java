@@ -51,6 +51,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
@@ -92,11 +93,14 @@ public abstract class ViewBase implements IView {
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
 
-    protected RectF mBorderRect;
     protected Paint mBorderPaint;
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
     protected int mBorderRadius = 0;
+    protected int mBorderTopLeftRadius = 0;
+    protected int mBorderTopRightRadius = 0;
+    protected int mBorderBottomLeftRadius = 0;
+    protected int mBorderBottomRightRadius = 0;
     protected float mAlpha = Float.NaN;
 
     protected int mId;
@@ -881,8 +885,10 @@ public abstract class ViewBase implements IView {
             //    mBackgroundPaint.setAlpha((int)(mAlpha * 255));
             //}
             if (mBackground != Color.TRANSPARENT) {
-                canvas.drawRect(mBorderWidth, mBorderWidth, mMeasuredWidth - mBorderWidth, mMeasuredHeight - mBorderWidth, mBackgroundPaint);
+                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
+                //TODO clip canvas if border radius set
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
                 canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
             }
@@ -1083,7 +1089,31 @@ public abstract class ViewBase implements IView {
                 mBorderWidth = Utils.rp2px(value);
                 break;
             case StringBase.STR_ID_borderRadius:
-                mBorderRadius = Utils.dp2px(value);
+                mBorderRadius = Utils.rp2px(value);
+                if (mBorderTopLeftRadius <= 0) {
+                    mBorderTopLeftRadius = mBorderRadius;
+                }
+                if (mBorderTopRightRadius <= 0) {
+                    mBorderTopRightRadius = mBorderRadius;
+                }
+                if (mBorderBottomLeftRadius <= 0) {
+                    mBorderBottomLeftRadius = mBorderRadius;
+                }
+                if (mBorderBottomRightRadius <= 0) {
+                    mBorderBottomRightRadius = mBorderRadius;
+                }
+                break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mBorderTopLeftRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mBorderTopRightRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mBorderBottomLeftRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mBorderBottomRightRadius = Utils.rp2px(value);
                 break;
             default:
                 ret = false;
@@ -1161,6 +1191,30 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderRadius:
                 mBorderRadius = Utils.dp2px(value);
+                if (mBorderTopLeftRadius <= 0) {
+                    mBorderTopLeftRadius = mBorderRadius;
+                }
+                if (mBorderTopRightRadius <= 0) {
+                    mBorderTopRightRadius = mBorderRadius;
+                }
+                if (mBorderBottomLeftRadius <= 0) {
+                    mBorderBottomLeftRadius = mBorderRadius;
+                }
+                if (mBorderBottomRightRadius <= 0) {
+                    mBorderBottomRightRadius = mBorderRadius;
+                }
+                break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mBorderTopLeftRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mBorderTopRightRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mBorderBottomLeftRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mBorderBottomRightRadius = Utils.dp2px(value);
                 break;
             default:
                 ret = false;
@@ -1309,6 +1363,18 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderRadius:
                 mViewCache.put(this, StringBase.STR_ID_borderRadius, stringValue, Item.TYPE_FLOAT);
                 break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderTopLeftRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderTopRightRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderBottomLeftRadius, stringValue, Item.TYPE_FLOAT);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mViewCache.put(this, StringBase.STR_ID_borderBottomRightRadius, stringValue, Item.TYPE_FLOAT);
+                break;
             default:
                 ret = false;
         }
@@ -1388,6 +1454,30 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderRadius:
                 mBorderRadius = Utils.rp2px(value);
+                if (mBorderTopLeftRadius <= 0) {
+                    mBorderTopLeftRadius = mBorderRadius;
+                }
+                if (mBorderTopRightRadius <= 0) {
+                    mBorderTopRightRadius = mBorderRadius;
+                }
+                if (mBorderBottomLeftRadius <= 0) {
+                    mBorderBottomLeftRadius = mBorderRadius;
+                }
+                if (mBorderBottomRightRadius <= 0) {
+                    mBorderBottomRightRadius = mBorderRadius;
+                }
+                break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mBorderTopLeftRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mBorderTopRightRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mBorderBottomLeftRadius = Utils.rp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mBorderBottomRightRadius = Utils.rp2px(value);
                 break;
             default:
                 ret = false;
@@ -1495,6 +1585,30 @@ public abstract class ViewBase implements IView {
                 break;
             case StringBase.STR_ID_borderRadius:
                 mBorderRadius = Utils.dp2px(value);
+                if (mBorderTopLeftRadius <= 0) {
+                    mBorderTopLeftRadius = mBorderRadius;
+                }
+                if (mBorderTopRightRadius <= 0) {
+                    mBorderTopRightRadius = mBorderRadius;
+                }
+                if (mBorderBottomLeftRadius <= 0) {
+                    mBorderBottomLeftRadius = mBorderRadius;
+                }
+                if (mBorderBottomRightRadius <= 0) {
+                    mBorderBottomRightRadius = mBorderRadius;
+                }
+                break;
+            case StringBase.STR_ID_borderTopLeftRadius:
+                mBorderTopLeftRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderTopRightRadius:
+                mBorderTopRightRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomLeftRadius:
+                mBorderBottomLeftRadius = Utils.dp2px(value);
+                break;
+            case StringBase.STR_ID_borderBottomRightRadius:
+                mBorderBottomRightRadius = Utils.dp2px(value);
                 break;
             default:
                 ret = false;

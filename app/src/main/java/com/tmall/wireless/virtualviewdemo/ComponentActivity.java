@@ -143,20 +143,20 @@ public class ComponentActivity extends Activity {
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
         }
         View container = sVafContext.getContainerService().getContainer(name, true);
+        IContainer iContainer = (IContainer)container;
         if (!TextUtils.isEmpty(data)) {
-            IContainer iContainer = (IContainer)container;
             JSONObject json = getJSONDataFromAsset(data);
             if (json != null) {
                 iContainer.getVirtualView().setVData(json);
-                Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
-                LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
-                marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
-                marginLayoutParams.topMargin = p.mLayoutMarginTop;
-                marginLayoutParams.rightMargin = p.mLayoutMarginRight;
-                marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
-                mLinearLayout.addView(container, marginLayoutParams);
             }
         }
+        Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
+        LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
+        marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
+        marginLayoutParams.topMargin = p.mLayoutMarginTop;
+        marginLayoutParams.rightMargin = p.mLayoutMarginRight;
+        marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
+        mLinearLayout.addView(container, marginLayoutParams);
 
     }
 

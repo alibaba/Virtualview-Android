@@ -71,6 +71,8 @@ public class FrameLayout extends Layout {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
                     break;
+                default:
+                    break;
             }
         }
 
@@ -121,7 +123,7 @@ public class FrameLayout extends Layout {
                 }
             }
 
-            childrenWidth += mPaddingLeft + mPaddingRight;
+            childrenWidth += mPaddingLeft + mPaddingRight + (mBorderWidth << 1);
 
             ret = Math.min(size, childrenWidth);
         } else if (View.MeasureSpec.EXACTLY == mode) {
@@ -148,7 +150,7 @@ public class FrameLayout extends Layout {
                 }
             }
 
-            childrenHeight += mPaddingTop + mPaddingBottom;
+            childrenHeight += mPaddingTop + mPaddingBottom + (mBorderWidth << 1);
 
             ret = Math.min(size, childrenHeight);
         } else if (View.MeasureSpec.EXACTLY == mode) {
@@ -166,7 +168,7 @@ public class FrameLayout extends Layout {
                 }
             }
 
-            childrenHeight += mPaddingTop + mPaddingBottom;
+            childrenHeight += mPaddingTop + mPaddingBottom + (mBorderWidth << 1);
 
             ret = childrenHeight;
         }
@@ -190,18 +192,18 @@ public class FrameLayout extends Layout {
             if (0 != (childP.mLayoutGravity & ViewBaseCommon.H_CENTER)) {
                 ll = (r + l - w) >> 1;
             } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.RIGHT)) {
-                ll = r - mPaddingRight - childP.mLayoutMarginRight - w;
+                ll = r - mPaddingRight - childP.mLayoutMarginRight - w - mBorderWidth;
             } else {
-                ll = l + mPaddingLeft + childP.mLayoutMarginLeft;
+                ll = l + mPaddingLeft + childP.mLayoutMarginLeft + mBorderWidth;
             }
 
             int tt;
             if (0 != (childP.mLayoutGravity & ViewBaseCommon.V_CENTER)) {
                 tt = (b + t - h) >> 1;
             } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.BOTTOM)) {
-                tt = b - h - mPaddingBottom - childP.mLayoutMarginBottom;
+                tt = b - h - mPaddingBottom - childP.mLayoutMarginBottom - mBorderWidth;
             } else {
-                tt = t + mPaddingTop + childP.mLayoutMarginTop;
+                tt = t + mPaddingTop + childP.mLayoutMarginTop + mBorderWidth;
             }
 
             child.comLayout(ll, tt, ll + w, tt + h);
