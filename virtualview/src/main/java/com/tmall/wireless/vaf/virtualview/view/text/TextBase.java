@@ -134,24 +134,24 @@ public abstract class TextBase extends ViewBase {
         return ret;
     }
 
-    //@Override
-    //protected boolean setRPAttribute(int key, float value) {
-    //    boolean ret = super.setRPAttribute(key, value);
-    //
-    //    if (!ret) {
-    //        ret = true;
-    //        switch (key) {
-    //            case StringBase.STR_ID_textSize:
-    //                mTextSize = Utils.px2dp(Utils.rp2px(value));
-    //                break;
-    //
-    //            default:
-    //                ret = false;
-    //        }
-    //    }
-    //
-    //    return ret;
-    //}
+    @Override
+    protected boolean setRPAttribute(int key, float value) {
+        boolean ret = super.setRPAttribute(key, value);
+
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_textSize:
+                    mTextSize = Utils.rp2px(value);
+                    break;
+
+                default:
+                    ret = false;
+            }
+        }
+
+        return ret;
+    }
 
     @Override
     protected boolean setAttribute(int key, int value) {
@@ -189,23 +189,23 @@ public abstract class TextBase extends ViewBase {
         return ret;
     }
 
-    //@Override
-    //protected boolean setRPAttribute(int key, int value) {
-    //    boolean ret = super.setRPAttribute(key, value);
-    //
-    //    if (!ret) {
-    //        ret = true;
-    //        switch (key) {
-    //            case StringBase.STR_ID_textSize:
-    //                mTextSize = Utils.px2dp(Utils.rp2px(value));
-    //                break;
-    //
-    //            default:
-    //                ret = false;
-    //        }
-    //    }
-    //
-    //    return ret;
-    //}
+    @Override
+    protected boolean setRPAttribute(int key, int value) {
+        boolean ret = super.setRPAttribute(key, value);
+
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_textSize:
+                    mTextSize = Utils.rp2px(value);
+                    break;
+
+                default:
+                    ret = false;
+            }
+        }
+
+        return ret;
+    }
 
 }
