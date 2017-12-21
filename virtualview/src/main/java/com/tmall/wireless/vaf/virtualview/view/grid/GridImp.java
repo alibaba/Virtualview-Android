@@ -125,7 +125,7 @@ public class GridImp extends GridView implements IView, IContainer {
 
     @Override
     public View getHolderView() {
-        return null;
+        return this;
     }
 
     @Override

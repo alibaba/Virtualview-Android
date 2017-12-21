@@ -59,6 +59,8 @@ public class ViewCache {
 
         public static final String FLAG_INVALIDATE = "_flag_invalidate_";
 
+        protected final static String RP = "rp";
+
         private Parser mParser;
 
         public ViewBase mView;
@@ -166,19 +168,59 @@ public class ViewCache {
             if (value != EMPTY) {
                 switch (mValueType) {
                     case TYPE_INT:
+                        if (value instanceof Number) {
+                            Integer integer = Utils.toInteger(value);
+                            if (integer != null) {
+                                mView.setAttribute(mKey, integer.intValue());
+                            }
+                        } else {
+                            String stringValue = value.toString();
+                            if (stringValue.endsWith(RP)) {
+                                stringValue = stringValue.substring(0, stringValue.length() - 2);
+                                Integer integer = Utils.toInteger(stringValue);
+                                if (integer != null) {
+                                    mView.setRPAttribute(mKey, integer.intValue());
+                                }
+                            } else {
+                                Integer integer = Utils.toInteger(value);
+                                if (integer != null) {
+                                    mView.setAttribute(mKey, integer.intValue());
+                                }
+                            }
+                        }
+                        break;
                     case TYPE_COLOR:
                     case TYPE_GRAVITY:
                     case TYPE_VISIBILITY:
-                        Integer integer = Utils.toInteger(value);
-                        if (integer != null) {
-                            mView.setAttribute(mKey, integer.intValue());
+                        Integer enumValue = Utils.toInteger(value);
+                        if (enumValue != null) {
+                            mView.setAttribute(mKey, enumValue.intValue());
                         }
                         break;
                     case TYPE_FLOAT:
-                        Float floater = Utils.toFloat(value);
-                        if (floater != null) {
-                            mView.setAttribute(mKey, floater.floatValue());
+                        if (value instanceof Number) {
+                            Float floater = Utils.toFloat(value);
+                            if (floater != null) {
+                                mView.setAttribute(mKey, floater.floatValue());
+                            }
+                        } else {
+                            String stringValue = value.toString();
+                            if (stringValue.endsWith(RP)) {
+                                stringValue = stringValue.substring(0, stringValue.length() - 2);
+                                Float floater = Utils.toFloat(stringValue);
+                                if (floater != null) {
+                                    mView.setRPAttribute(mKey, floater.floatValue());
+                                }
+                            } else {
+                                Float floater = Utils.toFloat(value);
+                                if (floater != null) {
+                                    mView.setAttribute(mKey, floater.floatValue());
+                                }
+                            }
                         }
+
+
+
                         break;
                     case TYPE_STRING:
                         mView.setAttribute(mKey, Utils.toString(value));

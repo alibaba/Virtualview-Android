@@ -55,6 +55,7 @@ public class NativeLine extends LineBase {
         mNative = null;
     }
 
+    @Override
     public View getNativeView() {
         return mNative;
     }

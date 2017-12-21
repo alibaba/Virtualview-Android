@@ -271,7 +271,7 @@ public class GridLayout extends Layout {
 
     @Override
     protected boolean setRPAttribute(int key, float value) {
-        boolean ret = super.setAttribute(key, value);
+        boolean ret = super.setRPAttribute(key, value);
         if (!ret) {
             ret = true;
             switch (key) {
@@ -294,7 +294,7 @@ public class GridLayout extends Layout {
 
     @Override
     protected boolean setRPAttribute(int key, int value) {
-        boolean ret = super.setAttribute(key, value);
+        boolean ret = super.setRPAttribute(key, value);
         if (!ret) {
             ret = true;
             switch (key) {

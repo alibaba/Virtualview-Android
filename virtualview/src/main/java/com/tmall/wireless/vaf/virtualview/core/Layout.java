@@ -35,6 +35,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
@@ -112,10 +113,31 @@ public abstract class Layout extends ViewBase {
     }
 
     @Override
+    public boolean handleEvent(int x, int y) {
+        boolean shouldHandle = false;
+        for (int i = mSubViews.size() - 1; i >= 0; i--) {
+            ViewBase v = mSubViews.get(i);
+            int l = v.getDrawLeft();
+            int t = v.getDrawTop();
+            int w = v.getComMeasuredWidth();
+            int h = v.getComMeasuredHeight();
+            if (x >= l && x < (l + w) && y >= t && y <= t + h) {
+                shouldHandle = v.handleEvent(x, y);
+                break;
+            }
+        }
+        if (!shouldHandle) {
+            shouldHandle = super.handleEvent(x, y);
+        }
+        return shouldHandle;
+    }
+
+    @Override
     public boolean click(int x, int y, boolean isLong) {
         boolean deal = false;
 
-        for (ViewBase v : mSubViews) {
+        for (int i = mSubViews.size() - 1; i >= 0; i--) {
+            ViewBase v = mSubViews.get(i);
             int l = v.getDrawLeft();
             int t = v.getDrawTop();
             int w = v.getComMeasuredWidth();
@@ -175,8 +197,15 @@ public abstract class Layout extends ViewBase {
             //    }
             //    mBorderPaint.setAlpha((int)(mAlpha * 255));
             //}
-            float halfBorderWidth = (mBorderWidth / 2.0f);
-            canvas.drawRect(halfBorderWidth, halfBorderWidth, mMeasuredWidth - halfBorderWidth, mMeasuredHeight - halfBorderWidth, mBorderPaint);
+            if (mBorderPaint == null) {
+                mBorderPaint = new Paint();
+                mBorderPaint.setAntiAlias(true);
+                mBorderPaint.setStyle(Paint.Style.STROKE);
+            }
+            mBorderPaint.setColor(mBorderColor);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
+            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         }
     }
 
@@ -279,6 +308,8 @@ public abstract class Layout extends ViewBase {
                     resultMode = View.MeasureSpec.UNSPECIFIED;
                 }
                 break;
+            default:
+                break;
         }
 
         return View.MeasureSpec.makeMeasureSpec(resultSize, resultMode);
@@ -291,14 +322,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.rp2px(value);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.rp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -315,20 +338,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.dp2px(value);
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setAntiAlias(true);
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                    }
-                    mBorderPaint.setStrokeWidth(mBorderWidth);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.dp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -345,14 +354,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.rp2px(value);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.rp2px(value);
-                    break;
-
                 default:
                     ret = false;
                     break;
@@ -369,26 +370,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderColor:
-                    mBorderColor = value;
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                    }
-                    mBorderPaint.setColor(mBorderColor);
-                    break;
-                case StringBase.STR_ID_borderWidth:
-                    mBorderWidth = Utils.dp2px(value);
-                    if (null == mBorderPaint) {
-                        mBorderPaint = new Paint();
-                        mBorderPaint.setStyle(Paint.Style.STROKE);
-                        mBorderPaint.setAntiAlias(true);
-                    }
-                    mBorderPaint.setStrokeWidth(mBorderWidth);
-                    break;
-                case StringBase.STR_ID_borderRadius:
-                    mBorderRadius = Utils.dp2px(value);
-                    break;
                 default:
                     ret = false;
                     break;
@@ -404,18 +385,6 @@ public abstract class Layout extends ViewBase {
         if (!ret) {
             ret = true;
             switch (key) {
-                case StringBase.STR_ID_borderWidth:
-                    mViewCache.put(this, StringBase.STR_ID_borderWidth, stringValue, Item.TYPE_FLOAT);
-                    break;
-
-                case StringBase.STR_ID_borderColor:
-                    mViewCache.put(this, StringBase.STR_ID_borderColor, stringValue, Item.TYPE_COLOR);
-                    break;
-
-                case StringBase.STR_ID_borderRadius:
-                    mViewCache.put(this, StringBase.STR_ID_borderRadius, stringValue, Item.TYPE_FLOAT);
-                    break;
-
                 default:
                     ret = false;
             }
