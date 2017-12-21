@@ -98,6 +98,7 @@ public class NativeText extends TextBase {
 
     }
 
+    @Override
     public View getNativeView() {
         return mNative;
     }
@@ -140,11 +141,11 @@ public class NativeText extends TextBase {
         mNative.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mNative.setBorderColor(mBorderColor);
         mNative.setBorderWidth(mBorderWidth);
-        mNative.setBorderRadius(mBorderRadius);
-        if (Color.TRANSPARENT != mBackground) {
-            mNative.setBackgroundColor(mBackground);
-        }
-
+        mNative.setBorderTopLeftRadius(mBorderTopLeftRadius);
+        mNative.setBorderTopRightRadius(mBorderTopRightRadius);
+        mNative.setBorderBottomLeftRadius(mBorderBottomLeftRadius);
+        mNative.setBorderBottomRightRadius(mBorderBottomRightRadius);
+        mNative.setBackgroundColor(mBackground);
         mNative.setTextColor(mTextColor);
 
         int flag = Paint.ANTI_ALIAS_FLAG;

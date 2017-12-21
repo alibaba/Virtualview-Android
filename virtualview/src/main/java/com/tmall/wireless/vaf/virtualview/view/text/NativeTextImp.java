@@ -29,8 +29,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.widget.TextView;
 
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.IView;
 
 /**
@@ -38,19 +40,35 @@ import com.tmall.wireless.vaf.virtualview.core.IView;
  */
 public class NativeTextImp extends TextView implements IView {
 
-    private int mBorderRadius = 0;
+    private int mBackgroundColor = Color.TRANSPARENT;
+    private int mBorderTopLeftRadius = 0;
+    private int mBorderTopRightRadius = 0;
+    private int mBorderBottomLeftRadius = 0;
+    private int mBorderBottomRightRadius = 0;
     private int mBorderWidth = 0;
     private int mBorderColor = Color.BLACK;
+    private Paint mBackgroundPaint;
     private Paint mBorderPaint;
-    private RectF mBorderRect;
 
     public NativeTextImp(Context context) {
         super(context);
         this.getPaint().setAntiAlias(true);
     }
 
-    public void setBorderRadius(int borderRadius) {
-        mBorderRadius = borderRadius;
+    public void setBorderTopLeftRadius(int borderTopLeftRadius) {
+        mBorderTopLeftRadius = borderTopLeftRadius;
+    }
+
+    public void setBorderTopRightRadius(int borderTopRightRadius) {
+        mBorderTopRightRadius = borderTopRightRadius;
+    }
+
+    public void setBorderBottomLeftRadius(int borderBottomLeftRadius) {
+        mBorderBottomLeftRadius = borderBottomLeftRadius;
+    }
+
+    public void setBorderBottomRightRadius(int borderBottomRightRadius) {
+        mBorderBottomRightRadius = borderBottomRightRadius;
     }
 
     public void setBorderWidth(int borderWidth) {
@@ -62,7 +80,21 @@ public class NativeTextImp extends TextView implements IView {
     }
 
     @Override
+    public void setBackgroundColor(@ColorInt int color) {
+        mBackgroundColor = color;
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
+        if (mBackgroundColor != Color.TRANSPARENT) {
+            if (null == mBackgroundPaint) {
+                mBackgroundPaint = new Paint();
+                mBackgroundPaint.setAntiAlias(true);
+            }
+            mBackgroundPaint.setColor(mBackgroundColor);
+            VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, canvas.getWidth(), canvas.getHeight(), mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
+        }
         super.onDraw(canvas);
         if (mBorderWidth > 0) {
             if (null == mBorderPaint) {
@@ -72,18 +104,8 @@ public class NativeTextImp extends TextView implements IView {
             }
             mBorderPaint.setStrokeWidth(mBorderWidth);
             mBorderPaint.setColor(mBorderColor);
-            float halfBorderWidth = (mBorderWidth / 2.0f);
-            if (mBorderRadius > 0) {
-                if (mBorderRect == null) {
-                    mBorderRect = new RectF();
-                }
-                mBorderRect.set(halfBorderWidth, halfBorderWidth, canvas.getWidth() - halfBorderWidth,
-                    canvas.getHeight() - halfBorderWidth);
-                canvas.drawRoundRect(mBorderRect, mBorderRadius, mBorderRadius, mBorderPaint);
-            } else {
-                canvas.drawRect(halfBorderWidth, halfBorderWidth, canvas.getWidth() - halfBorderWidth,
-                    canvas.getHeight() - halfBorderWidth, mBorderPaint);
-            }
+            VirtualViewUtils.drawBorder(canvas, mBorderPaint, canvas.getWidth(), canvas.getHeight(), mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         }
     }
 

@@ -39,6 +39,7 @@ import com.libra.virtualview.common.BizCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
+import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
 import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.GRID;
@@ -142,14 +143,20 @@ public class ComponentActivity extends Activity {
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
         }
         View container = sVafContext.getContainerService().getContainer(name, true);
-        mLinearLayout.addView(container);
+        IContainer iContainer = (IContainer)container;
         if (!TextUtils.isEmpty(data)) {
-            IContainer iContainer = (IContainer)container;
             JSONObject json = getJSONDataFromAsset(data);
             if (json != null) {
                 iContainer.getVirtualView().setVData(json);
             }
         }
+        Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
+        LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
+        marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
+        marginLayoutParams.topMargin = p.mLayoutMarginTop;
+        marginLayoutParams.rightMargin = p.mLayoutMarginRight;
+        marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
+        mLinearLayout.addView(container, marginLayoutParams);
 
     }
 

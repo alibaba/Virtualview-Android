@@ -153,6 +153,9 @@ public class VHLayout extends Layout {
                 }
                 break;
             }
+
+            default:
+                break;
         }
     }
 
@@ -174,6 +177,8 @@ public class VHLayout extends Layout {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
                     break;
+                default:
+                    break;
             }
         }
 
@@ -184,6 +189,8 @@ public class VHLayout extends Layout {
 
             case ViewBaseCommon.HORIZONTAL:
                 measureHorizontal(widthMeasureSpec, heightMeasureSpec);
+                break;
+            default:
                 break;
         }
     }

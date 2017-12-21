@@ -24,11 +24,12 @@
 
 package com.tmall.wireless.vaf.virtualview.container;
 
+import android.os.Handler;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
+import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 
@@ -41,9 +42,18 @@ public class ClickHelper {
     protected final static int LONG_PRESS_THRESHOLD = 500;
 
     protected boolean mClickFinished = true;
-    protected IContainer mContainer;
+
+    protected boolean mLongClickPressed = false;
+
+    protected int mLastX;
+
+    protected int mLastY;
+
     protected int mStartX;
+
     protected int mStartY;
+
+    protected IContainer mContainer;
 
     protected LongRunnable mRunnable;
 
@@ -51,97 +61,133 @@ public class ClickHelper {
         mContainer = c;
         mRunnable = new LongRunnable();
         final View holderView = c.getHolderView();
-        ViewBase vb = c.getVirtualView();
-        if (vb.isClickable()) {
-            holderView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final ViewBase vView = mContainer.getVirtualView();
-                    if (null != vView) {
-                        vView.click(0, 0, false);
-                    }
-                }
-            });
-        }
-        if (vb.isLongClickable()) {
-            holderView.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    final ViewBase vView = mContainer.getVirtualView();
-                    if (vView != null) {
-                        vView.click(0, 0, true);
-                    }
-                    return true;
-                }
-            });
-        }
-        if (vb.isTouchable()) {
-            holderView.setOnTouchListener(new OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    final ViewBase vView = mContainer.getVirtualView();
-                    if (vView != null) {
-                        return vView.onTouch(v, event);
-                    }
-                    return false;
-                }
-            });
-        }
-
-        //if (vb.canHandleEvent()) {
-        //    holderView.setOnTouchListener(new View.OnTouchListener() {
+        final ViewBase vb = c.getVirtualView();
+        //if (vb.isClickable()) {
+        //    holderView.setOnClickListener(new OnClickListener() {
         //        @Override
-        //        public boolean onTouch(View view, MotionEvent motionEvent) {
-        //            boolean ret = false;
-        //
-        //            int action = motionEvent.getAction();
-        //            switch (action) {
-        //                case MotionEvent.ACTION_DOWN:
-        //                    ret = true;
-        //
-        //                    mClickFinished = false;
-        //                    mStartX = (int)motionEvent.getX();
-        //                    mStartY = (int)motionEvent.getY();
-        //
-        //                    Handler h = holderView.getHandler();
-        //                    h.removeCallbacks(mRunnable);
-        //                    mRunnable.setView(mContainer.getVirtualView());
-        //                    h.postDelayed(mRunnable, LONG_PRESS_THRESHOLD);
-        //                    break;
-        //
-        //                case MotionEvent.ACTION_UP:
-        //                    final ViewBase vView = mContainer.getVirtualView();
-        //                    if (null != vView) {
-        //                        vView.click((int)motionEvent.getX(), (int)motionEvent.getY(), false);
-        //                    }
-        //                    mClickFinished = true;
-        //                    break;
-        //
-        //                case MotionEvent.ACTION_MOVE:
-        //                    break;
-        //
-        //                case MotionEvent.ACTION_CANCEL:
-        //                    mClickFinished = true;
-        //                    break;
+        //        public void onClick(View v) {
+        //            final ViewBase vView = mContainer.getVirtualView();
+        //            if (null != vView) {
+        //                vView.click(0, 0, false);
         //            }
-        //
-        //            return ret;
         //        }
         //    });
+        //}
+        //if (vb.isLongClickable()) {
+        //    holderView.setOnLongClickListener(new OnLongClickListener() {
+        //        @Override
+        //        public boolean onLongClick(View v) {
+        //            final ViewBase vView = mContainer.getVirtualView();
+        //            if (vView != null) {
+        //                vView.click(0, 0, true);
+        //            }
+        //            return true;
+        //        }
+        //    });
+        //}
+        //if (vb.isTouchable()) {
+        //    holderView.setOnTouchListener(new OnTouchListener() {
+        //        @Override
+        //        public boolean onTouch(View v, MotionEvent event) {
+        //            final ViewBase vView = mContainer.getVirtualView();
+        //            if (vView != null) {
+        //                return vView.onTouch(v, event);
+        //            }
+        //            return false;
+        //        }
+        //    });
+        //}
+
+        //if (vb.isClickable() || vb.isLongClickable() || vb.isTouchable()) {
+        holderView.setOnTouchListener(new View.OnTouchListener() {
+
+
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                boolean ret = false;
+                int action = motionEvent.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        mClickFinished = false;
+                        mStartX = (int)motionEvent.getX();
+                        mStartY = (int)motionEvent.getY();
+                        mLastX = mStartX;
+                        mLastY = mStartY;
+                        if (vb.handleEvent(mStartX, mStartY)) {
+                            ret = true;
+                            Handler h = holderView.getHandler();
+                            h.removeCallbacks(mRunnable);
+                            mRunnable.setView(mContainer.getVirtualView());
+                            mRunnable.setHolderView(holderView);
+                            h.postDelayed(mRunnable, LONG_PRESS_THRESHOLD);
+                            vb.onTouch(view, motionEvent);
+                        } else {
+                            ret = false;
+                        }
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        final ViewBase vView = mContainer.getVirtualView();
+                        if (null != vView && !mLongClickPressed) {
+                            ret = vView.click(mStartX, mStartY, false);
+                            if (ret) {
+                                holderView.playSoundEffect(SoundEffectConstants.CLICK);
+
+                            }
+                        }
+                        vb.onTouch(view, motionEvent);
+                        mClickFinished = true;
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        int currentX = (int)motionEvent.getX();
+                        int currentY = (int)motionEvent.getY();
+                        if (Math.sqrt(Math.pow(currentX - mLastX, 2) + Math.pow(currentY - mLastY, 2))
+                            > VafContext.SLOP) {
+                            holderView.removeCallbacks(mRunnable);
+                        }
+                        mLastX = currentX;
+                        mLastY = currentY;
+                        vb.onTouch(view, motionEvent);
+                        break;
+
+                    case MotionEvent.ACTION_CANCEL:
+                        vb.onTouch(view, motionEvent);
+                        mClickFinished = true;
+                        break;
+                    default:
+                        break;
+                }
+
+                return ret;
+            }
+        });
         //}
     }
 
     class LongRunnable implements Runnable {
         protected ViewBase mView;
 
+        protected View mHolderView;
+
+        public void setHolderView(View holderView) {
+            mHolderView = holderView;
+        }
+
         public void setView(ViewBase v) {
             mView = v;
+
         }
 
         @Override
         public void run() {
             if (!mClickFinished && null != mView) {
-                mView.click(mStartX, mStartY, true);
+                boolean ret = mView.click(mStartX, mStartY, true);
+                if (ret && mHolderView != null) {
+                    mLongClickPressed = true;
+                    mHolderView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                }
             }
         }
     }

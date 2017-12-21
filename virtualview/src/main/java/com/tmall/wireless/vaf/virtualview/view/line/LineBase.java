@@ -74,6 +74,7 @@ public abstract class LineBase extends ViewBase {
         return mLineColor;
     }
 
+    @Override
     protected boolean setAttribute(int key, float value) {
         boolean ret = true;
         switch (key) {
@@ -163,6 +164,50 @@ public abstract class LineBase extends ViewBase {
                     mStyle = value;
                     break;
 
+                default:
+                    ret = false;
+                    break;
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected boolean setRPAttribute(int key, int value) {
+        boolean ret = super.setRPAttribute(key, value);
+
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_paintWidth:
+                    mLineWidth = Utils.rp2px(value);
+                    if (mLineWidth <= 0) {
+                        mLineWidth = 1;
+                    }
+                    break;
+                default:
+                    ret = false;
+                    break;
+            }
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected boolean setRPAttribute(int key, float value) {
+        boolean ret = super.setRPAttribute(key, value);
+
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_paintWidth:
+                    mLineWidth = Utils.rp2px(value);
+                    if (mLineWidth <= 0) {
+                        mLineWidth = 1;
+                    }
+                    break;
                 default:
                     ret = false;
                     break;

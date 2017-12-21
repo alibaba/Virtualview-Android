@@ -63,3 +63,7 @@ captures/
 jcenterDeploy.gradle
 jcenterInstall.gradle
 deploy.gradle
+
+freeline.py
+freeline_project_description.json
+freeline
