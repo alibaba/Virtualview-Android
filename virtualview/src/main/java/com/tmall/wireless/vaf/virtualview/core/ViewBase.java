@@ -366,6 +366,10 @@ public abstract class ViewBase implements IView {
         }
     }
 
+    public boolean isRoot() {
+        return mParent == null;
+    }
+
     public String getViewType() {
         return mViewType;
     }
@@ -792,7 +796,7 @@ public abstract class ViewBase implements IView {
                             item.bind(data, isAppend);
                         }
                         viewBase.onParseValueFinished();
-                        if (viewBase.supportExposure()) {
+                        if (!viewBase.isRoot() && viewBase.supportExposure()) {
                             mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure,
                                 EventData
                                     .obtainData(mContext, viewBase));
