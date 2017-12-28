@@ -33,10 +33,10 @@ import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.expr.engine.NativeObjectManager;
 import com.tmall.wireless.vaf.framework.cm.ComContainerTypeMap;
 import com.tmall.wireless.vaf.framework.cm.ContainerService;
-import com.tmall.wireless.vaf.framework.tools.ImageResLoader;
 import com.tmall.wireless.vaf.virtualview.Helper.BeanManager;
 import com.tmall.wireless.vaf.virtualview.Helper.DataOpt;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
 import com.tmall.wireless.vaf.virtualview.Helper.NativeViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.ServiceManager;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
@@ -63,8 +63,7 @@ public class VafContext {
     protected NativeObjectManager mNativeObjManager = new NativeObjectManager();
     protected static StringLoader mStringLoader = new StringLoader();
     protected ContainerService mContainerService;
-    protected ImageResLoader mImageResLoader;
-    protected static ImageLoader sImageLoader;
+    protected ImageLoader mImageLoader;
     protected EventManager mEventManager = new EventManager();
     protected UserData mUserData = new UserData();
     protected ComContainerTypeMap mComContainerTypeMap = new ComContainerTypeMap();
@@ -74,27 +73,8 @@ public class VafContext {
 
     protected Activity mCurActivity;
 
-    public static void loadAsyncRes(Context context) {
-        loadImageLoaderAsync(context);
-    }
-
-    private static void loadImageLoaderAsync(final Context context) {
-        new Thread() {
-            @Override
-            public void run() {
-                loadImageLoader(context);
-            }
-        }.start();
-    }
-
     public ComContainerTypeMap getComContainerTypeMap() {
         return mComContainerTypeMap;
-    }
-
-    public static void loadImageLoader(Context context) {
-        if (null == sImageLoader) {
-            sImageLoader = ImageLoader.build(context);
-        }
     }
 
     public VafContext(Context context) {
@@ -115,7 +95,6 @@ public class VafContext {
         mContext = context;
 
         DataOpt.setStringLoader(mStringLoader);
-        mImageResLoader = new ImageResLoader(mContext);
 
         mViewManager.setPageContext(this);
         //mExprEngine.setPageContext(this);
@@ -130,6 +109,7 @@ public class VafContext {
             mContainerService = new ContainerService();
             mContainerService.setPageContext(this);
         }
+        mImageLoader = ImageLoader.build(context);
         SLOP = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
@@ -165,10 +145,12 @@ public class VafContext {
         return mCompactNativeManager;
     }
 
-    final public ImageResLoader getImageResLoader() { return mImageResLoader; }
-
     final public ImageLoader getImageLoader() {
-        return sImageLoader;
+        return mImageLoader;
+    }
+
+    final public void setImageLoaderAdapter(IImageLoaderAdapter iImageLoaderAdapter) {
+        mImageLoader.setImageLoaderAdapter(iImageLoaderAdapter);
     }
 
     final public ExprEngine getExprEngine() {

@@ -30,16 +30,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.libra.virtualview.common.BizCommon;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso.LoadedFrom;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
+import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
+import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
+import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
 import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.GRID;
@@ -101,8 +112,58 @@ public class ComponentActivity extends Activity {
         String name = getIntent().getStringExtra("name");
         String data = getIntent().getStringExtra("data");
         if (sVafContext == null) {
+            Picasso.setSingletonInstance(new Picasso.Builder(this).loggingEnabled(true).build());
             sVafContext = new VafContext(this.getApplicationContext());
-            VafContext.loadImageLoader(sVafContext.getContext());
+            sVafContext.setImageLoaderAdapter(new IImageLoaderAdapter() {
+                @Override
+                public void bindImage(String uri, final ImageBase imageBase, int reqWidth, int reqHeight) {
+                    RequestCreator requestCreator = Picasso.with(ComponentActivity.this).load(uri);
+                    if (reqHeight > 0 || reqWidth > 0) {
+                        requestCreator.resize(reqWidth, reqHeight);
+                    }
+                    requestCreator.into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
+                            imageBase.setBitmap(bitmap, true);
+                            Log.d("Longer", "onBitmapLoaded " + from);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            Log.d("Longer", "onBitmapFailed ");
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            Log.d("Longer", "onPrepareLoad ");
+                        }
+                    });
+                }
+
+                @Override
+                public void getBitmap(String uri, int reqWidth, int reqHeight, final Listener lis) {
+                    Picasso.with(ComponentActivity.this).load(uri).resize(reqWidth, reqHeight).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
+                            if (lis != null) {
+                                lis.onImageLoadSuccess(bitmap);
+                            }
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            if (lis != null) {
+                                lis.onImageLoadFailed();
+                            }
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
+                }
+            });
             sViewManager = sVafContext.getViewManager();
             sViewManager.init(this.getApplicationContext());
             sViewManager.loadBinBufferSync(NTEXT.BIN);

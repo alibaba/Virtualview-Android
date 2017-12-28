@@ -111,6 +111,7 @@ public class ComponentListActivity extends ListActivity {
         HashMap<String, String> framelayout = new HashMap<String, String>();
         framelayout.put("name", "FrameLayout");
         framelayout.put("class", ComponentActivity.class.getName());
+        framelayout.put("data", "component_demo/frame_style.json");
         list.add(framelayout);
         HashMap<String, String> ratiolayout = new HashMap<String, String>();
         ratiolayout.put("name", "RatioLayout");

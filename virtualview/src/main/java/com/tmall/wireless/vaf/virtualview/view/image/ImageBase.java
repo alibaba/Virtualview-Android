@@ -24,12 +24,9 @@
 
 package com.tmall.wireless.vaf.virtualview.view.image;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.content.res.ResourcesCompat;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-
 import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.framework.VafContext;
@@ -72,16 +69,8 @@ public abstract class ImageBase extends ViewBase {
 
     public abstract void setBitmap(Bitmap b, boolean refresh);
 
-    protected BitmapDrawable getImageFromRes(String path) {
-        if (!TextUtils.isEmpty(path)) {
-            Context context = mContext.getContext();
-            int id = context.getResources().getIdentifier(path, "drawable", context.getPackageName());
-            if (id > 0) {
-                return ((BitmapDrawable) ResourcesCompat.getDrawable(context.getResources(), id, null));
-            }
-        }
+    public void setImageDrawable(Drawable d, boolean refresh) {
 
-        return null;
     }
 
     public void loadImage(String path) {

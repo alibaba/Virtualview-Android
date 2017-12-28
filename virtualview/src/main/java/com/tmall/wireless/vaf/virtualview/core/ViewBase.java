@@ -33,6 +33,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
 import android.text.TextUtils;
@@ -836,8 +837,12 @@ public abstract class ViewBase implements IView {
             }
 
             @Override
+            public void onImageLoadSuccess(Drawable drawable) {
+
+            }
+
+            @Override
             public void onImageLoadFailed() {
-//                Log.e(TAG, "onImageLoadFailed");
             }
         });
     }
