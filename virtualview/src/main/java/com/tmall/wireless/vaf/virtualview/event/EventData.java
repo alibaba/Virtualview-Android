@@ -86,7 +86,15 @@ public class EventData {
     }
 
     public static EventData obtainData(VafContext context, ViewBase vb) {
-        return obtainData(context, vb, null, null);
+        View view = null;
+        if (vb != null) {
+            view = vb.getNativeView();
+
+            if (view == null  && vb.getViewCache() != null) {
+                view = vb.getViewCache().getHolderView();
+            }
+        }
+        return obtainData(context, vb, view, null);
     }
 
     public static EventData obtainData(VafContext context, ViewBase vb, View view, MotionEvent motionEvent) {
@@ -95,6 +103,7 @@ public class EventData {
             ret = sCache.remove(0);
 
             ret.mVB = vb;
+            ret.mView = view;
             ret.mContext = context;
             ret.mActivity = context.getCurActivity();
         } else {
