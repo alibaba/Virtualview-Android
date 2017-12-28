@@ -87,7 +87,7 @@ public class NativeImage extends ImageBase {
     public void onParseValueFinished() {
         super.onParseValueFinished();
         mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
-        mNative.setScaleType(ImageView.ScaleType.values()[mScaleType]);
+        mNative.setScaleType(ImageBase.IMAGE_SCALE_TYPE.get(mScaleType));
         setSrc(this.mSrc);
     }
 
