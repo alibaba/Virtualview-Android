@@ -28,18 +28,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.libra.virtualview.common.BizCommon;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso.LoadedFrom;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
+import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
+import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
+import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
 import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.GRID;
@@ -93,6 +106,43 @@ public class ComponentActivity extends Activity {
 
     private LinearLayout mLinearLayout;
 
+    private static class ImageTarget implements Target {
+
+        ImageBase mImageBase;
+
+        Listener mListener;
+
+        public ImageTarget(ImageBase imageBase) {
+            mImageBase = imageBase;
+        }
+
+        public ImageTarget(Listener listener) {
+            mListener = listener;
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
+            mImageBase.setBitmap(bitmap, true);
+            if (mListener != null) {
+                mListener.onImageLoadSuccess(bitmap);
+            }
+            Log.d("Longer", "onBitmapLoaded " + from);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            if (mListener != null) {
+                mListener.onImageLoadFailed();
+            }
+            Log.d("Longer", "onBitmapFailed ");
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            Log.d("Longer", "onPrepareLoad ");
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +151,36 @@ public class ComponentActivity extends Activity {
         String name = getIntent().getStringExtra("name");
         String data = getIntent().getStringExtra("data");
         if (sVafContext == null) {
+            Picasso.setSingletonInstance(new Picasso.Builder(this).loggingEnabled(true).build());
             sVafContext = new VafContext(this.getApplicationContext());
-            VafContext.loadImageLoader(sVafContext.getContext());
+            sVafContext.setImageLoaderAdapter(new IImageLoaderAdapter() {
+
+                private List<ImageTarget> cache = new ArrayList<ImageTarget>();
+
+                @Override
+                public void bindImage(String uri, final ImageBase imageBase, int reqWidth, int reqHeight) {
+                    RequestCreator requestCreator = Picasso.with(ComponentActivity.this).load(uri);
+                    Log.d("Longer", "bindImage request width height " + reqHeight + " " + reqWidth);
+                    if (reqHeight > 0 || reqWidth > 0) {
+                        requestCreator.resize(reqWidth, reqHeight);
+                    }
+                    ImageTarget imageTarget = new ImageTarget(imageBase);
+                    cache.add(imageTarget);
+                    requestCreator.into(imageTarget);
+                }
+
+                @Override
+                public void getBitmap(String uri, int reqWidth, int reqHeight, final Listener lis) {
+                    RequestCreator requestCreator = Picasso.with(ComponentActivity.this).load(uri);
+                    Log.d("Longer", "getBitmap request width height " + reqHeight + " " + reqWidth);
+                    if (reqHeight > 0 || reqWidth > 0) {
+                        requestCreator.resize(reqWidth, reqHeight);
+                    }
+                    ImageTarget imageTarget = new ImageTarget(lis);
+                    cache.add(imageTarget);
+                    requestCreator.into(imageTarget);
+                }
+            });
             sViewManager = sVafContext.getViewManager();
             sViewManager.init(this.getApplicationContext());
             sViewManager.loadBinBufferSync(NTEXT.BIN);

@@ -25,7 +25,7 @@
 package com.tmall.wireless.vaf.virtualview.view.image;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import com.libra.virtualview.common.ViewBaseCommon;
@@ -54,33 +54,23 @@ public class NativeImage extends ImageBase {
         return true;
     }
 
-//    @Override
-//    protected void changeVisibility() {
-//        switch (mVisibility) {
-//            case INVISIBLE:
-//                mNative.setVisibility(View.INVISIBLE);
-//                break;
-//
-//            case VISIBLE:
-//                mNative.setVisibility(View.VISIBLE);
-//                break;
-//
-//            case GONE:
-//                mNative.setVisibility(View.GONE);
-//                break;
-//        }
-//    }
-
     @Override
     public void setBitmap(Bitmap b, boolean refresh) {
         mNative.setImageBitmap(b);
     }
 
-    public void setSrc(String path) {
-        mSrc = path;
-        mNative.setImageDrawable(getImageFromRes(mSrc));
+    @Override
+    public void setImageDrawable(Drawable d, boolean refresh) {
+        mNative.setImageDrawable(d);
     }
 
+    @Override
+    public void setSrc(String path) {
+        mSrc = path;
+        this.mContext.getImageLoader().bindBitmap(mSrc, this, this.getComMeasuredWidth(), this.getComMeasuredHeight());
+    }
+
+    @Override
     public View getNativeView() {
         return mNative;
     }
@@ -89,19 +79,16 @@ public class NativeImage extends ImageBase {
     public void reset() {
         super.reset();
         mNative.setImageSrc(null);
+        mSrc = null;
+        this.mContext.getImageLoader().bindBitmap(null, this, this.getComMeasuredWidth(), this.getComMeasuredHeight());
     }
 
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
         mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
-        mNative.setScaleType(ImageView.ScaleType.values()[mScaleType]);
-        BitmapDrawable bitmapDrawable = getImageFromRes(this.mSrc);
-        if (bitmapDrawable != null) {
-            mNative.setImageDrawable(bitmapDrawable);
-        } else {
-            setData(this.mSrc);
-        }
+        mNative.setScaleType(ImageBase.IMAGE_SCALE_TYPE.get(mScaleType));
+        setSrc(this.mSrc);
     }
 
     @Override
@@ -118,6 +105,8 @@ public class NativeImage extends ImageBase {
                     if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(heightMeasureSpec)) {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -138,6 +127,8 @@ public class NativeImage extends ImageBase {
                     if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(heightMeasureSpec)) {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -163,15 +154,6 @@ public class NativeImage extends ImageBase {
     @Override
     public void comLayout(int l, int t, int r, int b) {
         mNative.comLayout(l, t, r, b);
-    }
-
-    @Override
-    public void setData(Object data) {
-        super.setData(data);
-
-        if (data instanceof String) {
-            this.mContext.getImageLoader().bindBitmap((String)data, this, this.getComMeasuredWidth(), this.getComMeasuredHeight());
-        }
     }
 
     public static class Builder implements ViewBase.IBuilder {

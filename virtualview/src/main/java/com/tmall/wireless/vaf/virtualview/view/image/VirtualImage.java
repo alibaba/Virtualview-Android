@@ -70,15 +70,7 @@ public class VirtualImage extends ImageBase {
             }
         } else {
             if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0) {
-                if (!TextUtils.isEmpty(mData)) {
-                    if (1 == mContext.getImageLoader().bindBitmap(mData, this, this.mMeasuredWidth, this.mMeasuredHeight) ) {
-                        if (mContentRect == null) {
-                            mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-                        } else {
-                            mContentRect.set(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-                        }
-                    }
-                } else if (!TextUtils.isEmpty(mSrc)) {
+                if (!TextUtils.isEmpty(mSrc)) {
                     loadImage(mSrc);
                 }
             }
@@ -96,34 +88,8 @@ public class VirtualImage extends ImageBase {
 
     @Override
     public void loadImage(String path) {
-        BitmapDrawable db = mContext.getImageResLoader().getImage(path);
-        if (null != db) {
-            mBitmap = db.getBitmap();
-            mSrc = path;
-            mContentRect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
-        } else {
-            setData(path);
-        }
-    }
-
-    @Override
-    public void setData(Object data) {
-        super.setData(data);
-
-        if (data instanceof String) {
-            String path = (String) data;
-            if (!TextUtils.isEmpty(path) && !TextUtils.equals(mData, path)) {
-                mData = path;
-                if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0) {
-                    mContext.getImageLoader().bindBitmap(path, this, this.mMeasuredWidth, this.mMeasuredHeight);
-                }
-            }
-        } else if (data instanceof JSONObject){
-            JSONObject obj = (JSONObject)data;
-            Object o = obj.opt(mDataTag);
-            if (null != o) {
-                setData(o);
-            }
+        if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0) {
+            mContext.getImageLoader().bindBitmap(path, this, this.mMeasuredWidth, this.mMeasuredHeight);
         }
     }
 
@@ -131,7 +97,6 @@ public class VirtualImage extends ImageBase {
     public void setSrc(String path) {
         if (!TextUtils.equals(mSrc, path)) {
             mSrc = path;
-
             loadImage(path);
         }
     }
@@ -159,6 +124,8 @@ public class VirtualImage extends ImageBase {
                 case ImageCommon.SCALE_TYPE_FIT_START:
                     mMatrix.setScale(((float) mMeasuredWidth) / mContentRect.width(), ((float) mMeasuredHeight) / mContentRect.height());
                     canvas.drawBitmap(mBitmap, mMatrix, mPaint);
+                    break;
+                default:
                     break;
             }
         }
