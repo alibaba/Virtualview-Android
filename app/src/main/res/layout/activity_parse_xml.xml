@@ -22,24 +22,17 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   ~ SOFTWARE.
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button android:id="@+id/parse" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="点击编译/sdcard/virtualview.xml文件"
+    />
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:id="@+id/container" android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-
-    <LinearLayout
-        android:id="@+id/tab"
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -69,6 +69,10 @@ public class DemoListActivity extends ListActivity {
         script.put("name", "Scripts(Experimental)");
         script.put("class", ScriptListActivity.class.getName());
         list.add(script);
+        HashMap<String, String> parse = new HashMap<String, String>();
+        parse.put("name", "Parse XML");
+        parse.put("class", ParserDemoActivity.class.getName());
+        list.add(parse);
         ListAdapter listAdapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1});
         setListAdapter(listAdapter);
     }
