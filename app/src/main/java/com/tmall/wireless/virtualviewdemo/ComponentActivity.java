@@ -52,6 +52,7 @@ import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
+import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
 import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
@@ -87,6 +88,7 @@ import com.tmall.wireless.virtualviewdemo.bytes.VHLAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.VIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.VLINE;
 import com.tmall.wireless.virtualviewdemo.bytes.VTEXT;
+import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
 import com.tmall.wireless.virtualviewdemo.custom.TMReminderTagsView;
 import com.tmall.wireless.virtualviewdemo.custom.TotalContainer;
 import org.json.JSONException;
@@ -219,6 +221,7 @@ public class ComponentActivity extends Activity {
             sViewManager.loadBinBufferSync(TMALLCOMPONENT8.BIN);
             sViewManager.getViewFactory().registerBuilder(BizCommon.TM_TOTAL_CONTAINER,new TotalContainer.Builder());
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
+            sVafContext.getEventManager().register(EventManager.TYPE_Click, new ClickProcessorImpl());
         }
         View container = sVafContext.getContainerService().getContainer(name, true);
         IContainer iContainer = (IContainer)container;
