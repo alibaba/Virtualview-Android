@@ -32,7 +32,7 @@ For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/a
 ## Features
 
 + Write template once, run it on two platform. (VirtualView for iOS will be released later)
-+ Provide basic component and layout, support to add custom basic component.
++ Provide basic widget and layout, support adding custom widget.
 + Support virtualized view, render UI mixed with virtual view and native view.
 + Support simple EL in XML template.
 + Support simple basic logical expression in XML template.
