@@ -1,25 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VHLayout
         flag="flag_exposure|flag_clickable"
-        orientation="H"
+        orientation="V"
         layoutWidth="match_parent"
         layoutHeight="wrap_content">
-    <NImage
-            id="1"
-            src="${logoUrl}"
-            layoutMarginLeft="8"
-            layoutMarginRight="8"
-            layoutMarginTop="8"
-            layoutMarginBottom="8"
-            layoutWidth="32"
-            layoutHeight="32"/>
-    <NText
-            id="2"
-            text="${title}"
-            layoutGravity="v_center"
-            gravity="${style.text-align}"
-            textSize="${style.font-size}"
-            textColor="${style.color}"
+    <VHLayout
+            flag="flag_exposure|flag_clickable"
+            orientation="H"
             layoutWidth="match_parent"
-            layoutHeight="wrap_content"/>
+            layoutHeight="wrap_content">
+        <NImage
+                id="1"
+                src="${logoUrl}"
+                layoutMarginLeft="8"
+                layoutMarginRight="8"
+                layoutMarginTop="8"
+                layoutMarginBottom="8"
+                layoutWidth="32"
+                layoutHeight="32"/>
+        <NText
+                id="2"
+                text="${title}"
+                layoutGravity="v_center"
+                gravity="${style.text-align}"
+                textSize="${style.font-size}"
+                textColor="${style.color}"
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"/>
+    </VHLayout>
+    <VHLayout
+            flag="flag_exposure|flag_clickable"
+            orientation="H"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content">
+        <NImage
+                id="1"
+                src="${logoUrl}"
+                layoutMarginLeft="8"
+                layoutMarginRight="8"
+                layoutMarginTop="8"
+                layoutMarginBottom="8"
+                layoutWidth="32"
+                layoutHeight="32"/>
+        <NText
+                id="2"
+                text="${title}"
+                layoutGravity="v_center"
+                gravity="${style.text-align}"
+                textSize="${style.font-size}"
+                textColor="${style.color}"
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"/>
+    </VHLayout>
 </VHLayout>
