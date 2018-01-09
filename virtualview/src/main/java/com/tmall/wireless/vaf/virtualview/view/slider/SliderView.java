@@ -87,6 +87,12 @@ public class SliderView extends ViewGroup {
 
     protected Listener mListener;
 
+    // Slider item之间的间距
+    private int mSpan;
+    public void setSpan(int span) {
+        mSpan = span;
+    }
+
     public interface Listener {
         void onScroll(int pos, int total);
     }
@@ -413,7 +419,7 @@ public class SliderView extends ViewGroup {
         for (int i = 0; i < count; ++i) {
             View child = this.getChildAt(i);
             child.layout(offset, paddingTop, offset + mItemWidth, h);
-            offset += mItemWidth;
+            offset += (mItemWidth + mSpan);
         }
     }
 
