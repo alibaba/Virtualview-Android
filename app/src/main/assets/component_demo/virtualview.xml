@@ -33,7 +33,7 @@
             orientation="H"
             layoutWidth="match_parent"
             layoutHeight="wrap_content">
-        <NImage
+        <VImage
                 id="1"
                 src="${logoUrl}"
                 layoutMarginLeft="8"
@@ -42,7 +42,7 @@
                 layoutMarginBottom="8"
                 layoutWidth="32"
                 layoutHeight="32"/>
-        <NText
+        <VText
                 id="2"
                 text="${title}"
                 layoutGravity="v_center"
