@@ -45,7 +45,7 @@ XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性�
 版本请参考 release 上的[最新版本](https://github.com/alibaba/Virtualview-Android/releases)，最新的 aar 都会发布到 jcenter 和 MavenCentral 上，确保配置了这两个仓库源，然后引入aar依赖，比如：
 
 ``` gradle
-compile ('com.alibaba.android:virtualview:1.0.1@aar') {
+compile ('com.alibaba.android:virtualview:1.0.5@aar') {
 	transitive = true
 }
 ```
@@ -56,7 +56,7 @@ pom.XML
 <dependency>
   <groupId>com.alibaba.android</groupId>
   <artifactId>virtualview</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.5</version>
   <type>aar</type>
 </dependency>
 ```
