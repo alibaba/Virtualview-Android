@@ -87,7 +87,7 @@ public class SliderView extends ViewGroup {
 
     protected Listener mListener;
 
-    // Slider item之间的间距
+    // space between Slider items
     private int mSpan;
     public void setSpan(int span) {
         mSpan = span;
