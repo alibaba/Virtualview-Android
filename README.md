@@ -45,7 +45,7 @@ For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/a
 
 ### Import Library
 
-Please find the latest version(1.0.1 so far) in maven repository. The newest version has been upload to jcenter and MavenCentral, make sure you have added at least one of these repositories.
+Please find the latest version in [release notes](https://github.com/alibaba/Virtualview-Android/releases). The newest version has been upload to jcenter and MavenCentral, make sure you have added at least one of these repositories. As follow:
 
 For gradle:
 ``` gradle
