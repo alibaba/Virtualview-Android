@@ -49,7 +49,7 @@ Please find the latest version in [release notes](https://github.com/alibaba/Vir
 
 For gradle:
 ``` gradle
-compile ('com.alibaba.android:virtualview:1.0.1@aar') {
+compile ('com.alibaba.android:virtualview:1.0.5@aar') {
 	transitive = true
 }
 ```
@@ -60,7 +60,7 @@ pom.xml
 <dependency>
   <groupId>com.alibaba.android</groupId>
   <artifactId>virtualview</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.5</version>
   <type>aar</type>
 </dependency>
 ```
