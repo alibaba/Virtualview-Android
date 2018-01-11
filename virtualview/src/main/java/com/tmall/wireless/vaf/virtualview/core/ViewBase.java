@@ -153,6 +153,11 @@ public abstract class ViewBase implements IView {
 
     protected Object mTag;
 
+    /**
+     * Map used to store views' tags.
+     */
+    private SparseArray<Object> mKeyedTags;
+
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
     protected ExprCode mAfterLoadDataCode;
@@ -393,6 +398,19 @@ public abstract class ViewBase implements IView {
 
     public Object getTag() {
         return mTag;
+    }
+
+    public Object getTag(int key) {
+        if (mKeyedTags != null) return mKeyedTags.get(key);
+        return null;
+    }
+
+    private void setTag(int key, Object tag) {
+        if (mKeyedTags == null) {
+            mKeyedTags = new SparseArray<>(2);
+        }
+
+        mKeyedTags.put(key, tag);
     }
 
     public IBean getBean() {
@@ -1384,6 +1402,15 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderBottomRightRadius:
                 mViewCache.put(this, StringBase.STR_ID_borderBottomRightRadius, stringValue, Item.TYPE_FLOAT);
                 break;
+
+            case StringBase.STR_ID_tag:
+                if (Utils.isEL(stringValue)) {
+                    mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
+                } else {
+                    mTag = stringValue;
+                }
+                break;
+
             default:
                 ret = false;
         }
