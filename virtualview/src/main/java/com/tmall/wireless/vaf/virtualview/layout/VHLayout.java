@@ -31,6 +31,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -83,15 +84,24 @@ public class VHLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
+        resolveRtlPropertiesIfNeeded();
+
         switch (mOrientation) {
             case ViewBaseCommon.HORIZONTAL: {
+
+                mGravity = RtlHelper.resolveRtlGravityIfNeed(mGravity);
+
                 int left = 0;
                 if (0 != (mGravity & ViewBaseCommon.LEFT)) {
                     left = l + mPaddingLeft + mBorderWidth;
                 } else if (0 != (mGravity & ViewBaseCommon.H_CENTER)) {
                     left = (r - l - getChildrenWidth()) >> 1;
                 } else {
-                    left = (r - getChildrenWidth() - mPaddingRight - mBorderWidth);
+                    if (RtlHelper.isRtl()) {
+                        left = r - mPaddingRight - mBorderWidth;
+                    } else {
+                        left = (r - getChildrenWidth() - mPaddingRight - mBorderWidth);
+                    }
                 }
 
                 for (ViewBase view : mSubViews) {
@@ -99,9 +109,13 @@ public class VHLayout extends Layout {
                         continue;
                     }
                     Params childP = (Params) view.getComLayoutParams();
+
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
-                    left += childP.mLayoutMarginLeft;
+
+                    if (RtlHelper.isRtl()) {
+                        left -= (w + childP.mLayoutMarginLeft);
+                    }
 
                     int tt;
                     if (0 != (childP.mLayoutGravity & ViewBaseCommon.V_CENTER)) {
@@ -111,9 +125,13 @@ public class VHLayout extends Layout {
                     } else {
                         tt = t + mPaddingTop + mBorderWidth + childP.mLayoutMarginTop;
                     }
+
                     view.comLayout(left, tt, left + w, tt + h);
 
-                    left += w + childP.mLayoutMarginRight;
+                    if (!RtlHelper.isRtl()) {
+                        left += w + childP.mLayoutMarginRight;
+                    }
+
                 }
                 break;
             }
@@ -134,6 +152,8 @@ public class VHLayout extends Layout {
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
+                    childP.resolveRtlParamsIfNeeded();
+
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
                     top += childP.mLayoutMarginTop;
@@ -143,8 +163,14 @@ public class VHLayout extends Layout {
                         ll = (r + l - w) >> 1;
                     } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.RIGHT)) {
                         ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
-                    } else {
+                    } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.LEFT)) {
                         ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
+                    } else {
+                        if (RtlHelper.isRtl()) {
+                            ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
+                        } else {
+                            ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
+                        }
                     }
 
                     view.comLayout(ll, top, ll + w, top + h);
@@ -423,6 +449,12 @@ public class VHLayout extends Layout {
             }
 
             return ret;
+        }
+
+        @Override
+        public void resolveRtlParamsIfNeeded() {
+            super.resolveRtlParamsIfNeeded();
+            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
         }
     }
 
