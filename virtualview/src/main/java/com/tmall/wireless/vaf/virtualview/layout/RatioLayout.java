@@ -31,6 +31,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -369,18 +370,37 @@ public class RatioLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
+        resolveRtlPropertiesIfNeeded();
+
         switch (mOrientation) {
             case ViewBaseCommon.HORIZONTAL: {
-                int left = l + mPaddingLeft + mBorderWidth;
+                int left;
+
+                // left begin with the parent's right in Rtl env.
+                if (RtlHelper.isRtl()) {
+                    left = r - mPaddingRight - mBorderWidth;
+                } else {
+                    left = l + mPaddingLeft + mBorderWidth;
+                }
+
                 for (ViewBase view : mSubViews) {
                     if (view.isGone()) {
                         continue;
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
+                    childP.resolveRtlParamsIfNeeded();
+
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
-                    left += childP.mLayoutMarginLeft;
+
+                    // Rtl:
+                    // child's left = parent's right - child's width - child's margin right.
+                    if (RtlHelper.isRtl()) {
+                        left -= (w + childP.mLayoutMarginLeft);
+                    } else {
+                        left += childP.mLayoutMarginLeft;
+                    }
 
                     int tt;
                     if (0 != (childP.mLayoutGravity & ViewBaseCommon.V_CENTER)) {
@@ -392,7 +412,9 @@ public class RatioLayout extends Layout {
                     }
                     view.comLayout(left, tt, left + w, tt + h);
 
-                    left += w + childP.mLayoutMarginRight;
+                    if (!RtlHelper.isRtl()) {
+                        left += (w + childP.mLayoutMarginRight);
+                    }
                 }
                 break;
             }
@@ -405,6 +427,8 @@ public class RatioLayout extends Layout {
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
+                    childP.resolveRtlParamsIfNeeded();
+
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
                     top += childP.mLayoutMarginTop;
@@ -414,8 +438,14 @@ public class RatioLayout extends Layout {
                         ll = (r + l - w) >> 1;
                     } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.RIGHT)) {
                         ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
-                    } else {
+                    } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.LEFT)) {
                         ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
+                    } else {
+                        if (RtlHelper.isRtl()) {
+                            ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
+                        } else {
+                            ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
+                        }
                     }
 
                     view.comLayout(ll, top, ll + w, top + h);
@@ -495,6 +525,12 @@ public class RatioLayout extends Layout {
             }
 
             return ret;
+        }
+
+        @Override
+        public void resolveRtlParamsIfNeeded() {
+            super.resolveRtlParamsIfNeeded();
+            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
         }
     }
 
