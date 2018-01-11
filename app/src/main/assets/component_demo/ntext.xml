@@ -140,6 +140,25 @@
             layoutHeight="20" />
 
     <NText
+            text="Title: borderWidth = 1 borderColor = #0088FF borderRadius = 5"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            background="#56E6D5"
+            textSize="12"
+            textColor="#333333"
+            borderRadius="5"
+            borderColor="#0088FF"
+            borderWidth="1"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
             text="Title: gravity = h_center|v_center"
             textSize="12"
             textColor="#333333"
@@ -306,6 +325,55 @@
             textSize="12"
             textColor="#333333"
             supportHTMLStyle="true"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: textSize 12rp"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12rp"
+            textColor="#333333"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: ellipsize end"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View"
+            ellipsize="end"
+            lines="1"
+            textSize="12"
+            textColor="#333333"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content" />
+
+    <NText
+            text="Title: ellipsize none"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View"
+            ellipsize="none"
+            lines="1"
+            textSize="12"
+            textColor="#333333"
             layoutWidth="match_parent"
             layoutHeight="wrap_content" />
 </VHLayout>
