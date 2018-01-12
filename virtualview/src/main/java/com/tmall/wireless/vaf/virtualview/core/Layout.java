@@ -35,6 +35,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
@@ -558,6 +559,19 @@ public abstract class Layout extends ViewBase {
             }
 
             return ret;
+        }
+
+        /**
+         * resolve rtl properties. such as Margin, Padding etc.
+         */
+        public void resolveRtlParamsIfNeeded() {
+            if (RtlHelper.isRtl()) {
+                // margin
+                int tempMargin = mLayoutMarginLeft;
+                mLayoutMarginLeft = mLayoutMarginRight;
+                mLayoutMarginRight = tempMargin;
+            }
+
         }
     }
 }

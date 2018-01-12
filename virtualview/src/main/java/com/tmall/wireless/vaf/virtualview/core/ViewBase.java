@@ -52,6 +52,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
@@ -1762,5 +1763,18 @@ public abstract class ViewBase implements IView {
         public int getComMeasuredHeight() {
             return 0;
         }
+    }
+
+    /**
+     * resolve rtl properties. such as Margin, Padding etc.
+     */
+    public void resolveRtlPropertiesIfNeeded() {
+        if (RtlHelper.isRtl()) {
+            // padding
+            int tempPadding = mPaddingLeft;
+            mPaddingLeft = mPaddingRight;
+            mPaddingRight = tempPadding;
+        }
+
     }
 }

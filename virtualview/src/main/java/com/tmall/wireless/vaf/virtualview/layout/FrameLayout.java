@@ -31,6 +31,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -178,6 +179,8 @@ public class FrameLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
+        resolveRtlPropertiesIfNeeded();
+
         for (ViewBase child : mSubViews) {
             if (child.isGone()) {
                 continue;
@@ -188,13 +191,24 @@ public class FrameLayout extends Layout {
 
             Params childP = (Params) child.getComLayoutParams();
 
+            // convert rtl properties if need.
+            childP.resolveRtlParamsIfNeeded();
+
             int ll;
+
             if (0 != (childP.mLayoutGravity & ViewBaseCommon.H_CENTER)) {
                 ll = (r + l - w) >> 1;
             } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.RIGHT)) {
                 ll = r - mPaddingRight - childP.mLayoutMarginRight - w - mBorderWidth;
-            } else {
+            } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.LEFT)){
                 ll = l + mPaddingLeft + childP.mLayoutMarginLeft + mBorderWidth;
+            } else {
+                // no right/left gravity
+                if (RtlHelper.isRtl()) {
+                    ll = r - mPaddingRight - childP.mLayoutMarginRight - w - mBorderWidth;
+                } else {
+                    ll = l + mPaddingLeft + childP.mLayoutMarginLeft + mBorderWidth;
+                }
             }
 
             int tt;
@@ -231,6 +245,13 @@ public class FrameLayout extends Layout {
 
             return ret;
         }
+
+        public void resolveRtlParamsIfNeeded() {
+            super.resolveRtlParamsIfNeeded();
+
+            // rtl gravity
+            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
+        }
     }
 
     public static class Builder implements ViewBase.IBuilder {
@@ -239,5 +260,4 @@ public class FrameLayout extends Layout {
             return new FrameLayout(context, viewCache);
         }
     }
-
 }
