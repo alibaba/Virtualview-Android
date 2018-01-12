@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1tBWngOqAXuNjy1XdXXaYcVXa-174-174.png",
+      "title": "All Categories",
+      "action": "action1",
+      "type": "GridItem"
+    },
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB114hgjb_I8KJjy1XaXXbsxpXa-174-174.png",
+      "title": "Send Custom Requests",
+      "action": "action2",
+      "type": "GridItem"
+    },
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1R6lujcLJ8KJjy0FnXXcFDpXa-174-174.png",
+      "title": "Fashion Showcase",
+      "action": "action3",
+      "type": "GridItem"
+    },
+    {
+      "imgUrl": "https://img.alicdn.com/tfs/TB1hPoLi4rI8KJjy0FpXXb5hVXa-174-174.png",
+      "title": "Quick App Guide",
+      "action": "action4",
+      "type": "GridItem"
+    }
+  ]
+}

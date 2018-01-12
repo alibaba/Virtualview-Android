@@ -50,6 +50,7 @@
         <activity android:name=".ComponentActivity"></activity>
         <activity android:name=".ScrollerListActivity"></activity>
         <activity android:name=".TmallComponentListActivity"></activity>
+        <activity android:name=".IcbuComponentListActivity"></activity>
 
         <activity android:name=".ScriptListActivity"></activity>
         <activity android:name=".ParserDemoActivity"></activity>

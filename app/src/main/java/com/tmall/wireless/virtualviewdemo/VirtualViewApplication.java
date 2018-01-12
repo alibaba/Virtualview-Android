@@ -16,13 +16,19 @@ import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
+import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
+import com.tmall.wireless.vaf.virtualview.event.IEventProcessor;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
 import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.GRID;
 import com.tmall.wireless.virtualviewdemo.bytes.GRIDITEM;
 import com.tmall.wireless.virtualviewdemo.bytes.GRIDLAYOUT;
+import com.tmall.wireless.virtualviewdemo.bytes.HOMECOMPONENT1;
+import com.tmall.wireless.virtualviewdemo.bytes.HOMECOMPONENT2;
+import com.tmall.wireless.virtualviewdemo.bytes.HOMEINDUSTRY2;
+import com.tmall.wireless.virtualviewdemo.bytes.HomeIndustryItem;
 import com.tmall.wireless.virtualviewdemo.bytes.NIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.NLINE;
 import com.tmall.wireless.virtualviewdemo.bytes.NTEXT;
@@ -53,6 +59,7 @@ import com.tmall.wireless.virtualviewdemo.bytes.VIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.VLINE;
 import com.tmall.wireless.virtualviewdemo.bytes.VTEXT;
 import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
+import com.tmall.wireless.virtualviewdemo.custom.ExposureProcessorImpl;
 import com.tmall.wireless.virtualviewdemo.custom.TMReminderTagsView;
 import com.tmall.wireless.virtualviewdemo.custom.TotalContainer;
 
@@ -85,7 +92,9 @@ public class VirtualViewApplication extends Application {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
-            mImageBase.setBitmap(bitmap, true);
+            if (mImageBase != null) {
+                mImageBase.setBitmap(bitmap, true);
+            }
             if (mListener != null) {
                 mListener.onImageLoadSuccess(bitmap);
             }
@@ -184,9 +193,16 @@ public class VirtualViewApplication extends Application {
             sViewManager.loadBinBufferSync(TMALLCOMPONENT6.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT7.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT8.BIN);
+
+            sViewManager.loadBinBufferSync(HOMECOMPONENT1.BIN);
+            sViewManager.loadBinBufferSync(HOMECOMPONENT2.BIN);
+            sViewManager.loadBinBufferSync(HOMEINDUSTRY2.BIN);
+            sViewManager.loadBinBufferSync(HomeIndustryItem.BIN);
+
             sViewManager.getViewFactory().registerBuilder(BizCommon.TM_TOTAL_CONTAINER,new TotalContainer.Builder());
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
             sVafContext.getEventManager().register(EventManager.TYPE_Click, new ClickProcessorImpl());
+            sVafContext.getEventManager().register(EventManager.TYPE_Exposure, new ExposureProcessorImpl());
         }
 
     }
