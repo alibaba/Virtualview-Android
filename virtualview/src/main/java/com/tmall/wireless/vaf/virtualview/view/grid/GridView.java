@@ -32,6 +32,8 @@ import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_Y;
 
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
+
 /**
  * Created by gujicheng on 16/10/27.
  */
@@ -157,9 +159,14 @@ public class GridView extends ViewGroup {
 
         int index = 0;
         int top = this.getPaddingTop();
-        int paddingLeft = this.getPaddingLeft();
+
+        int ll = this.getPaddingLeft();
+        if (RtlHelper.isRtl()) {
+            ll = r - mItemWidth - this.getPaddingRight();
+        }
+
         for (int row = 0; row < mRowCount; ++row) {
-            int left = paddingLeft;
+            int left = ll;
             for (int col = 0; col < mColumnCount; ++col) {
                 if (index < count) {
                     View child = this.getChildAt(index);
@@ -168,7 +175,11 @@ public class GridView extends ViewGroup {
                     break;
                 }
                 ++index;
-                left += mItemWidth + mItemHorizontalMargin;
+                if (RtlHelper.isRtl()) {
+                    left -= (mItemWidth + mItemHorizontalMargin);
+                } else {
+                    left += mItemWidth + mItemHorizontalMargin;
+                }
             }
             top += mCalItemHeight + mItemVerticalMargin;
         }
