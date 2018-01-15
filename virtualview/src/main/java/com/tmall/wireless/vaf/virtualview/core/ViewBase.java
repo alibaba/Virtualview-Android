@@ -32,7 +32,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
@@ -58,7 +57,11 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -156,7 +159,7 @@ public abstract class ViewBase implements IView {
     /**
      * Map used to store views' tags.
      */
-    private SparseArray<Object> mKeyedTags;
+    private HashMap<String, Object> mKeyedTags;
 
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
@@ -400,14 +403,14 @@ public abstract class ViewBase implements IView {
         return mTag;
     }
 
-    public Object getTag(int key) {
+    public Object getTag(String key) {
         if (mKeyedTags != null) return mKeyedTags.get(key);
         return null;
     }
 
-    private void setTag(int key, Object tag) {
+    private void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
-            mKeyedTags = new SparseArray<>(2);
+            mKeyedTags = new HashMap<>();
         }
 
         mKeyedTags.put(key, tag);
@@ -1407,7 +1410,19 @@ public abstract class ViewBase implements IView {
                 if (Utils.isEL(stringValue)) {
                     mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
                 } else {
-                    mTag = stringValue;
+                    try {
+                        // if has more data, use Keyed Tag.
+                        JSONObject jsonObject = new JSONObject(stringValue);
+                        Iterator<String> sIterator = jsonObject.keys();
+                        while(sIterator.hasNext()){
+                            // tag key
+                            String tagKey = sIterator.next();
+                            setTag(tagKey, jsonObject.getString(tagKey));
+                        }
+                    } catch (JSONException e) {
+                        // just a String value, can't convert to a JSONObject, use Tag only
+                        mTag = stringValue;
+                    }
                 }
                 break;
 
