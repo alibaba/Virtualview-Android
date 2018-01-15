@@ -35,6 +35,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -60,7 +61,6 @@ import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
@@ -159,7 +159,7 @@ public abstract class ViewBase implements IView {
     /**
      * Map used to store views' tags.
      */
-    private HashMap<String, Object> mKeyedTags;
+    private SimpleArrayMap<String, Object> mKeyedTags;
 
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
@@ -410,7 +410,7 @@ public abstract class ViewBase implements IView {
 
     private void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
-            mKeyedTags = new HashMap<>();
+            mKeyedTags = new SimpleArrayMap<>();
         }
 
         mKeyedTags.put(key, tag);
