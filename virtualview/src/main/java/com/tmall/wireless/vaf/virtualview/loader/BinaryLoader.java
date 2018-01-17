@@ -137,7 +137,7 @@ public class BinaryLoader {
 
                         if (reader.seek(uiStartPos)) {
                             // parse ui codes
-                            boolean result = mUiCodeLoader.loadFromBuffer(reader, pageId);
+                            boolean result = mUiCodeLoader.loadFromBuffer(reader, pageId, patchVersion);
 
                             // parse string
                             if (reader.getPos() == strStartPos) {
