@@ -25,13 +25,15 @@
 
 XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性能，这两点就是使用 VirtualView 技术的主要意义所在。
 
+![](https://github.com/alibaba/VirtualView-iOS/raw/master/README/feature.png)
+
 更多详细信息参考[文档](http://tangram.pingguohe.net/docs/virtualview/about-virtualview)。
 
 ## 主要功能
 
 + 一份模板，两端支持。
-+ 提供基础的原子组件与容器组件，支持加入自定义组件。
-+ 支持一种虚拟化实现组件的协议，在模板里混合使用虚拟组件和实体组件。
++ 提供基础的原子控件与容器控件，支持加入自定义组件。
++ 支持一种虚拟化实现控件的协议，在模板里混合使用虚拟控件和实体控件。
 + 支持在模板里编写数据绑定的表达式。
 + 支持在模板里写事件触发的逻辑表达式。
 + 提供配套的开发工具，辅助模板开发工具。
@@ -40,10 +42,10 @@ XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性�
 
 ### 单独使用
 
-版本请参考 mvn repository 上的最新版本（目前最新版本是 1.0.1），最新的 aar 都会发布到 jcenter 和 MavenCentral 上，确保配置了这两个仓库源，然后引入aar依赖：
+版本请参考 release 上的[最新版本](https://github.com/alibaba/Virtualview-Android/releases)，最新的 aar 都会发布到 jcenter 和 MavenCentral 上，确保配置了这两个仓库源，然后引入aar依赖，比如：
 
 ``` gradle
-compile ('com.alibaba.android:virtualview:1.0.1@aar') {
+compile ('com.alibaba.android:virtualview:1.0.5@aar') {
 	transitive = true
 }
 ```
@@ -54,7 +56,7 @@ pom.XML
 <dependency>
   <groupId>com.alibaba.android</groupId>
   <artifactId>virtualview</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.5</version>
   <type>aar</type>
 </dependency>
 ```

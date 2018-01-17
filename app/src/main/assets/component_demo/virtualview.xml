@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2018 Alibaba Group
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<VHLayout
+        flag="flag_exposure|flag_clickable"
+        orientation="V"
+        layoutWidth="match_parent"
+        layoutHeight="wrap_content">
+    <VHLayout
+            flag="flag_exposure|flag_clickable"
+            orientation="H"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content">
+        <NImage
+                id="1"
+                src="${logoUrl}"
+                layoutMarginLeft="8"
+                layoutMarginRight="8"
+                layoutMarginTop="8"
+                layoutMarginBottom="8"
+                layoutWidth="32"
+                layoutHeight="32"/>
+        <NText
+                id="2"
+                text="${title}"
+                layoutGravity="v_center"
+                gravity="${style.text-align}"
+                textSize="${style.font-size}"
+                textColor="${style.color}"
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"/>
+    </VHLayout>
+    <VHLayout
+            flag="flag_exposure|flag_clickable"
+            orientation="H"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content">
+        <VImage
+                id="1"
+                src="${logoUrl}"
+                layoutMarginLeft="8"
+                layoutMarginRight="8"
+                layoutMarginTop="8"
+                layoutMarginBottom="8"
+                layoutWidth="32"
+                layoutHeight="32"/>
+        <VText
+                id="2"
+                text="${title}"
+                layoutGravity="v_center"
+                gravity="${style.text-align}"
+                textSize="${style.font-size}"
+                textColor="${style.color}"
+                layoutWidth="match_parent"
+                layoutHeight="wrap_content"/>
+    </VHLayout>
+</VHLayout>

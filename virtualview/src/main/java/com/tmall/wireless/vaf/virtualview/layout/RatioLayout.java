@@ -78,6 +78,8 @@ public class RatioLayout extends Layout {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
                     break;
+                default:
+                    break;
             }
         }
 
@@ -88,6 +90,8 @@ public class RatioLayout extends Layout {
 
             case ViewBaseCommon.HORIZONTAL:
                 measureHorizontal(widthMeasureSpec, heightMeasureSpec);
+                break;
+            default:
                 break;
         }
     }
@@ -101,8 +105,7 @@ public class RatioLayout extends Layout {
         int childWidthMeasureSpec;
         if (childParam.mLayoutRatio > 0) {
             childWidthMeasureSpec = getRatioChildMeasureSpec(parentWidthMeasureSpec,
-                    mPaddingLeft + mPaddingRight + (mBorderWidth << 1), childParam.mLayoutWidth, childParam.mLayoutRatio,
-                    child.getComPaddingLeft() + child.getComPaddingRight());
+                    mPaddingLeft + mPaddingRight + (mBorderWidth << 1), childParam.mLayoutWidth, childParam.mLayoutRatio);
         } else {
             childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
                     mPaddingLeft + mPaddingRight + (mBorderWidth << 1) + childParam.mLayoutMarginLeft + childParam.mLayoutMarginRight, childParam.mLayoutWidth);
@@ -120,8 +123,7 @@ public class RatioLayout extends Layout {
         int childHeightMeasureSpec;
         if (childParam.mLayoutRatio > 0) {
             childHeightMeasureSpec = getRatioChildMeasureSpec(parentHeightMeasureSpec,
-                    mPaddingTop + mPaddingBottom + (mBorderWidth << 1), childParam.mLayoutHeight, childParam.mLayoutRatio,
-                    child.getComPaddingTop() + child.getComPaddingBottom());
+                    mPaddingTop + mPaddingBottom + (mBorderWidth << 1), childParam.mLayoutHeight, childParam.mLayoutRatio);
         } else {
             childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
                     mPaddingTop + mPaddingBottom + (mBorderWidth << 1) + childParam.mLayoutMarginTop + childParam.mLayoutMarginBottom, childParam.mLayoutHeight);
@@ -130,7 +132,7 @@ public class RatioLayout extends Layout {
         child.measureComponent(childWidthMeasureSpec, childHeightMeasureSpec);
     }
 
-    protected int getRatioChildMeasureSpec(int parentSpec, int padding, int childDimension, float ratio, int childMargin) {
+    protected int getRatioChildMeasureSpec(int parentSpec, int padding, int childDimension, float ratio) {
         int parentSpecMode = View.MeasureSpec.getMode(parentSpec);
         int parentSpecSize = View.MeasureSpec.getSize(parentSpec);
 
@@ -143,7 +145,7 @@ public class RatioLayout extends Layout {
             // Parent has imposed an exact size on us
             case View.MeasureSpec.EXACTLY:
                 if (ratio > 0) {
-                    resultSize = (int)((ratio * size / mTotalRatio) - childMargin);
+                    resultSize = (int)((ratio * size / mTotalRatio));
                     if (resultSize < 0) {
                         resultSize = 0;
                     }
@@ -157,6 +159,8 @@ public class RatioLayout extends Layout {
             // Parent has imposed a maximum size on us
             case View.MeasureSpec.AT_MOST:
             case View.MeasureSpec.UNSPECIFIED:
+                break;
+            default:
                 break;
         }
 

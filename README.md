@@ -25,12 +25,14 @@ And just as its name implies, this library introduces a concept of virtual view,
 
 XML template to build business component dynamically and virtual view to improve performance, these are two most important reason to use VirtualView.
 
+![](https://github.com/alibaba/VirtualView-iOS/raw/master/README/feature.png)
+
 For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/about-virtualview).
 
 ## Features
 
 + Write template once, run it on two platform. (VirtualView for iOS will be released later)
-+ Provide basic component and layout, support to add custom basic component.
++ Provide basic widget and layout, support adding custom widget.
 + Support virtualized view, render UI mixed with virtual view and native view.
 + Support simple EL in XML template.
 + Support simple basic logical expression in XML template.
@@ -43,11 +45,11 @@ For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/a
 
 ### Import Library
 
-Please find the latest version(1.0.1 so far) in maven repository. The newest version has been upload to jcenter and MavenCentral, make sure you have added at least one of these repositories.
+Please find the latest version in [release notes](https://github.com/alibaba/Virtualview-Android/releases). The newest version has been upload to jcenter and MavenCentral, make sure you have added at least one of these repositories. As follow:
 
 For gradle:
 ``` gradle
-compile ('com.alibaba.android:virtualview:1.0.1@aar') {
+compile ('com.alibaba.android:virtualview:1.0.5@aar') {
 	transitive = true
 }
 ```
@@ -58,7 +60,7 @@ pom.xml
 <dependency>
   <groupId>com.alibaba.android</groupId>
   <artifactId>virtualview</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.5</version>
   <type>aar</type>
 </dependency>
 ```

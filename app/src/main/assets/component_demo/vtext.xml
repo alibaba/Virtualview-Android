@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2017 Alibaba Group
+  ~ Copyright (c) 2018 Alibaba Group
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -140,6 +140,25 @@
             layoutHeight="20" />
 
     <VText
+            text="Title: borderWidth = 1 borderColor = #0088FF borderRadius = 5"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VText
+            text="Hello Virtual View"
+            background="#FF0023"
+            textSize="12"
+            textColor="#333333"
+            borderRadius="5"
+            borderColor="#0088FF"
+            borderWidth="0"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <VText
             text="Title: gravity = h_center|v_center"
             textSize="12"
             textColor="#333333"
@@ -168,6 +187,23 @@
     <VText
             text="Hello Virtual View"
             textSize="12"
+            textColor="#333333"
+            background="#008899"
+            gravity="h_center|v_center"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VText
+            text="Title: textSize 12rp"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <VText
+            text="Hello Virtual View"
+            textSize="12rp"
             textColor="#333333"
             background="#008899"
             gravity="h_center|v_center"

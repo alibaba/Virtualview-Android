@@ -130,6 +130,10 @@ public class Slider extends NativeViewBase implements SliderView.Listener {
         if (!ret) {
             ret = true;
             switch (key) {
+                case StringBase.STR_ID_span:
+                    mNative.setSpan(Utils.dp2px(value));
+                    break;
+
                 case StringBase.STR_ID_itemWidth:
                     mNative.setItemWidth(Utils.dp2px(value));
                     break;
@@ -150,6 +154,10 @@ public class Slider extends NativeViewBase implements SliderView.Listener {
         if (!ret) {
             ret = true;
             switch (key) {
+                case StringBase.STR_ID_span:
+                    mNative.setSpan(Utils.dp2px(value));
+                    break;
+
                 case StringBase.STR_ID_itemWidth:
                     mNative.setItemWidth(Utils.dp2px(value));
                     break;
@@ -174,6 +182,10 @@ public class Slider extends NativeViewBase implements SliderView.Listener {
         if (!ret) {
             ret = true;
             switch (key) {
+                case StringBase.STR_ID_span:
+                    mNative.setSpan(Utils.rp2px(value));
+                    break;
+
                 case StringBase.STR_ID_itemWidth:
                     mNative.setItemWidth(Utils.rp2px(value));
                     break;
@@ -194,6 +206,10 @@ public class Slider extends NativeViewBase implements SliderView.Listener {
         if (!ret) {
             ret = true;
             switch (key) {
+                case StringBase.STR_ID_span:
+                    mNative.setSpan(Utils.rp2px(value));
+                    break;
+                    
                 case StringBase.STR_ID_itemWidth:
                     mNative.setItemWidth(Utils.rp2px(value));
                     break;

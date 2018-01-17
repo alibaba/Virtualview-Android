@@ -32,10 +32,10 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -58,7 +58,10 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -152,6 +155,11 @@ public abstract class ViewBase implements IView {
     protected String mName;
 
     protected Object mTag;
+
+    /**
+     * Map used to store views' tags.
+     */
+    private SimpleArrayMap<String, Object> mKeyedTags;
 
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
@@ -393,6 +401,19 @@ public abstract class ViewBase implements IView {
 
     public Object getTag() {
         return mTag;
+    }
+
+    public Object getTag(String key) {
+        if (mKeyedTags != null) return mKeyedTags.get(key);
+        return null;
+    }
+
+    private void setTag(String key, Object tag) {
+        if (mKeyedTags == null) {
+            mKeyedTags = new SimpleArrayMap<>();
+        }
+
+        mKeyedTags.put(key, tag);
     }
 
     public IBean getBean() {
@@ -1384,6 +1405,27 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderBottomRightRadius:
                 mViewCache.put(this, StringBase.STR_ID_borderBottomRightRadius, stringValue, Item.TYPE_FLOAT);
                 break;
+
+            case StringBase.STR_ID_tag:
+                if (Utils.isEL(stringValue)) {
+                    mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
+                } else {
+                    try {
+                        // if has more data, use Keyed Tag.
+                        JSONObject jsonObject = new JSONObject(stringValue);
+                        Iterator<String> sIterator = jsonObject.keys();
+                        while(sIterator.hasNext()){
+                            // tag key
+                            String tagKey = sIterator.next();
+                            setTag(tagKey, jsonObject.getString(tagKey));
+                        }
+                    } catch (JSONException e) {
+                        // just a String value, can't convert to a JSONObject, use Tag only
+                        mTag = stringValue;
+                    }
+                }
+                break;
+
             default:
                 ret = false;
         }
