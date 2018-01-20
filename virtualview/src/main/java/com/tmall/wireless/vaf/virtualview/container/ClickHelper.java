@@ -110,6 +110,7 @@ public class ClickHelper {
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         mClickFinished = false;
+                        mLongClickPressed = false;
                         mStartX = (int)motionEvent.getX();
                         mStartY = (int)motionEvent.getY();
                         mLastX = mStartX;
