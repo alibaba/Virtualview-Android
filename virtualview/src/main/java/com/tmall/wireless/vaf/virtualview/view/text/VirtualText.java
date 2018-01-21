@@ -53,6 +53,7 @@ public class VirtualText extends TextBase {
     public VirtualText(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
         mImp.setAntiAlias(true);
+        mImp.setViewBase(this);
     }
 
     @Override

@@ -404,7 +404,9 @@ public abstract class ViewBase implements IView {
     }
 
     public Object getTag(String key) {
-        if (mKeyedTags != null) return mKeyedTags.get(key);
+        if (mKeyedTags != null) {
+            return mKeyedTags.get(key);
+        }
         return null;
     }
 
@@ -1676,6 +1678,8 @@ public abstract class ViewBase implements IView {
     }
 
     protected class VirtualViewImp implements IView {
+
+        protected ViewBase mViewBase;
         protected int mPreWidthMeasureSpec = 0;
         protected int mPreHeightMeasureSpec = 0;
         protected boolean mContentChanged;
@@ -1683,6 +1687,10 @@ public abstract class ViewBase implements IView {
         public VirtualViewImp() {
             mPaint = new Paint();
             reset();
+        }
+
+        public void setViewBase(ViewBase viewBase) {
+            mViewBase = viewBase;
         }
 
         public void setAntiAlias(boolean aa) {
@@ -1721,7 +1729,30 @@ public abstract class ViewBase implements IView {
 
             if (null == mContentRect) {
                 makeContentRect();
-         }
+            }
+
+            int mAutoDimDirection = mViewBase.mAutoDimDirection;
+            float autoX = mViewBase.mAutoDimX;
+            float autoY = mViewBase.mAutoDimY;
+            if (mAutoDimDirection > 0) {
+                switch (mAutoDimDirection) {
+                    case ViewBaseCommon.AUTO_DIM_DIR_X:
+                        if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(widthMeasureSpec)) {
+                            mMeasuredWidth = View.MeasureSpec.getSize(widthMeasureSpec);
+                            mMeasuredHeight = (int)((mMeasuredWidth * autoY) / autoX);
+                        }
+                        return;
+
+                    case AUTO_DIM_DIR_Y:
+                        if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(heightMeasureSpec)) {
+                            mMeasuredHeight = View.MeasureSpec.getSize(heightMeasureSpec);
+                            mMeasuredWidth = (int)((mMeasuredHeight * autoX) / autoY);
+                        }
+                        return;
+                    default:
+                        break;
+                }
+            }
 
             if (LayoutCommon.WRAP_CONTENT == mParams.mLayoutWidth) {
                 if (null != mContentRect) {

@@ -35,6 +35,7 @@ public class VirtualViewBase extends ViewBase {
 
     public VirtualViewBase(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
+        mImp.setViewBase(this);
     }
 
     @Override
