@@ -107,6 +107,9 @@ public abstract class TextBase extends ViewBase {
                 case StringBase.STR_ID_textColor:
                     mViewCache.put(this, StringBase.STR_ID_textColor, stringValue, Item.TYPE_COLOR);
                     break;
+                case StringBase.STR_ID_textStyle:
+                    mViewCache.put(this, StringBase.STR_ID_textStyle, stringValue, Item.TYPE_TEXT_STYLE);
+                    break;
                 default:
                     ret = false;
                     break;
