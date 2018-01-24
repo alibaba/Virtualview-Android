@@ -28,11 +28,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.support.v4.app.ShareCompat.IntentBuilder;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import com.libra.TextUtils;
 import com.libra.Utils;
+import com.libra.virtualview.common.TextBaseCommon;
 import com.libra.virtualview.common.ViewBaseCommon;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -88,6 +90,8 @@ public class ViewCache {
         public static final int TYPE_GRAVITY = 6;
 
         public static final int TYPE_OBJECT = 7;
+
+        public static final int TYPE_TEXT_STYLE = 8;
 
         public Item(ViewBase v) {
             this(v, 0);
@@ -161,6 +165,23 @@ public class ViewCache {
                             }
                             value = Integer.valueOf(tempValue);
                             break;
+                        case TYPE_TEXT_STYLE:
+                            int styleValue = 0;
+                            String[] strs = string.split("\\|");
+                            for (String str : strs) {
+                                str = str.trim();
+                                if (TextUtils.equals("bold", str)) {
+                                    styleValue |= TextBaseCommon.BOLD;
+                                } else if (TextUtils.equals("italic", str)) {
+                                    styleValue |= TextBaseCommon.ITALIC;
+                                } else if (TextUtils.equals("strike", str)) {
+                                    styleValue |= TextBaseCommon.STRIKE;
+                                }
+                            }
+                            value = Integer.valueOf(styleValue);
+                            break;
+                        default:
+                            break;
                     }
                 }
                 cacheTargetValue.put(jsonObject.hashCode(), value);
@@ -192,6 +213,7 @@ public class ViewCache {
                     case TYPE_COLOR:
                     case TYPE_GRAVITY:
                     case TYPE_VISIBILITY:
+                    case TYPE_TEXT_STYLE:
                         Integer enumValue = Utils.toInteger(value);
                         if (enumValue != null) {
                             mView.setAttribute(mKey, enumValue.intValue());
@@ -358,6 +380,7 @@ public class ViewCache {
             return value;
         }
 
+        @Override
         public boolean compile(String path) {
             if (path == null || path.length() == 0) {
                 return false;
@@ -502,6 +525,7 @@ public class ViewCache {
 
         private String value;
 
+        @Override
         public boolean compile(String el) {
             if (el == null || el.length() == 0) {
                 return false;

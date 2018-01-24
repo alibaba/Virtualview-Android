@@ -34,6 +34,7 @@ import android.view.View;
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.StringBase;
+import com.libra.virtualview.common.VHCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.NativeViewBase;
@@ -269,7 +270,11 @@ public class Scroller extends NativeViewBase {
             ret = true;
             switch (key) {
                 case StringBase.STR_ID_orientation:
-                    mOrientation = value;
+                    if (value == VHCommon.HORIZONTAL) {
+                        mOrientation = LinearLayoutManager.HORIZONTAL;
+                    } else if (value == VHCommon.VERTICAL) {
+                        mOrientation = LinearLayoutManager.VERTICAL;
+                    }
                     break;
 
                 case StringBase.STR_ID_mode:

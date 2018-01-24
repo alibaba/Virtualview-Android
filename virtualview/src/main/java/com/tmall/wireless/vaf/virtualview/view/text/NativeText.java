@@ -63,23 +63,6 @@ public class NativeText extends TextBase {
         }
     }
 
-//    @Override
-//    protected void changeVisibility() {
-//        switch (mVisibility) {
-//            case INVISIBLE:
-//                mNative.setVisibility(View.INVISIBLE);
-//                break;
-//
-//            case VISIBLE:
-//                mNative.setVisibility(View.VISIBLE);
-//                break;
-//
-//            case GONE:
-//                mNative.setVisibility(View.GONE);
-//                break;
-//        }
-//    }
-//
     @Override
     public void setTextColor(int color) {
         if (mTextColor != color) {
@@ -91,11 +74,6 @@ public class NativeText extends TextBase {
     @Override
     public void reset() {
         super.reset();
-        mSupportHtmlStyle = false;
-        mLineSpaceMultipiler = 1.0f;
-        mLineSpaceExtra = 0.0f;
-        mText = null;
-
     }
 
     @Override
