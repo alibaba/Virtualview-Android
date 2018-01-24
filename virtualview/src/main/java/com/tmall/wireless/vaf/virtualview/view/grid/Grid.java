@@ -137,6 +137,7 @@ public class Grid extends NativeViewBase {
         mNative.setAutoDimDirection(mAutoDimDirection);
         mNative.setAutoDimX(mAutoDimX);
         mNative.setAutoDimY(mAutoDimY);
+        mNative.setRtl(isRtl());
     }
 
     @Override

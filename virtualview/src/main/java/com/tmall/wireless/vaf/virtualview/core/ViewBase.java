@@ -32,10 +32,10 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -49,6 +49,7 @@ import com.libra.virtualview.common.IDataLoaderCommon;
 import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
+import com.tmall.wireless.vaf.custom.CustomStringBase;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
@@ -59,7 +60,10 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -154,10 +158,13 @@ public abstract class ViewBase implements IView {
 
     protected Object mTag;
 
+    // rtl
+    protected boolean disableRtl;
+
     /**
      * Map used to store views' tags.
      */
-    private SparseArray<Object> mKeyedTags;
+    private SimpleArrayMap<String, Object> mKeyedTags;
 
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
@@ -401,14 +408,14 @@ public abstract class ViewBase implements IView {
         return mTag;
     }
 
-    public Object getTag(int key) {
+    public Object getTag(String key) {
         if (mKeyedTags != null) return mKeyedTags.get(key);
         return null;
     }
 
-    private void setTag(int key, Object tag) {
+    private void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
-            mKeyedTags = new SparseArray<>(2);
+            mKeyedTags = new SimpleArrayMap<>();
         }
 
         mKeyedTags.put(key, tag);
@@ -924,6 +931,8 @@ public abstract class ViewBase implements IView {
     }
 
     public void onParseValueFinished() {
+        resolveRtlPropertiesIfNeeded();
+
         if (!TextUtils.isEmpty(mClass)) {
             parseBean();
         }
@@ -1408,7 +1417,19 @@ public abstract class ViewBase implements IView {
                 if (Utils.isEL(stringValue)) {
                     mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
                 } else {
-                    mTag = stringValue;
+                    try {
+                        // if has more data, use Keyed Tag.
+                        JSONObject jsonObject = new JSONObject(stringValue);
+                        Iterator<String> sIterator = jsonObject.keys();
+                        while(sIterator.hasNext()){
+                            // tag key
+                            String tagKey = sIterator.next();
+                            setTag(tagKey, jsonObject.getString(tagKey));
+                        }
+                    } catch (JSONException e) {
+                        // just a String value, can't convert to a JSONObject, use Tag only
+                        mTag = stringValue;
+                    }
                 }
                 break;
 
@@ -1647,6 +1668,11 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderBottomRightRadius:
                 mBorderBottomRightRadius = Utils.dp2px(value);
                 break;
+
+            case CustomStringBase.STR_ID_disableRtl:
+                disableRtl = 1 == value;
+                break;
+
             default:
                 ret = false;
         }
@@ -1769,12 +1795,27 @@ public abstract class ViewBase implements IView {
      * resolve rtl properties. such as Margin, Padding etc.
      */
     public void resolveRtlPropertiesIfNeeded() {
-        if (RtlHelper.isRtl()) {
+        if (isRtl()) {
             // padding
             int tempPadding = mPaddingLeft;
             mPaddingLeft = mPaddingRight;
             mPaddingRight = tempPadding;
-        }
 
+            // gravity
+            mGravity = RtlHelper.resolveRtlGravity(mGravity);
+
+            // margin
+            int tempMargin = mParams.mLayoutMarginLeft;
+            mParams.mLayoutMarginLeft = mParams.mLayoutMarginRight;
+            mParams.mLayoutMarginRight = tempMargin;
+        }
+    }
+
+    /**
+     * Use Rtl or not.
+     * @return true if in locale use Rtl direction && this layout do not disable Rtl.
+     */
+    public boolean isRtl() {
+        return RtlHelper.isRtl() && !disableRtl;
     }
 }

@@ -65,6 +65,10 @@ public class DemoListActivity extends ListActivity {
         bizItems.put("name", "TmallComponents");
         bizItems.put("class", TmallComponentListActivity.class.getName());
         list.add(bizItems);
+        HashMap<String, String> icbuItems = new HashMap<String, String>();
+        icbuItems.put("name", "IcbuComponents");
+        icbuItems.put("class", IcbuComponentListActivity.class.getName());
+        list.add(icbuItems);
         HashMap<String, String> script = new HashMap<String, String>();
         script.put("name", "Scripts(Experimental)");
         script.put("class", ScriptListActivity.class.getName());

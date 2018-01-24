@@ -1,0 +1,58 @@
+{
+  "elementList": [
+    {
+      "action": "https://m.alibaba.com/mobile/99c64424.html?_wx_tpl=https://i.alicdn.com/pkg/rax-page/bundle-18541.js&wx_ignore_downgrade=true&tab=trends&marketId=-3&marketName=Electronics&trendIds=1001_5090301&productIds=60592885703",
+      "activityTraceId": "homepageId:319001$homepageType:common$moduleId:256001$moduleType:industry$elementIndex:0$elementId:0$elementType:INDUSTRY_HOT_PRODUCT$resourceId:60592885703",
+      "algId": "182001",
+      "clickParam": "click_cid=3852#click_senseid=5719#id=60592885703#pos=13#alg=182001#type=venue#fatherId=1011",
+      "height": 0,
+      "image": {
+        "algId": "182001",
+        "clickParam": "click_cid=3852#click_senseid=5719#id=60592885703#pos=13#alg=182001#type=venue#fatherId=1011",
+        "imgUrl": "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+        "realCtrParam": "expose_cid-3803#senseid-5719#id-60592885703#algPos-13#alg-182001#type-venue#fatherId-1011#",
+        "sceneId": "5719",
+        "targetId": "60592885703",
+        "webpImgUrl": "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg_.webp",
+        "width": 640
+      },
+      "order": 0,
+      "realCtrParam": "expose_cid-3803#senseid-5719#id-60592885703#algPos-13#alg-182001#type-venue#fatherId-1011#",
+      "sceneId": "5719",
+      "width": 0
+    },
+    {
+      "action": "https://m.alibaba.com/mobile/99c64424.html?_wx_tpl=https://i.alicdn.com/pkg/rax-page/bundle-18541.js&wx_ignore_downgrade=true&tab=analysis&marketId=-3&marketName=Electronics&trendIds=-1&productIds=60306505482",
+      "activityTraceId": "homepageId:319001$homepageType:common$moduleId:256001$moduleType:industry$elementIndex:1$elementId:1$elementType:INDUSTRY_FORECAST$resourceId:60306505482",
+      "algId": "182001",
+      "clickParam": "click_cid=3852#click_senseid=5719#id=60306505482#pos=11#alg=182001#type=venue#fatherId=1012",
+      "height": 0,
+      "image": {
+        "algId": "182001",
+        "clickParam": "click_cid=3852#click_senseid=5719#id=60306505482#pos=11#alg=182001#type=venue#fatherId=1012",
+        "imgUrl": "https://sc02.alicdn.com/kf/UTB8wORskdoSdeJk43Owq6ya4XXa0.jpg_640x640.jpg",
+        "realCtrParam": "expose_cid-3803#senseid-5719#id-60306505482#algPos-11#alg-182001#type-venue#fatherId-1012#",
+        "sceneId": "5719",
+        "targetId": "60306505482",
+        "webpImgUrl": "https://sc02.alicdn.com/kf/UTB8wORskdoSdeJk43Owq6ya4XXa0.jpg_640x640.jpg_.webp",
+        "width": 640
+      },
+      "order": 0,
+      "realCtrParam": "expose_cid-3803#senseid-5719#id-60306505482#algPos-11#alg-182001#type-venue#fatherId-1012#",
+      "sceneId": "5719",
+      "width": 0
+    },
+    {
+      "action": "https://m.alibaba.com/mobile/99c64424.html?_wx_tpl=https://i.alicdn.com/pkg/rax-page/bundle-18541.js&wx_ignore_downgrade=true&tab=suppliers&marketId=-3&marketName=Electronics",
+      "activityTraceId": "homepageId:319001$homepageType:common$moduleId:256001$moduleType:industry$elementIndex:2$elementId:2$elementType:INDUSTRY_TOP_SUPPLIER$resourceId:511002",
+      "height": 0,
+      "image": {
+        "imgUrl": "https://sc02.alicdn.com/kf/HTB1znx_SVXXXXaMXXXXq6xXFXXXM.jpg_960x960.jpg",
+        "webpImgUrl": "https://sc02.alicdn.com/kf/HTB1znx_SVXXXXaMXXXXq6xXFXXXM.jpg_960x960.jpg_.webp",
+        "width": 1080
+      },
+      "order": 0,
+      "width": 0
+    }
+  ]
+}

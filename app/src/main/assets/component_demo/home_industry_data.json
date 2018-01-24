@@ -1,0 +1,38 @@
+{
+  "title": "Electronics",
+  "cubeColor": "#FFBB00",
+  "actionMenu": {
+    "text": "More",
+    "action": "enalibaba://industryAll",
+    "activityTraceId": "xxxmore"
+  },
+  "itemList": [{
+    "title": "All Supplierments Selected For You",
+    "productImageList": ["https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg"],
+    "backgroundImageUrl": "https://sc02.alicdn.com/kf/UTB8wORskdoSdeJk43Owq6ya4XXa0.jpg_640x640.jpg",
+    "action": "enalibaba://industry?id=1",
+    "activityTraceId": "xxx111",
+    "type": "HomeIndustryItem"
+  }, {
+    "title": "All Supplierments Selected For You",
+    "productImageList": ["https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg"],
+    "backgroundImageUrl": "https://sc02.alicdn.com/kf/UTB8wORskdoSdeJk43Owq6ya4XXa0.jpg_640x640.jpg",
+    "action": "enalibaba://industry?id=1",
+    "activityTraceId": "xxx222",
+    "type": "HomeIndustryItem"
+  }, {
+    "title": "All Supplierments Selected For You",
+    "productImageList": ["https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg",
+      "https://sc02.alicdn.com/kf/UTB8tnIwXYnJXKJkSahGq6xhzFXaN.jpg_640x640.jpg"],
+    "backgroundImageUrl": "https://sc02.alicdn.com/kf/UTB8wORskdoSdeJk43Owq6ya4XXa0.jpg_640x640.jpg",
+    "action": "enalibaba://industry?id=1",
+    "activityTraceId": "xxx333",
+    "type": "HomeIndustryItem"
+  }
+  ]
+}

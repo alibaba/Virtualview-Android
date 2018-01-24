@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VHLayout
+    orientation="V"
+    layoutWidth="match_parent"
+    layoutHeight="wrap_content"
+>
+
+    <RatioLayout
+        orientation="H"
+        layoutWidth="match_parent"
+        layoutHeight="24"
+        layoutMarginTop="16"
+        layoutMarginBottom="8"
+        paddingLeft="8"
+        gravity="v_center"
+    >
+
+        <VLine
+            layoutWidth="8"
+            layoutHeight="16"
+            layoutGravity="v_center"
+            paintWidth="8"
+            orientation="V"
+            color="${cubeColor}" />
+
+        <NText
+            id="1"
+            text="${title}"
+            textSize="18"
+            textColor="#333333"
+            textStyle="bold"
+            layoutWidth="match_parent"
+            layoutHeight="wrap_content"
+            layoutRatio="1"
+            gravity="left|v_center"
+            lines="1"
+            maxLines="1"
+            ellipsize="end"
+            paddingLeft="6"
+        />
+
+        <NText
+            flag="flag_exposure|flag_clickable"
+            text="${actionMenu.text}"
+            action="${actionMenu.action}"
+            tag="${actionMenu.activityTraceId}"
+            textSize="18"
+            textColor="#333333"
+            layoutWidth="wrap_content"
+            layoutHeight="wrap_content"
+            paddingLeft="8"
+            paddingRight="8"
+            gravity="v_center"
+            maxLines="1"
+            ellipsize="end"
+        />
+
+    </RatioLayout>
+
+    <Slider
+        paddingLeft="10"
+        id="10"
+        itemWidth="311"
+        dataTag="${itemList}"
+        orientation="H"
+        span="8"
+        layoutWidth="match_parent"
+        layoutHeight="175" />
+
+</VHLayout>

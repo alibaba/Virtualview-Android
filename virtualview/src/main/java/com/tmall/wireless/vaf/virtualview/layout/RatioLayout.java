@@ -79,6 +79,8 @@ public class RatioLayout extends Layout {
                         widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
                     break;
+                default:
+                    break;
             }
         }
 
@@ -89,6 +91,8 @@ public class RatioLayout extends Layout {
 
             case ViewBaseCommon.HORIZONTAL:
                 measureHorizontal(widthMeasureSpec, heightMeasureSpec);
+                break;
+            default:
                 break;
         }
     }
@@ -102,8 +106,7 @@ public class RatioLayout extends Layout {
         int childWidthMeasureSpec;
         if (childParam.mLayoutRatio > 0) {
             childWidthMeasureSpec = getRatioChildMeasureSpec(parentWidthMeasureSpec,
-                    mPaddingLeft + mPaddingRight + (mBorderWidth << 1), childParam.mLayoutWidth, childParam.mLayoutRatio,
-                    child.getComPaddingLeft() + child.getComPaddingRight());
+                    mPaddingLeft + mPaddingRight + (mBorderWidth << 1), childParam.mLayoutWidth, childParam.mLayoutRatio);
         } else {
             childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
                     mPaddingLeft + mPaddingRight + (mBorderWidth << 1) + childParam.mLayoutMarginLeft + childParam.mLayoutMarginRight, childParam.mLayoutWidth);
@@ -121,8 +124,7 @@ public class RatioLayout extends Layout {
         int childHeightMeasureSpec;
         if (childParam.mLayoutRatio > 0) {
             childHeightMeasureSpec = getRatioChildMeasureSpec(parentHeightMeasureSpec,
-                    mPaddingTop + mPaddingBottom + (mBorderWidth << 1), childParam.mLayoutHeight, childParam.mLayoutRatio,
-                    child.getComPaddingTop() + child.getComPaddingBottom());
+                    mPaddingTop + mPaddingBottom + (mBorderWidth << 1), childParam.mLayoutHeight, childParam.mLayoutRatio);
         } else {
             childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
                     mPaddingTop + mPaddingBottom + (mBorderWidth << 1) + childParam.mLayoutMarginTop + childParam.mLayoutMarginBottom, childParam.mLayoutHeight);
@@ -131,7 +133,7 @@ public class RatioLayout extends Layout {
         child.measureComponent(childWidthMeasureSpec, childHeightMeasureSpec);
     }
 
-    protected int getRatioChildMeasureSpec(int parentSpec, int padding, int childDimension, float ratio, int childMargin) {
+    protected int getRatioChildMeasureSpec(int parentSpec, int padding, int childDimension, float ratio) {
         int parentSpecMode = View.MeasureSpec.getMode(parentSpec);
         int parentSpecSize = View.MeasureSpec.getSize(parentSpec);
 
@@ -144,7 +146,7 @@ public class RatioLayout extends Layout {
             // Parent has imposed an exact size on us
             case View.MeasureSpec.EXACTLY:
                 if (ratio > 0) {
-                    resultSize = (int)((ratio * size / mTotalRatio) - childMargin);
+                    resultSize = (int)((ratio * size / mTotalRatio));
                     if (resultSize < 0) {
                         resultSize = 0;
                     }
@@ -158,6 +160,8 @@ public class RatioLayout extends Layout {
             // Parent has imposed a maximum size on us
             case View.MeasureSpec.AT_MOST:
             case View.MeasureSpec.UNSPECIFIED:
+                break;
+            default:
                 break;
         }
 
@@ -370,14 +374,12 @@ public class RatioLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        resolveRtlPropertiesIfNeeded();
-
         switch (mOrientation) {
             case ViewBaseCommon.HORIZONTAL: {
                 int left;
 
                 // left begin with the parent's right in Rtl env.
-                if (RtlHelper.isRtl()) {
+                if (isRtl()) {
                     left = r - mPaddingRight - mBorderWidth;
                 } else {
                     left = l + mPaddingLeft + mBorderWidth;
@@ -389,15 +391,17 @@ public class RatioLayout extends Layout {
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
-                    childP.resolveRtlParamsIfNeeded();
+                    if (isRtl()) {
+                        childP.resolveRtlParams();
+                    }
 
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
 
                     // Rtl:
                     // child's left = parent's right - child's width - child's margin right.
-                    if (RtlHelper.isRtl()) {
-                        left -= (w + childP.mLayoutMarginLeft);
+                    if (isRtl()) {
+                        left -= (w + childP.mLayoutMarginRight);
                     } else {
                         left += childP.mLayoutMarginLeft;
                     }
@@ -412,7 +416,7 @@ public class RatioLayout extends Layout {
                     }
                     view.comLayout(left, tt, left + w, tt + h);
 
-                    if (!RtlHelper.isRtl()) {
+                    if (!isRtl()) {
                         left += (w + childP.mLayoutMarginRight);
                     }
                 }
@@ -427,7 +431,9 @@ public class RatioLayout extends Layout {
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
-                    childP.resolveRtlParamsIfNeeded();
+                    if (isRtl()) {
+                        childP.resolveRtlParams();
+                    }
 
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
@@ -441,7 +447,7 @@ public class RatioLayout extends Layout {
                     } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.LEFT)) {
                         ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
                     } else {
-                        if (RtlHelper.isRtl()) {
+                        if (isRtl()) {
                             ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
                         } else {
                             ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
@@ -528,9 +534,9 @@ public class RatioLayout extends Layout {
         }
 
         @Override
-        public void resolveRtlParamsIfNeeded() {
-            super.resolveRtlParamsIfNeeded();
-            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
+        public void resolveRtlParams() {
+            super.resolveRtlParams();
+            mLayoutGravity = RtlHelper.resolveRtlGravity(mLayoutGravity);
         }
     }
 

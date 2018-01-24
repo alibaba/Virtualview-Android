@@ -84,20 +84,15 @@ public class VHLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        resolveRtlPropertiesIfNeeded();
-
         switch (mOrientation) {
             case ViewBaseCommon.HORIZONTAL: {
-
-                mGravity = RtlHelper.resolveRtlGravityIfNeed(mGravity);
-
                 int left = 0;
                 if (0 != (mGravity & ViewBaseCommon.LEFT)) {
                     left = l + mPaddingLeft + mBorderWidth;
                 } else if (0 != (mGravity & ViewBaseCommon.H_CENTER)) {
                     left = (r - l - getChildrenWidth()) >> 1;
                 } else {
-                    if (RtlHelper.isRtl()) {
+                    if (isRtl()) {
                         left = r - mPaddingRight - mBorderWidth;
                     } else {
                         left = (r - getChildrenWidth() - mPaddingRight - mBorderWidth);
@@ -113,7 +108,7 @@ public class VHLayout extends Layout {
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
 
-                    if (RtlHelper.isRtl()) {
+                    if (isRtl()) {
                         left -= (w + childP.mLayoutMarginLeft);
                     }
 
@@ -128,7 +123,7 @@ public class VHLayout extends Layout {
 
                     view.comLayout(left, tt, left + w, tt + h);
 
-                    if (!RtlHelper.isRtl()) {
+                    if (!isRtl()) {
                         left += w + childP.mLayoutMarginRight;
                     }
 
@@ -152,7 +147,9 @@ public class VHLayout extends Layout {
                     }
 
                     Params childP = (Params) view.getComLayoutParams();
-                    childP.resolveRtlParamsIfNeeded();
+                    if (isRtl()) {
+                        childP.resolveRtlParams();
+                    }
 
                     int w = view.getComMeasuredWidth();
                     int h = view.getComMeasuredHeight();
@@ -166,7 +163,7 @@ public class VHLayout extends Layout {
                     } else if (0 != (childP.mLayoutGravity & ViewBaseCommon.LEFT)) {
                         ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
                     } else {
-                        if (RtlHelper.isRtl()) {
+                        if (isRtl()) {
                             ll = r - mPaddingRight - mBorderWidth - childP.mLayoutMarginRight - w;
                         } else {
                             ll = l + mPaddingLeft + mBorderWidth + childP.mLayoutMarginLeft;
@@ -452,9 +449,9 @@ public class VHLayout extends Layout {
         }
 
         @Override
-        public void resolveRtlParamsIfNeeded() {
-            super.resolveRtlParamsIfNeeded();
-            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
+        public void resolveRtlParams() {
+            super.resolveRtlParams();
+            mLayoutGravity = RtlHelper.resolveRtlGravity(mLayoutGravity);
         }
     }
 

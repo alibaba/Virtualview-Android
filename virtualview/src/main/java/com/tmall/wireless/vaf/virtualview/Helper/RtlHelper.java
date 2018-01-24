@@ -27,19 +27,17 @@ public class RtlHelper {
     }
 
     /**
-     * Convert (left/right) gravity to (right/left) if in Rtl env.
+     * Convert (left/right) gravity to (right/left).
      * @param gravity
      * @return rtl gravity
      */
-    public static int resolveRtlGravityIfNeed(int gravity) {
-        if (isRtl()) {
-            if (0 != (gravity & ViewBaseCommon.RIGHT)) {
-                gravity &= ~ViewBaseCommon.RIGHT;
-                gravity |= ViewBaseCommon.LEFT;
-            } else if (0 != (gravity & ViewBaseCommon.LEFT)) {
-                gravity &= ~ViewBaseCommon.LEFT;
-                gravity |= ViewBaseCommon.RIGHT;
-            }
+    public static int resolveRtlGravity(int gravity) {
+        if (0 != (gravity & ViewBaseCommon.RIGHT)) {
+            gravity &= ~ViewBaseCommon.RIGHT;
+            gravity |= ViewBaseCommon.LEFT;
+        } else if (0 != (gravity & ViewBaseCommon.LEFT)) {
+            gravity &= ~ViewBaseCommon.LEFT;
+            gravity |= ViewBaseCommon.RIGHT;
         }
 
         return gravity;

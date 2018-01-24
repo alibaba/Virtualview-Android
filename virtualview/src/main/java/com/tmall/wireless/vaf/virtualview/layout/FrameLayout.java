@@ -179,8 +179,6 @@ public class FrameLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        resolveRtlPropertiesIfNeeded();
-
         for (ViewBase child : mSubViews) {
             if (child.isGone()) {
                 continue;
@@ -192,7 +190,9 @@ public class FrameLayout extends Layout {
             Params childP = (Params) child.getComLayoutParams();
 
             // convert rtl properties if need.
-            childP.resolveRtlParamsIfNeeded();
+            if (isRtl()){
+                childP.resolveRtlParams();
+            }
 
             int ll;
 
@@ -204,7 +204,7 @@ public class FrameLayout extends Layout {
                 ll = l + mPaddingLeft + childP.mLayoutMarginLeft + mBorderWidth;
             } else {
                 // no right/left gravity
-                if (RtlHelper.isRtl()) {
+                if (isRtl()) {
                     ll = r - mPaddingRight - childP.mLayoutMarginRight - w - mBorderWidth;
                 } else {
                     ll = l + mPaddingLeft + childP.mLayoutMarginLeft + mBorderWidth;
@@ -246,11 +246,9 @@ public class FrameLayout extends Layout {
             return ret;
         }
 
-        public void resolveRtlParamsIfNeeded() {
-            super.resolveRtlParamsIfNeeded();
-
-            // rtl gravity
-            mLayoutGravity = RtlHelper.resolveRtlGravityIfNeed(mLayoutGravity);
+        public void resolveRtlParams() {
+            super.resolveRtlParams();
+            mLayoutGravity = RtlHelper.resolveRtlGravity(mLayoutGravity);
         }
     }
 

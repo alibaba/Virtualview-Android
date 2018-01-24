@@ -31,12 +31,10 @@ import android.view.View.MeasureSpec;
 import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
-import com.tmall.wireless.vaf.virtualview.layout.RatioLayout.Params;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_Y;
@@ -165,8 +163,6 @@ public class GridLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        resolveRtlPropertiesIfNeeded();
-
         if (mSubViews.size() > 0) {
             Params p = (Params) mParams;
             int left = l + mPaddingLeft;
@@ -181,7 +177,7 @@ public class GridLayout extends Layout {
             int index = 0;
 
             //int padding = (totalWidth - itemWidth * mColCount) / (mColCount + 1);
-            if (RtlHelper.isRtl()) {
+            if (isRtl()) {
                 left = r - mPaddingRight - itemWidth;
             }
 
@@ -195,7 +191,7 @@ public class GridLayout extends Layout {
 
                     child.comLayout(ll, top, ll + itemWidth, top + itemHeight);
 
-                    if (RtlHelper.isRtl()) {
+                    if (isRtl()) {
                         ll -= (itemWidth + mItemHorizontalMargin);
                     } else {
                         ll += itemWidth + mItemHorizontalMargin;

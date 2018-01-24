@@ -564,14 +564,9 @@ public abstract class Layout extends ViewBase {
         /**
          * resolve rtl properties. such as Margin, Padding etc.
          */
-        public void resolveRtlParamsIfNeeded() {
-            if (RtlHelper.isRtl()) {
-                // margin
-                int tempMargin = mLayoutMarginLeft;
-                mLayoutMarginLeft = mLayoutMarginRight;
-                mLayoutMarginRight = tempMargin;
-            }
-
+        public void resolveRtlParams() {
+            // do nothing now.
+            // layout margin has been handled in ViewBase.
         }
     }
 }

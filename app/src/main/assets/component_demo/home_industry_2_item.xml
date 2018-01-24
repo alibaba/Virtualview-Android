@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    flag="flag_exposure|flag_clickable"
+    action="${action}"
+    tag="${activityTraceId}"
+    layoutHeight="match_parent"
+    layoutWidth="311">
+
+    <NImage
+        background="#FFFFFF"
+        layoutHeight="match_parent"
+        layoutWidth="match_parent"
+        scaleType="fit_xy"
+        src="${backgroundImageUrl}"/>
+
+    <VHLayout
+        layoutHeight="match_parent"
+        layoutWidth="match_parent"
+        orientation="V"
+        layoutMarginLeft="8"
+        layoutMarginRight="8">
+
+        <NText
+            layoutHeight="wrap_content"
+            layoutWidth="wrap_content"
+            lines="2"
+            layoutMarginTop="22"
+            layoutMarginLeft="16"
+            text="${title}"
+            textSize="12"
+            textColor="#333333"/>
+
+        <RatioLayout
+            layoutHeight="wrap_content"
+            layoutWidth="wrap_content"
+            orientation="H"
+            layoutMarginTop="10"
+            layoutMarginBottom="16"
+            paddingLeft="16"
+            paddingRight="16">
+
+            <NImage
+                background="#FFFFFF"
+                id="4"
+                layoutHeight="99"
+                layoutRatio="1"
+                layoutWidth="match_parent"
+                scaleType="center_inside"
+                src="${productImageList[0]}"/>
+
+            <NImage
+                background="#FFFFFF"
+                id="5"
+                layoutHeight="99"
+                layoutRatio="1"
+                layoutWidth="match_parent"
+                layoutMarginLeft="6"
+                scaleType="center_inside"
+                src="${productImageList[1]}"/>
+
+            <NImage
+                background="#FFFFFF"
+                id="6"
+                layoutHeight="99"
+                layoutRatio="1"
+                layoutWidth="match_parent"
+                layoutMarginLeft="6"
+                scaleType="center_inside"
+                src="${productImageList[2]}"/>
+        </RatioLayout>
+    </VHLayout>
+</FrameLayout>
