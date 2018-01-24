@@ -49,6 +49,7 @@ import com.libra.virtualview.common.IDataLoaderCommon;
 import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
+import com.tmall.wireless.vaf.custom.CustomStringBase;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
@@ -156,6 +157,9 @@ public abstract class ViewBase implements IView {
     protected String mName;
 
     protected Object mTag;
+
+    // rtl
+    protected boolean disableRtl;
 
     /**
      * Map used to store views' tags.
@@ -927,6 +931,8 @@ public abstract class ViewBase implements IView {
     }
 
     public void onParseValueFinished() {
+        resolveRtlPropertiesIfNeeded();
+
         if (!TextUtils.isEmpty(mClass)) {
             parseBean();
         }
@@ -1662,6 +1668,11 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_borderBottomRightRadius:
                 mBorderBottomRightRadius = Utils.dp2px(value);
                 break;
+
+            case CustomStringBase.STR_ID_disableRtl:
+                disableRtl = 1 == value;
+                break;
+
             default:
                 ret = false;
         }
@@ -1784,12 +1795,27 @@ public abstract class ViewBase implements IView {
      * resolve rtl properties. such as Margin, Padding etc.
      */
     public void resolveRtlPropertiesIfNeeded() {
-        if (RtlHelper.isRtl()) {
+        if (isRtl()) {
             // padding
             int tempPadding = mPaddingLeft;
             mPaddingLeft = mPaddingRight;
             mPaddingRight = tempPadding;
-        }
 
+            // gravity
+            mGravity = RtlHelper.resolveRtlGravity(mGravity);
+
+            // margin
+            int tempMargin = mParams.mLayoutMarginLeft;
+            mParams.mLayoutMarginLeft = mParams.mLayoutMarginRight;
+            mParams.mLayoutMarginRight = tempMargin;
+        }
+    }
+
+    /**
+     * Use Rtl or not.
+     * @return true if in locale use Rtl direction && this layout do not disable Rtl.
+     */
+    public boolean isRtl() {
+        return RtlHelper.isRtl() && !disableRtl;
     }
 }
