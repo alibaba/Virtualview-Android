@@ -25,16 +25,12 @@
 package com.tmall.wireless.vaf.virtualview.view.image;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
+import com.tmall.wireless.vaf.virtualview.container.ClickHelper;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
-
-import static android.R.attr.path;
-import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 /**
  * Created by gujicheng on 16/8/16.
@@ -43,14 +39,9 @@ public class NativeImageImp extends ImageView implements IView, IContainer {
     private final static String TAG = "NativeImageImp_TMTEST";
 
     protected ViewBase mVirtualView;
-    private String mSrc;
 
     public NativeImageImp(Context context) {
         super(context);
-    }
-
-    public void setImageSrc(String path) {
-        mSrc = path;
     }
 
     @Override
@@ -91,6 +82,7 @@ public class NativeImageImp extends ImageView implements IView, IContainer {
     public void setVirtualView(ViewBase view) {
         mVirtualView = view;
         view.setHoldView(this);
+        new ClickHelper(this);
     }
 
     @Override
@@ -100,7 +92,7 @@ public class NativeImageImp extends ImageView implements IView, IContainer {
 
     @Override
     public View getHolderView() {
-        return null;
+        return this;
     }
 
     @Override

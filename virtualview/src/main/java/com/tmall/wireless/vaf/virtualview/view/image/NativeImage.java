@@ -78,8 +78,6 @@ public class NativeImage extends ImageBase {
     @Override
     public void reset() {
         super.reset();
-        mNative.setImageSrc(null);
-        mSrc = null;
         this.mContext.getImageLoader().bindBitmap(null, this, this.getComMeasuredWidth(), this.getComMeasuredHeight());
     }
 
