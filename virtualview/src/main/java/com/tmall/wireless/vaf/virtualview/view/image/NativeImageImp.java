@@ -39,14 +39,9 @@ public class NativeImageImp extends ImageView implements IView, IContainer {
     private final static String TAG = "NativeImageImp_TMTEST";
 
     protected ViewBase mVirtualView;
-    private String mSrc;
 
     public NativeImageImp(Context context) {
         super(context);
-    }
-
-    public void setImageSrc(String path) {
-        mSrc = path;
     }
 
     @Override
