@@ -65,7 +65,7 @@ public class UiCodeLoader {
         return ret;
     }
 
-    public boolean loadFromBuffer(CodeReader reader, int pageId) {
+    public boolean loadFromBuffer(CodeReader reader, int pageId, int patchVersion) {
         boolean ret = true;
 
         int tabIndex = pageId;
@@ -87,6 +87,14 @@ public class UiCodeLoader {
             for(int i = 0; i < count; ++i) {
                 short nameSize = reader.readShort();
                 String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
+                CodeReader oldCodeReader = typeToCodeReader.get(name);
+                if (oldCodeReader != null) {
+                    int oldPatchVersion = oldCodeReader.getPatchVersion();
+                    if (patchVersion <= oldPatchVersion) {
+                        //avoid loading code repeat
+                        continue;
+                    }
+                }
                 Log.w(TAG, "load view name " + name);
                 typeToCodeReader.put(name, reader);
                 reader.seekBy(nameSize);
