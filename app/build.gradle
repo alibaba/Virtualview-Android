@@ -66,7 +66,7 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
-    provided ('com.alibaba.android:virtual-common:1.0.3') {
+    provided ('com.alibaba.android:virtual-common:1.0.5') {
         changing = true
     }
     compile ('com.alibaba.android:compiler:1.0.0-SNAPSHOT@jar') {

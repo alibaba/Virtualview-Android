@@ -55,6 +55,7 @@ public class ComponentListActivity extends ListActivity {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         HashMap<String, String> ntext = new HashMap<String, String>();
         ntext.put("name", "NText");
+        ntext.put("data", "component_demo/ntext_style.json");
         ntext.put("class", ComponentActivity.class.getName());
         list.add(ntext);
         HashMap<String, String> vtext = new HashMap<String, String>();

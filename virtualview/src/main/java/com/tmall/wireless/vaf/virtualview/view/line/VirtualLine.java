@@ -53,6 +53,7 @@ public class VirtualLine extends LineBase {
         super(context, viewCache);
 
         mImp.setAntiAlias(true);
+        mImp.setViewBase(this);
         mPaint.setColor(Color.BLACK);
     }
 
@@ -76,6 +77,8 @@ public class VirtualLine extends LineBase {
 
             case LineBaseCommon.STYLE_SOLID:
                 mPaint.setStyle(Paint.Style.FILL);
+                break;
+            default:
                 break;
         }
     }
