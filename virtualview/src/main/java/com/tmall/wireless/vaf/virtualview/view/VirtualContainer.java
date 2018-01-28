@@ -74,11 +74,6 @@ public class VirtualContainer extends ViewBase {
     }
 
     @Override
-    public void onParseValueFinished() {
-        super.onParseValueFinished();
-    }
-
-    @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (null != mRealVB) {
             mRealVB.onComMeasure(widthMeasureSpec, heightMeasureSpec);

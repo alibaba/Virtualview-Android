@@ -114,8 +114,6 @@ public class NativeText extends TextBase {
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         mNative.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mNative.setBorderColor(mBorderColor);
         mNative.setBorderWidth(mBorderWidth);
