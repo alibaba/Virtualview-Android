@@ -120,7 +120,7 @@ public class ViewCache {
 
         public void bind(Object jsonObject, boolean isAppend) {
             Object value = cacheTargetValue.get(jsonObject.hashCode());
-            if (value == null) {
+            if (value == null && mParser != null) {
                 value = mParser.getValueFromEL(jsonObject);
                 if (value == null) {
                     value = EMPTY;

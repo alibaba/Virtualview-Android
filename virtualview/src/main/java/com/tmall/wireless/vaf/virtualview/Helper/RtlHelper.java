@@ -21,9 +21,12 @@ public class RtlHelper {
      * In Rtl env or not.
      * @return true if in Rtl env.
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isRtl() {
-        return View.LAYOUT_DIRECTION_RTL == TextUtils.getLayoutDirectionFromLocale(Locale.getDefault());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return View.LAYOUT_DIRECTION_RTL == TextUtils.getLayoutDirectionFromLocale(Locale.getDefault());
+        }
+
+        return false;
     }
 
     /**

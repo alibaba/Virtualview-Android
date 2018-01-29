@@ -228,6 +228,25 @@ public abstract class Layout extends ViewBase {
             mBorderPaint.setColor(mBorderColor);
             mBorderPaint.setStrokeWidth(mBorderWidth);
         }
+
+        if (disableRtl) {
+            duplicateParentRtl(this);
+        }
+    }
+
+    /**
+     * The child's disableRtl should be sync with parent's.
+     * @param layout
+     */
+    private void duplicateParentRtl(Layout layout) {
+        if (layout != null && layout.getSubViews() != null) {
+            for (ViewBase vb : layout.getSubViews()) {
+                vb.disableRtl = disableRtl;
+                if (vb instanceof Layout) {
+                    duplicateParentRtl((Layout) vb);
+                }
+            }
+        }
     }
 
     public void addView(ViewBase view) {

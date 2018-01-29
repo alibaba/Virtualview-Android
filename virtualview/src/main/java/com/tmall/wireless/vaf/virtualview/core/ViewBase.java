@@ -1419,18 +1419,20 @@ public abstract class ViewBase implements IView {
                 if (Utils.isEL(stringValue)) {
                     mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
                 } else {
-                    try {
-                        // if has more data, use Keyed Tag.
-                        JSONObject jsonObject = new JSONObject(stringValue);
-                        Iterator<String> sIterator = jsonObject.keys();
-                        while(sIterator.hasNext()){
-                            // tag key
-                            String tagKey = sIterator.next();
-                            setTag(tagKey, jsonObject.getString(tagKey));
+                    if (!TextUtils.isEmpty(stringValue)) {
+                        try {
+                            // if has more data, use Keyed Tag.
+                            JSONObject jsonObject = new JSONObject(stringValue);
+                            Iterator<String> sIterator = jsonObject.keys();
+                            while(sIterator.hasNext()){
+                                // tag key
+                                String tagKey = sIterator.next();
+                                setTag(tagKey, jsonObject.getString(tagKey));
+                            }
+                        } catch (JSONException e) {
+                            // just a String value, can't convert to a JSONObject, use Tag only
+                            mTag = stringValue;
                         }
-                    } catch (JSONException e) {
-                        // just a String value, can't convert to a JSONObject, use Tag only
-                        mTag = stringValue;
                     }
                 }
                 break;
