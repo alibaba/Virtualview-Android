@@ -157,6 +157,7 @@ public class NativeViewBase extends ViewBase {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        super.comLayout(l, t, r, b);
         if (__mNative instanceof IView) {
             ((IView) __mNative).comLayout(l, t, r, b);
         } else {

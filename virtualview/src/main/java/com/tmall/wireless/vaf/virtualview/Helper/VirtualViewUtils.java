@@ -14,6 +14,12 @@ import android.graphics.RectF;
 
 public class VirtualViewUtils {
 
+    private static boolean enableBorderRadius = true;
+
+    public static void setEnableBorderRadius(boolean enableBorderRadius) {
+        VirtualViewUtils.enableBorderRadius = enableBorderRadius;
+    }
+
     private static RectF oval = new RectF();
 
     private static Path sPath = new Path();
@@ -22,6 +28,12 @@ public class VirtualViewUtils {
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
         if (canvas == null || borderPaint == null) {
             return;
+        }
+        if (!enableBorderRadius) {
+            borderTopLeftRadius = 0;
+            borderTopRightRadius = 0;
+            borderBottomLeftRadius = 0;
+            borderBottomRightRadius = 0;
         }
         float halfBorderWidth = (borderWidth / 2.0f);
         //draw left border
@@ -74,6 +86,13 @@ public class VirtualViewUtils {
         if (canvas == null || backgroundPaint == null) {
             return;
         }
+        if (!enableBorderRadius) {
+            borderTopLeftRadius = 0;
+            borderTopRightRadius = 0;
+            borderBottomLeftRadius = 0;
+            borderBottomRightRadius = 0;
+        }
+
         float halfBorderWidth = (borderWidth / 2.0f);
 
         sPath.reset();
@@ -119,6 +138,14 @@ public class VirtualViewUtils {
         if (canvas == null) {
             return;
         }
+
+        if (!enableBorderRadius) {
+            borderTopLeftRadius = 0;
+            borderTopRightRadius = 0;
+            borderBottomLeftRadius = 0;
+            borderBottomRightRadius = 0;
+        }
+
         if (!isRounded(borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius)) {
             return;
         }

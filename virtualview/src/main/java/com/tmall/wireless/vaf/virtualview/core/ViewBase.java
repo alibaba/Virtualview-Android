@@ -935,6 +935,9 @@ public abstract class ViewBase implements IView {
     public void onParseValueFinished() {
         resolveRtlPropertiesIfNeeded();
 
+        if (getNativeView() != null) {
+            getNativeView().setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
+        }
         if (!TextUtils.isEmpty(mClass)) {
             parseBean();
         }

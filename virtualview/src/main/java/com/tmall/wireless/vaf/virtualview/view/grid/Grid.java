@@ -133,7 +133,6 @@ public class Grid extends NativeViewBase {
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         mNative.setAutoDimDirection(mAutoDimDirection);
         mNative.setAutoDimX(mAutoDimX);
         mNative.setAutoDimY(mAutoDimY);

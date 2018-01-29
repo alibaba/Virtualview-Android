@@ -135,7 +135,6 @@ public class Scroller extends NativeViewBase {
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         if (mLineSpace != 0 || mFirstSpace != 0 || mLastSpace != 0) {
             mNative.addItemDecoration(new SpaceItemDecoration(this, mLineSpace, mFirstSpace, mLastSpace));
         }

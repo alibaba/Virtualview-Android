@@ -84,7 +84,6 @@ public class NativeImage extends ImageBase {
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         mNative.setScaleType(ImageBase.IMAGE_SCALE_TYPE.get(mScaleType));
         setSrc(this.mSrc);
     }
@@ -151,6 +150,7 @@ public class NativeImage extends ImageBase {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        super.comLayout(l, t, r, b);
         mNative.comLayout(l, t, r, b);
     }
 

@@ -140,13 +140,6 @@ public class VH extends NativeViewBase {
     }
 
     @Override
-    public void onParseValueFinished() {
-        super.onParseValueFinished();
-
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
-    }
-
-    @Override
     protected boolean setAttribute(int key, float value) {
         boolean ret = super.setAttribute(key, value);
 

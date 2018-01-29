@@ -98,13 +98,6 @@ public class Slider extends NativeViewBase implements SliderView.Listener {
     }
 
     @Override
-    public void onParseValueFinished() {
-        super.onParseValueFinished();
-
-        mNative.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
-    }
-
-    @Override
     protected boolean setAttribute(int key, ExprCode value) {
         boolean ret = super.setAttribute(key, value);
 
