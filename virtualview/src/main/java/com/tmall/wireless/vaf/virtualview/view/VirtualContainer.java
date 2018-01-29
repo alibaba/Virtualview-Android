@@ -112,6 +112,7 @@ public class VirtualContainer extends ViewBase {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        super.comLayout(l, t, r, b);
         if (null != mRealVB) {
             mRealVB.comLayout(l, t, r, b);
         }

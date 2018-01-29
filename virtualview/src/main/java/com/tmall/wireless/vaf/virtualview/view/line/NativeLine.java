@@ -90,6 +90,7 @@ public class NativeLine extends LineBase {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        super.comLayout(l, t, r, b);
         mNative.comLayout(l, t, r, b);
     }
 

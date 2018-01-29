@@ -108,6 +108,7 @@ public class NativeText extends TextBase {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        super.comLayout(l, t, r, b);
         mNative.comLayout(l, t, r, b);
     }
 
@@ -171,23 +172,23 @@ public class NativeText extends TextBase {
             setRealText("");
         }
 
-        if (isClickable()) {
-            mNative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    NativeText.this.click(0, 0, false);
-                }
-            });
-        }
-        if (isLongClickable()) {
-            mNative.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    NativeText.this.click(0, 0, true);
-                    return false;
-                }
-            });
-        }
+        //if (isClickable()) {
+        //    mNative.setOnClickListener(new View.OnClickListener() {
+        //        @Override
+        //        public void onClick(View view) {
+        //            NativeText.this.click(0, 0, false);
+        //        }
+        //    });
+        //}
+        //if (isLongClickable()) {
+        //    mNative.setOnLongClickListener(new View.OnLongClickListener() {
+        //        @Override
+        //        public boolean onLongClick(View view) {
+        //            NativeText.this.click(0, 0, true);
+        //            return false;
+        //        }
+        //    });
+        //}
     }
 
     @Override
