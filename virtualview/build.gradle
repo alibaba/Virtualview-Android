@@ -49,8 +49,8 @@ ext {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion System.properties['compileSdkVersion'] ? Integer.parseInt(System.properties['compileSdkVersion']) : 25
+    buildToolsVersion System.properties['buildToolsVersion'] ? System.properties['buildToolsVersion'] : '25.0.3'
 
     lintOptions {
         abortOnError false
@@ -58,7 +58,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion System.properties['targetSdkVersion'] ? Integer.parseInt(System.properties['targetSdkVersion']) : 25
         versionCode 1
         versionName "1.0"
     }
