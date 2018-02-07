@@ -40,12 +40,9 @@ import java.util.List;
 public class ExprCodeLoader {
     private final static String TAG = "CodeManager_TMTEST";
 
-    private List[] mCodeTab = new ArrayList[Common.MAX_TAB_SIZE];
-
     private ArrayMap<Integer, ExprCode> mCodeMap = new ArrayMap();
 
     public void reset() {
-        mCodeTab = null;
     }
 
     public ExprCode get(int index) {
@@ -54,14 +51,6 @@ public class ExprCodeLoader {
 
     public boolean loadFromBuffer(CodeReader reader, int pageId) {
         boolean ret = true;
-
-        //int tabIndex = pageId;
-        //List<ExprCode> arr = mCodeTab[tabIndex];
-        //if (null == arr) {
-        //    arr = new ArrayList<>(30);
-        //    mCodeTab[tabIndex] = arr;
-        //}
-
         int totalSize = reader.getMaxSize();
         int count = reader.readInt();
         for (int k = 0; k < count; ++k) {
@@ -79,7 +68,6 @@ public class ExprCodeLoader {
                 break;
             }
         }
-
         return ret;
     }
 }
