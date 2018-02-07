@@ -28,13 +28,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import com.libra.virtualview.common.ImageCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
-import org.json.JSONObject;
 
 /**
  * Created by gujicheng on 16/8/19.
