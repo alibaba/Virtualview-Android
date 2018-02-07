@@ -72,6 +72,10 @@ public class ViewManager {
         return mViewFactory.loadBinBuffer(buffer);
     }
 
+    public int loadBinBufferSync(byte[] buffer, boolean override) {
+        return mViewFactory.loadBinBuffer(buffer, override);
+    }
+
     public ViewBase getViewFromUuid(int uuid) {
         return mUuidContainers.get(uuid);
     }
