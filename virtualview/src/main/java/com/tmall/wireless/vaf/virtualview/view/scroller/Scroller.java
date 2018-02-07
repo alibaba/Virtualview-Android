@@ -341,6 +341,17 @@ public class Scroller extends NativeViewBase {
                 }
             }
 
+            // Space between items.
+            if (mSpace != 0) {
+                if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
+                    if (LinearLayoutManager.HORIZONTAL == mScroller.getOrientation()) {
+                        outRect.right = mSpace;
+                    } else {
+                        outRect.bottom = mSpace;
+                    }
+                }
+            }
+
             if (mLastSpace != 0) {
                 View nativeView = mScroller.getNativeView();
                 ScrollerImp s;
