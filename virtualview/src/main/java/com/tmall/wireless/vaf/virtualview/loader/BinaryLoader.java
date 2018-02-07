@@ -93,6 +93,10 @@ public class BinaryLoader {
 
     // return pageId
     public int loadFromBuffer(byte[] buf) {
+        return loadFromBuffer(buf, false);
+    }
+
+    public int loadFromBuffer(byte[] buf, boolean override) {
         int ret = -1;
 
         if (null != buf) {
@@ -138,7 +142,12 @@ public class BinaryLoader {
 
                         if (reader.seek(uiStartPos)) {
                             // parse ui codes
-                            boolean result = mUiCodeLoader.loadFromBuffer(reader, pageId, patchVersion);
+                            boolean result = false;
+                            if (!override) {
+                                result = mUiCodeLoader.loadFromBuffer(reader, pageId, patchVersion);
+                            } else {
+                                result = mUiCodeLoader.forceLoadFromBuffer(reader, pageId, patchVersion);
+                            }
 
                             // parse string
                             if (reader.getPos() == strStartPos) {

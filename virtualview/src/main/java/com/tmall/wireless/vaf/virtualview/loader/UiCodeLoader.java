@@ -64,40 +64,52 @@ public class UiCodeLoader {
     public boolean loadFromBuffer(CodeReader reader, int pageId, int patchVersion) {
         boolean ret = true;
 
-        int tabIndex = pageId;
-        if (tabIndex < Common.MAX_TAB_SIZE) {
-            int count = reader.readInt();
-            Log.w(TAG, "load view count: " + count);
-            for(int i = 0; i < count; ++i) {
-                short nameSize = reader.readShort();
-                String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
-                CodeReader oldCodeReader = mTypeToCodeReader.get(name);
-                if (oldCodeReader != null) {
-                    int oldPatchVersion = oldCodeReader.getPatchVersion();
-                    if (patchVersion <= oldPatchVersion) {
-                        //avoid loading code repeat
-                        Log.w(TAG, "load view name " + name + " should not override from " + patchVersion + " to "
-                            + oldCodeReader);
-                        ret = false;
-                        return ret;
-                    }
-                }
-                Log.w(TAG, "load view name " + name);
-                mTypeToCodeReader.put(name, reader);
-                reader.seekBy(nameSize);
-
-                short uiCodeSize = reader.readShort();
-                mTypeToPos.put(name, reader.getPos());
-                if (!reader.seekBy(uiCodeSize) ) {
-                    ret = false;
-                    Log.e(TAG, "seekBy error:" + uiCodeSize + " i:" + i);
-                    break;
-                }
+        int count = reader.readInt();
+        //count should be 1
+        Log.w(TAG, "load view count: " + count);
+        short nameSize = reader.readShort();
+        String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
+        CodeReader oldCodeReader = mTypeToCodeReader.get(name);
+        if (oldCodeReader != null) {
+            int oldPatchVersion = oldCodeReader.getPatchVersion();
+            if (patchVersion <= oldPatchVersion) {
+                //avoid loading code repeat
+                Log.w(TAG, "load view name " + name + " should not override from " + patchVersion + " to "
+                    + patchVersion);
+                ret = false;
+                return ret;
             }
-        } else {
+        }
+        ret = loadFromBufferInternally(reader, nameSize, name);
+        return ret;
+    }
+
+    public boolean forceLoadFromBuffer(CodeReader reader, int pageId, int patchVersion) {
+        boolean ret = true;
+
+        int count = reader.readInt();
+        //count should be 1
+        Log.w(TAG, "load view count: " + count);
+        short nameSize = reader.readShort();
+        String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
+        ret = loadFromBufferInternally(reader, nameSize, name);
+        return ret;
+    }
+
+    private boolean loadFromBufferInternally(CodeReader reader, short nameSize, String name) {
+        boolean ret = true;
+        Log.w(TAG, "load view name " + name);
+        mTypeToCodeReader.put(name, reader);
+        reader.seekBy(nameSize);
+
+        short uiCodeSize = reader.readShort();
+        mTypeToPos.put(name, reader.getPos());
+        if (!reader.seekBy(uiCodeSize) ) {
             ret = false;
+            Log.e(TAG, "seekBy error:" + uiCodeSize);
         }
 
         return ret;
     }
+
 }

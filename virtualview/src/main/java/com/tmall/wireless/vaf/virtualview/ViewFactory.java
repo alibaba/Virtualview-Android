@@ -153,6 +153,10 @@ public class ViewFactory {
         return mLoader.loadFromBuffer(buf);
     }
 
+    public int loadBinBuffer(byte[] buf, boolean override) {
+        return mLoader.loadFromBuffer(buf, override);
+    }
+
     public boolean registerBuilder(int id, ViewBase.IBuilder builder) {
         boolean ret = false;
 
