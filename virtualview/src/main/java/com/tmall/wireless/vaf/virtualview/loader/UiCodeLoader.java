@@ -37,30 +37,26 @@ import com.libra.virtualview.common.Common;
 public class UiCodeLoader {
     private final static String TAG = "UiCodeLoader_TMTEST";
 
-    private ArrayMap<String, Integer>[] mUiTab = new ArrayMap[Common.MAX_TAB_SIZE];
-    private ArrayMap<String, CodeReader>[] mCodeReaders = new ArrayMap[Common.MAX_TAB_SIZE];
+    private ArrayMap<String, Integer> mTypeToPos = new ArrayMap<>();
+    private ArrayMap<String, CodeReader> mTypeToCodeReader = new ArrayMap<>();
+
+    public void clear() {
+        mTypeToPos.clear();
+        mTypeToCodeReader.clear();
+    }
 
     public void destroy() {
-        mUiTab = null;
-        mCodeReaders = null;
     }
 
     public CodeReader getCode(String type) {
         CodeReader ret = null;
 
-        for (int i = 0, size = mCodeReaders.length; i < size; i++) {
-            int tabIndex = i;
-            ArrayMap<String, CodeReader> viewCodes = mCodeReaders[tabIndex];
-            ArrayMap<String, Integer> codes = mUiTab[tabIndex];
-            if (viewCodes != null && codes != null && viewCodes.containsKey(type) && codes.containsKey(type)) {
-                if (null != codes) {
-                    ret = viewCodes.get(type);
-                    ret.seek(codes.get(type));
-                } else {
-                    Log.e(TAG, "getCode type invalide type:" + type + "  total size:");
-                }
-                break;
-            }
+        if (mTypeToCodeReader.containsKey(type) && mTypeToPos.containsKey(type)) {
+            ret = mTypeToCodeReader.get(type);
+            ret.seek(mTypeToPos.get(type));
+        } else {
+            Log.e(TAG, "getCode type invalide type:" + type + mTypeToCodeReader.containsKey(type) + " " + mTypeToPos
+                .containsKey(type));
         }
         return ret;
     }
@@ -70,37 +66,28 @@ public class UiCodeLoader {
 
         int tabIndex = pageId;
         if (tabIndex < Common.MAX_TAB_SIZE) {
-            ArrayMap<String, CodeReader> typeToCodeReader = mCodeReaders[tabIndex];
-            if (null == typeToCodeReader) {
-                typeToCodeReader = new ArrayMap<>();
-                mCodeReaders[tabIndex] = typeToCodeReader;
-            }
-
-            ArrayMap<String, Integer> typeToPos = mUiTab[tabIndex];
-            if (null == typeToPos) {
-                typeToPos = new ArrayMap<>();
-                mUiTab[tabIndex] = typeToPos;
-            }
-
             int count = reader.readInt();
             Log.w(TAG, "load view count: " + count);
             for(int i = 0; i < count; ++i) {
                 short nameSize = reader.readShort();
                 String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
-                CodeReader oldCodeReader = typeToCodeReader.get(name);
+                CodeReader oldCodeReader = mTypeToCodeReader.get(name);
                 if (oldCodeReader != null) {
                     int oldPatchVersion = oldCodeReader.getPatchVersion();
                     if (patchVersion <= oldPatchVersion) {
                         //avoid loading code repeat
-                        continue;
+                        Log.w(TAG, "load view name " + name + " should not override from " + patchVersion + " to "
+                            + oldCodeReader);
+                        ret = false;
+                        return ret;
                     }
                 }
                 Log.w(TAG, "load view name " + name);
-                typeToCodeReader.put(name, reader);
+                mTypeToCodeReader.put(name, reader);
                 reader.seekBy(nameSize);
 
                 short uiCodeSize = reader.readShort();
-                typeToPos.put(name, reader.getPos());
+                mTypeToPos.put(name, reader.getPos());
                 if (!reader.seekBy(uiCodeSize) ) {
                     ret = false;
                     Log.e(TAG, "seekBy error:" + uiCodeSize + " i:" + i);

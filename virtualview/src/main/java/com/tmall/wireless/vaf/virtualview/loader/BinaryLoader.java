@@ -43,6 +43,7 @@ public class BinaryLoader {
     private StringLoader mStringLoader;
     private UiCodeLoader mUiCodeLoader;
     private ExprCodeLoader mExprCodeLoader;
+    @Deprecated
     private int[] mDepPageIds;
 
     public BinaryLoader() {
