@@ -28,14 +28,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import com.libra.virtualview.common.ImageCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
-import org.json.JSONObject;
 
 /**
  * Created by gujicheng on 16/8/19.
@@ -142,7 +139,6 @@ public class VirtualImage extends ImageBase {
 
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("Longer", "onComMeasure");
         mImp.onComMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -152,7 +148,6 @@ public class VirtualImage extends ImageBase {
 
     @Override
     public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("Longer", "measureComponent");
         mImp.measureComponent(widthMeasureSpec, heightMeasureSpec);
     }
 
