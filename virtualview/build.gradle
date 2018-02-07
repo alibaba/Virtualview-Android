@@ -100,13 +100,17 @@ configurations.all {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:23.1.1@aar'
-    compile 'com.android.support:support-annotations:23.1.1'
-    compile ('com.alibaba.android:virtual-common:1.0.5') {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //##请根据实际需要进行依赖项的新增与删除
+    testImplementation 'junit:junit:4.12'
+    api 'com.android.support:support-v4:26.1.0@aar'
+    api 'com.android.support:support-compat:26.1.0@aar'
+    api 'com.android.support:support-annotations:27.0.2'
+    api ('com.alibaba.android:virtual-common:1.0.5') {
         changing = true
     }
-    provided 'com.android.support:recyclerview-v7:23.1.1@aar'
+    api 'com.android.support:recyclerview-v7:26.1.0@aar'
 
 }
 

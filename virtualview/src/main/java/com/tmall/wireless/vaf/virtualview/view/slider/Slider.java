@@ -24,203 +24,24 @@
 
 package com.tmall.wireless.vaf.virtualview.view.slider;
 
-import android.util.Log;
+import android.support.v7.widget.PagerSnapHelper;
 
-import com.libra.Utils;
-import com.libra.expr.common.ExprCode;
-import com.libra.virtualview.common.StringBase;
-import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.core.NativeViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
-import org.json.JSONObject;
+import com.tmall.wireless.vaf.virtualview.view.scroller.Scroller;
 
 /**
  * Created by gujicheng on 16/12/15.
  */
 
-public class Slider extends NativeViewBase implements SliderView.Listener {
-    private final static String TAG = "Slider_TMTEST";
-
-    protected SliderImp mNative;
-    protected ExprCode mScrollCode;
-    protected int mCur;
-    protected int mTotal;
+public class Slider extends Scroller {
 
     public Slider(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        mNative = new SliderImp(context);
-        __mNative = mNative;
-        mNative.setListener(this);
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-
-        mNative.reset();
-    }
-
-    public int getCur() {
-        return mCur;
-    }
-
-    public int getTotal() {
-        return mTotal;
-    }
-
-    @Override
-    public boolean isContainer() {
-        return true;
-    }
-
-    @Override
-    public void setData(Object data) {
-        mNative.setData(data);
-
-        super.setData(data);
-    }
-
-    public void callScroll() {
-        if (null != mScrollCode) {
-            ExprEngine engine = mContext.getExprEngine();
-            if (null != engine) {
-                engine.getEngineContext().getDataManager().replaceData(
-                    (JSONObject)getViewCache().getComponentData());
-            }
-            if (null != engine && engine.execute(this, mScrollCode) ) {
-            } else {
-                Log.e(TAG, "callPageFlip execute failed");
-            }
-        }
-    }
-
-    @Override
-    protected boolean setAttribute(int key, ExprCode value) {
-        boolean ret = super.setAttribute(key, value);
-
-        if (!ret) {
-            ret = true;
-            switch (key) {
-                case StringBase.STR_ID_onScroll:
-                    mScrollCode = value;
-                    break;
-
-                default:
-                    ret = false;
-            }
-        }
-
-        return ret;
-    }
-
-    @Override
-    protected boolean setAttribute(int key, float value) {
-        boolean ret = super.setAttribute(key, value);
-
-        if (!ret) {
-            ret = true;
-            switch (key) {
-                case StringBase.STR_ID_span:
-                    mNative.setSpan(Utils.dp2px(value));
-                    break;
-
-                case StringBase.STR_ID_itemWidth:
-                    mNative.setItemWidth(Utils.dp2px(value));
-                    break;
-
-                default:
-                    ret = false;
-                    break;
-            }
-        }
-
-        return ret;
-    }
-
-    @Override
-    protected boolean setAttribute(int key, int value) {
-        boolean ret = super.setAttribute(key, value);
-
-        if (!ret) {
-            ret = true;
-            switch (key) {
-                case StringBase.STR_ID_span:
-                    mNative.setSpan(Utils.dp2px(value));
-                    break;
-
-                case StringBase.STR_ID_itemWidth:
-                    mNative.setItemWidth(Utils.dp2px(value));
-                    break;
-
-                case StringBase.STR_ID_orientation:
-                    mNative.setOrientation(value);
-                    break;
-
-                default:
-                    ret = false;
-                    break;
-            }
-        }
-
-        return ret;
-    }
-
-    @Override
-    protected boolean setRPAttribute(int key, float value) {
-        boolean ret = super.setRPAttribute(key, value);
-
-        if (!ret) {
-            ret = true;
-            switch (key) {
-                case StringBase.STR_ID_span:
-                    mNative.setSpan(Utils.rp2px(value));
-                    break;
-
-                case StringBase.STR_ID_itemWidth:
-                    mNative.setItemWidth(Utils.rp2px(value));
-                    break;
-
-                default:
-                    ret = false;
-                    break;
-            }
-        }
-
-        return ret;
-    }
-
-    @Override
-    protected boolean setRPAttribute(int key, int value) {
-        boolean ret = super.setRPAttribute(key, value);
-
-        if (!ret) {
-            ret = true;
-            switch (key) {
-                case StringBase.STR_ID_span:
-                    mNative.setSpan(Utils.rp2px(value));
-                    break;
-                    
-                case StringBase.STR_ID_itemWidth:
-                    mNative.setItemWidth(Utils.rp2px(value));
-                    break;
-
-                default:
-                    ret = false;
-                    break;
-            }
-        }
-
-        return ret;
-    }
-
-    @Override
-    public void onScroll(int pos, int total) {
-        mCur = pos;
-        mTotal = total;
-        callScroll();
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mNative);
     }
 
     public static class Builder implements ViewBase.IBuilder {
