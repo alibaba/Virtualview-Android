@@ -27,6 +27,10 @@ apply plugin: 'com.jfrog.artifactory'
 
 version = libraryVersion
 
+if (project.hasProperty('deployVersion')) {
+    version = project.getProperty('deployVersion')
+}
+
 if (project.hasProperty("android")) { // Android libraries
     task sourcesJar(type: Jar) {
         classifier = 'sources'
