@@ -24,7 +24,7 @@
 
 package com.tmall.wireless.vaf.virtualview.view.slider;
 
-import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.LinearSnapHelper;
 
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -40,7 +40,7 @@ public class Slider extends Scroller {
     public Slider(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(mNative);
     }
 
