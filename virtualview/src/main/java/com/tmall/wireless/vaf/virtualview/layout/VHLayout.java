@@ -109,7 +109,9 @@ public class VHLayout extends Layout {
                     int h = view.getComMeasuredHeight();
 
                     if (isRtl()) {
-                        left -= (w + childP.mLayoutMarginLeft);
+                        left -= (w + childP.mLayoutMarginRight);
+                    } else {
+                        left += childP.mLayoutMarginLeft;
                     }
 
                     int tt;
@@ -123,7 +125,9 @@ public class VHLayout extends Layout {
 
                     view.comLayout(left, tt, left + w, tt + h);
 
-                    if (!isRtl()) {
+                    if (isRtl()) {
+                        left -= childP.mLayoutMarginLeft;
+                    } else {
                         left += w + childP.mLayoutMarginRight;
                     }
 
