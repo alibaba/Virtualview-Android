@@ -1,6 +1,7 @@
 package com.tmall.wireless.rx.vaf.framework;
 
 import android.support.v4.util.ArrayMap;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by longerian on 2018/2/26.
@@ -15,7 +16,9 @@ public class TemplatePool {
 
     public void putTemplate(String type, Template template) {
         synchronized (templateCachePool) {
-            templateCachePool.put(type, template);
+            if (!templateCachePool.containsKey(type) || template.version > templateCachePool.get(type).version) {
+                templateCachePool.put(type, template);
+            }
         }
     }
 
@@ -27,6 +30,15 @@ public class TemplatePool {
                 return Template.NOT_FOUND;
             }
         }
+    }
+
+    public Consumer<Template> asConsumer() {
+        return new Consumer<Template>() {
+            @Override
+            public void accept(Template template) throws Exception {
+                putTemplate(template.type, template);
+            }
+        };
     }
 
 }

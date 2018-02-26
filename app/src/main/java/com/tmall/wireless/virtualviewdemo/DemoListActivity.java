@@ -73,6 +73,10 @@ public class DemoListActivity extends ListActivity {
         script.put("name", "脚本引擎演示(实验中)");
         script.put("class", ScriptListActivity.class.getName());
         list.add(script);
+        HashMap<String, String> rx = new HashMap<>();
+        rx.put("name", "响应式测试");
+        rx.put("class", RxDemoActivity.class.getName());
+        list.add(rx);
         ListAdapter listAdapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1});
         setListAdapter(listAdapter);
     }

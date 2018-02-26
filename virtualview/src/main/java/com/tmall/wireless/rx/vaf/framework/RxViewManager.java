@@ -2,7 +2,11 @@ package com.tmall.wireless.rx.vaf.framework;
 
 import java.util.concurrent.Callable;
 
+import android.util.Log;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 
 /**
@@ -33,7 +37,7 @@ public class RxViewManager {
         mRemoteTemplateLoader = remoteTemplateLoader;
     }
 
-    public Observable<Template> getTemplate(final String type) {
+    public Observable<Template> getTemplate(final String type, final String url) {
         MemoryBinaryTemplateObservable memoryBinaryTemplateObservable = new MemoryBinaryTemplateObservable(type,
             new Callable<Template>() {
                 @Override
@@ -48,13 +52,34 @@ public class RxViewManager {
                     return getTemplateFromLocal(type);
                 }
             });
+        RemoteBinaryTemplateObservable remoteBinaryTemplateObservable = new RemoteBinaryTemplateObservable(type,
+            new Callable<Template>() {
+                @Override
+                public Template call() throws Exception {
+                    return getTemplateFromNetwork(url);
+                }
+            });
         return Observable.concat(memoryBinaryTemplateObservable.templateChange(),
-            localBinaryTemplateObservable.templateChange()).filter(new Predicate<Template>() {
+            localBinaryTemplateObservable.templateChange(),
+            remoteBinaryTemplateObservable.templateChange()).filter(new Predicate<Template>() {
             @Override
             public boolean test(Template template) throws Exception {
                 return template != Template.NOT_FOUND;
             }
-        }).take(1);
+        }).take(1)
+            .doOnNext(new Consumer<Template>() {
+                @Override
+                public void accept(Template template) throws Exception {
+                    Log.d("Longer", "in concat doOnNext " + Thread.currentThread().getId());
+                    mTemplatePool.putTemplate(template.type, template);
+                }
+            })
+            .doOnComplete(new Action() {
+                @Override
+                public void run() throws Exception {
+                    Log.d("Longer", "in concat doOnComplete " + Thread.currentThread().getId());
+                }
+            });
     }
 
     private Template getTemplateFromMemory(String type) {
@@ -69,12 +94,20 @@ public class RxViewManager {
         }
     }
 
+    private Template getTemplateFromNetwork(String url) {
+        if (mRemoteTemplateLoader != null) {
+            return mRemoteTemplateLoader.binaryDataFor(url);
+        } else {
+            return Template.NOT_FOUND;
+        }
+    }
+
     public interface LocalTemplateLoader {
         Template binaryDataFor(String type);
     }
 
     public interface RemoteTemplateLoader {
-        Template binaryDataFor(String type);
+        Template binaryDataFor(String url);
     }
 
 }

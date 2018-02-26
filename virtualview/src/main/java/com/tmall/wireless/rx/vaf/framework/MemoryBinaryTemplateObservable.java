@@ -4,8 +4,6 @@ import java.util.concurrent.Callable;
 
 import android.util.Log;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -31,15 +29,7 @@ public class MemoryBinaryTemplateObservable implements RxBinaryTemplateObservabl
 
     @Override
     public Observable<Template> templateChange() {
-        return Observable.create(new ObservableOnSubscribe<Template>() {
-            @Override
-            public void subscribe(ObservableEmitter<Template> emitter) throws Exception {
-                if (!emitter.isDisposed()) {
-                    emitter.onNext(task.call());
-                    emitter.onComplete();
-                }
-            }
-        })
+        return Observable.fromCallable(task)
         .doOnSubscribe(new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
@@ -49,12 +39,12 @@ public class MemoryBinaryTemplateObservable implements RxBinaryTemplateObservabl
         .doOnDispose(new Action() {
             @Override
             public void run() throws Exception {
-                Log.d("Longer", "in memory: dispose action" + Thread.currentThread().getId());
+                Log.d("Longer", "in memory: dispose action " + Thread.currentThread().getId());
             }
         }).doOnComplete(new Action() {
             @Override
             public void run() throws Exception {
-                Log.d("Longer", "in memory: complete action" + Thread.currentThread().getId());
+                Log.d("Longer", "in memory: complete action " + Thread.currentThread().getId());
             }
         });
     }

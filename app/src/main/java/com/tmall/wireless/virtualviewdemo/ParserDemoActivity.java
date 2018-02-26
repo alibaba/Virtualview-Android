@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.libra.virtualview.compiler.ViewCompiler;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
+import com.tmall.wireless.virtualviewdemo.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,17 +76,17 @@ public class ParserDemoActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         if (!isPlayXMLExisted()) {
-            copyPlayXML(PLAY, PATH);
+            Utils.copyPlayXML(this, PLAY, PATH);
         }
-        boolean result = compile(TYPE, PATH, OUT_PATH);
+        boolean result = Utils.compile(TYPE, PATH, OUT_PATH);
         if (result) {
-            byte[] bin = readBin(OUT_PATH);
+            byte[] bin = Utils.readBin(OUT_PATH);
             if (bin != null) {
                 mLinearLayout.removeAllViews();
                 ((VirtualViewApplication) getApplication()).getViewManager().loadBinBufferSync(bin);
                 View container = ((VirtualViewApplication) getApplication()).getVafContext().getContainerService().getContainer(TYPE, true);
                 IContainer iContainer = (IContainer)container;
-                JSONObject json = getJSONDataFromAsset(PLAY_DATA);
+                JSONObject json = Utils.getJSONDataFromAsset(this, PLAY_DATA);
                 if (json != null) {
                     iContainer.getVirtualView().setVData(json);
                 }
@@ -110,77 +111,6 @@ public class ParserDemoActivity extends Activity implements OnClickListener {
         return file.exists();
     }
 
-    private void copyPlayXML(String name, String target) {
-        try {
-            InputStream inputStream = getAssets().open(name);
-            BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String str;
-            while ((str = inputStreamReader.readLine()) != null) {
-                sb.append(str);
-            }
-            inputStreamReader.close();
-            FileOutputStream fos = new FileOutputStream(target);
-            fos.write(sb.toString().getBytes());
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private boolean compile(String type, String sourcePath, String outputPath) {
-        boolean ret = false;
-        ViewCompiler compiler = new ViewCompiler();
-        compiler.resetString();
-        compiler.resetExpr();
-        if (compiler.newOutputFile(outputPath, 1, 1)) {
-            if (!compiler.compile(type, sourcePath)) {
-                Log.d("ParserDemoActivity", "compile file error --> " + sourcePath);
-            }
-            ret = compiler.compileEnd();
-            if (!ret) {
-                Log.d("ParserDemoActivity", "compile file end error --> " + sourcePath);
-            }
-        } else {
-            Log.d("ParserDemoActivity", "new output file failed --> " + sourcePath);
-        }
-        return ret;
-    }
-
-    private byte[] readBin(String path) {
-        try {
-            FileInputStream fin = new FileInputStream(path);
-            int length = fin.available();
-            byte[] buf = new byte[length];
-            fin.read(buf);
-            fin.close();
-            return buf;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private JSONObject getJSONDataFromAsset(String name) {
-        try {
-            InputStream inputStream = getAssets().open(name);
-            BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String str;
-            while ((str = inputStreamReader.readLine()) != null) {
-                sb.append(str);
-            }
-            inputStreamReader.close();
-            return new JSONObject(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

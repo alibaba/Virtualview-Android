@@ -53,6 +53,7 @@
 
         <activity android:name=".ScriptListActivity"></activity>
         <activity android:name=".ParserDemoActivity"></activity>
+        <activity android:name=".RxDemoActivity"></activity>
     </application>
 
 </manifest>
