@@ -206,3 +206,6 @@ Before you open an issue or create a pull request, please read [Contributing Gui
 # LICENSE
 
 VirtualView is available under the MIT license.
+
+# WeChatGroup
+Search `longerian` to be invited in WeChat.
