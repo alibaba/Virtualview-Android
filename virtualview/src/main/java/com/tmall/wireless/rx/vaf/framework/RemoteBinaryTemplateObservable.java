@@ -39,12 +39,12 @@ public class RemoteBinaryTemplateObservable implements RxBinaryTemplateObservabl
         }).doOnDispose(new Action() {
             @Override
             public void run() throws Exception {
-                Log.d("Longer", "in remote: dispose action" + Thread.currentThread().getId());
+                Log.d("Longer", "in remote: dispose action " + Thread.currentThread().getId());
             }
         }).doOnComplete(new Action() {
             @Override
             public void run() throws Exception {
-                Log.d("Longer", "in remote: complete action" + Thread.currentThread().getId());
+                Log.d("Longer", "in remote: complete action " + Thread.currentThread().getId());
             }
         });
     }

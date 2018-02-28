@@ -24,13 +24,6 @@
 
 package com.tmall.wireless.virtualviewdemo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
@@ -47,8 +40,7 @@ import io.reactivex.disposables.Disposable;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static com.tmall.wireless.virtualviewdemo.utils.Utils.getBytesByInputStream;
+import org.mockito.Mockito;
 
 /**
  * Created by longerian on 2018/2/26.
@@ -109,30 +101,10 @@ public class TemplateObservableTest extends AndroidTestCase {
                 return Template.NOT_FOUND;
             }
         });
-        rxViewManager.setRemoteTemplateLoader(new RemoteTemplateLoader() {
-            @Override
-            public Template binaryDataFor(String url) {
-                URL url1 = null;
-                HttpURLConnection conn = null;
-                try {
-                    url1 = new URL(url);
-                    conn = (HttpURLConnection) url1.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setDoInput(true);
-                    conn.setUseCaches(false);
-                    InputStream is = conn.getInputStream();
-                    byte[] responseBody = getBytesByInputStream(is);
-                    return new Template("remote", 1, responseBody);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Template.NOT_FOUND;
-            }
-        });
+        RemoteTemplateLoader mockRemoteTemplateLoader = Mockito.mock(RemoteTemplateLoader.class);
+        Mockito.when(mockRemoteTemplateLoader.binaryDataFor(Mockito.anyString())).thenReturn(new Template("remote", 1, null));
+
+        rxViewManager.setRemoteTemplateLoader(mockRemoteTemplateLoader);
         Observable<Template> observable = rxViewManager.getTemplate("test", "http://yosemite.cn-hangzhou.oss.aliyun-inc.com/VVTemplateManagePRE/0b470132737f4bd492acd9abb4a53c67");
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Template>() {
             @Override

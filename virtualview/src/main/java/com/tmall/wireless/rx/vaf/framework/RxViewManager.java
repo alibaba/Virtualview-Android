@@ -37,6 +37,49 @@ public class RxViewManager {
         mRemoteTemplateLoader = remoteTemplateLoader;
     }
 
+    public Observable<Template> getTemplate(final String type) {
+        MemoryBinaryTemplateObservable memoryBinaryTemplateObservable = new MemoryBinaryTemplateObservable(type,
+            new Callable<Template>() {
+                @Override
+                public Template call() throws Exception {
+                    return getTemplateFromMemory(type);
+                }
+            });
+        LocalBinaryTemplateObservable localBinaryTemplateObservable = new LocalBinaryTemplateObservable(type,
+            new Callable<Template>() {
+                @Override
+                public Template call() throws Exception {
+                    return getTemplateFromLocal(type);
+                }
+            });
+        return Observable.concat(memoryBinaryTemplateObservable.templateChange(),
+            localBinaryTemplateObservable.templateChange().filter(new Predicate<Template>() {
+                @Override
+                public boolean test(Template template) throws Exception {
+                    return template != Template.NOT_FOUND;
+                }
+            }).take(1)
+                .doOnNext(new Consumer<Template>() {
+                    @Override
+                    public void accept(Template template) throws Exception {
+                        Log.d("Longer", "in concat doOnNext " + Thread.currentThread().getId());
+                        mTemplatePool.putTemplate(template.type, template);
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.d("Longer", "in concat doOnComplete " + Thread.currentThread().getId());
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d("Longer", "in concat doOnError " + Thread.currentThread().getId());
+                    }
+                }));
+    }
+
     public Observable<Template> getTemplate(final String type, final String url) {
         MemoryBinaryTemplateObservable memoryBinaryTemplateObservable = new MemoryBinaryTemplateObservable(type,
             new Callable<Template>() {
@@ -78,6 +121,12 @@ public class RxViewManager {
                 @Override
                 public void run() throws Exception {
                     Log.d("Longer", "in concat doOnComplete " + Thread.currentThread().getId());
+                }
+            })
+            .doOnError(new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    Log.d("Longer", "in concat doOnError " + Thread.currentThread().getId());
                 }
             });
     }
