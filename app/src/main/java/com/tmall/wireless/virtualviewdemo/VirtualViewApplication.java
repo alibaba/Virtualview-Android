@@ -102,7 +102,7 @@ public class VirtualViewApplication extends Application {
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-            Log.d("Longer", "onPrepareLoad ");
+            Log.d("VirtualViewApplication", "onPrepareLoad ");
         }
     }
 
