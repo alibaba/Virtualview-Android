@@ -433,7 +433,7 @@ public abstract class ViewBase implements IView {
     }
 
     final public boolean supportExposure() {
-        return (0 != (mFlag & FLAG_EXPOSURE));
+        return (0 != (mFlag & FLAG_EXPOSURE)) && isVisible();
     }
 
     final public boolean isClickable() {
