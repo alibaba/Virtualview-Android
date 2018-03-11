@@ -100,14 +100,14 @@ viewManager.loadBinFileSync(TMALLCOMPONENT2_PATH);
 ......
 ```
 
-If you have developed custom basic components, register their builders(Guide to develop custom basic components here TODO):
+If you have developed custom basic components, register their builders(Guide to develop custom basic components [here](http://tangram.pingguohe.net/docs/android/add-a-custom-element)):
 
 ```
 viewManager.getViewFactory().registerBuilder(BizCommon.TM_PRICE_TEXTVIEW, new TMPriceView.Builder());
 viewManager.getViewFactory().registerBuilder(BizCommon.TM_TOTAL_CONTAINER, new TotalContainer.Builder());
 ```
 
-Register event handler for click or exposure: (Information for event handler here TODO)
+Register event handler for click or exposure: (Information for event handler [here](http://tangram.pingguohe.net/docs/android/event-handler))
 
 ```
 vafContext.getEventManager().register(EventManager.TYPE_Click, new IEventProcessor() {
@@ -206,3 +206,6 @@ Before you open an issue or create a pull request, please read [Contributing Gui
 # LICENSE
 
 VirtualView is available under the MIT license.
+
+# WeChatGroup
+Search `longerian` to be invited in WeChat.
