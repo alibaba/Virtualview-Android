@@ -1,11 +1,42 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018 Alibaba Group
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
+
+import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import com.tmall.wireless.vaf.virtualview.container.ClickHelper;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.IView;
+import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NFrameLayout.Params;
 
 /**
  * Created by longerian on 2018/3/11.
@@ -14,7 +45,11 @@ import com.tmall.wireless.vaf.virtualview.core.ViewBase;
  * @date 2018/03/11
  */
 
-public class NFrameLayoutImpl extends NFrameLayoutView implements IView, IContainer {
+public class NFrameLayoutImpl extends NFrameLayoutView implements IContainer {
+
+    protected ViewBase mVirtualView;
+
+
     public NFrameLayoutImpl(Context context) {
         super(context);
     }
@@ -27,50 +62,83 @@ public class NFrameLayoutImpl extends NFrameLayoutView implements IView, IContai
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-        this.measure(widthMeasureSpec, heightMeasureSpec);
-
-    }
-
-    @Override
-    public void comLayout(int l, int t, int r, int b) {
-        this.layout(l, t, r, b);
-    }
-
-    @Override
-    public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        this.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        this.onLayout(changed, l, t, r, b);
-    }
-
-    @Override
-    public int getComMeasuredWidth() {
-        return this.getMeasuredWidth();
-    }
-
-    @Override
-    public int getComMeasuredHeight() {
-        return this.getMeasuredHeight();
-    }
+    //@Override
+    //public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
+    //    this.measure(widthMeasureSpec, heightMeasureSpec);
+    //
+    //}
+    //
+    //@Override
+    //public void comLayout(int l, int t, int r, int b) {
+    //    this.layout(l, t, r, b);
+    //}
+    //
+    //@Override
+    //public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    //    this.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    //}
+    //
+    //@Override
+    //public void onComLayout(boolean changed, int l, int t, int r, int b) {
+    //    this.onLayout(changed, l, t, r, b);
+    //}
+    //
+    //@Override
+    //public int getComMeasuredWidth() {
+    //    return this.getMeasuredWidth();
+    //}
+    //
+    //@Override
+    //public int getComMeasuredHeight() {
+    //    return this.getMeasuredHeight();
+    //}
 
     @Override
     public void attachViews() {
+        attachViews(mVirtualView);
+    }
 
+    private void attachViews(ViewBase view) {
+        if (view instanceof Layout) {
+            Layout layout = (Layout) view;
+            List<ViewBase> subViews = layout.getSubViews();
+            if (null != subViews) {
+                for (ViewBase com : subViews) {
+                    attachViews(com);
+                }
+            }
+        } else {
+            View v = view.getNativeView();
+            if (null != v) {
+                NFrameLayout.Params frameParams = (Params)view.getComLayoutParams();
+                LayoutParams layoutParams = new LayoutParams(frameParams.mLayoutWidth, frameParams.mLayoutHeight);
+                layoutParams.mLayoutGravity = frameParams.mLayoutGravity;
+                layoutParams.topMargin = frameParams.mLayoutMarginTop;
+                layoutParams.rightMargin = frameParams.mLayoutMarginRight;
+                layoutParams.bottomMargin = frameParams.mLayoutMarginBottom;
+                layoutParams.leftMargin = frameParams.mLayoutMarginLeft;
+                addView(v, layoutParams);
+            }
+        }
     }
 
     @Override
     public void setVirtualView(ViewBase view) {
+        if (null != view) {
+            mVirtualView = view;
+            mVirtualView.setHoldView(this);
+
+            if (mVirtualView.shouldDraw()) {
+                setWillNotDraw(false);
+            }
+            new ClickHelper(this);
+        }
 
     }
 
     @Override
     public ViewBase getVirtualView() {
-        return null;
+        return mVirtualView;
     }
 
     @Override

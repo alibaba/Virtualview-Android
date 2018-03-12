@@ -57,6 +57,11 @@ import com.tmall.wireless.vaf.virtualview.view.image.NativeImage;
 import com.tmall.wireless.vaf.virtualview.view.image.VirtualImage;
 import com.tmall.wireless.vaf.virtualview.view.line.NativeLine;
 import com.tmall.wireless.vaf.virtualview.view.line.VirtualLine;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NFrameLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NGridLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NRatioLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NVH2Layout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NVHLayout;
 import com.tmall.wireless.vaf.virtualview.view.page.Page;
 import com.tmall.wireless.vaf.virtualview.view.progress.VirtualProgress;
 import com.tmall.wireless.vaf.virtualview.view.scroller.Scroller;
@@ -114,6 +119,11 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_Slider, new Slider.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualProgress, new VirtualProgress.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualContainer, new VirtualContainer.Builder());
+        mBuilders.put(25, new NFrameLayout.Builder());
+        mBuilders.put(26, new NGridLayout.Builder());
+        mBuilders.put(27, new NRatioLayout.Builder());
+        mBuilders.put(28, new NVH2Layout.Builder());
+        mBuilders.put(29, new NVHLayout.Builder());
     }
 
     public void destroy() {
