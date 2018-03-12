@@ -25,31 +25,26 @@
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.ViewGroup;
+import com.tmall.wireless.vaf.virtualview.container.Container;
 
 /**
- * Created by longerian on 2018/3/11.
+ * Created by longerian on 2018/3/12.
  *
  * @author longerian
- * @date 2018/03/11
+ * @date 2018/03/12
  */
 
-public class NVHLayoutView extends ViewGroup {
-    public NVHLayoutView(Context context) {
+public class NativeLayout extends Container {
+    public NativeLayout(Context context) {
         super(context);
     }
 
-    public NVHLayoutView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public NVHLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public void setComMeasuredDimension(int measuredWidth, int measuredHeight) {
+        setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
+    public int getType() {
+        return -1;
     }
 }

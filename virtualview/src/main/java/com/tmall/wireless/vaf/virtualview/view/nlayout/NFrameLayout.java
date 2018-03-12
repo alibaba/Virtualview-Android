@@ -24,12 +24,13 @@
 
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
+import android.util.Log;
 import android.view.View;
-import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.core.Layout;
+import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
+import com.tmall.wireless.vaf.virtualview.layout.FrameLayout;
 
 /**
  * Created by longerian on 2018/3/11.
@@ -38,9 +39,13 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache;
  * @date 2018/03/11
  */
 
-public class NFrameLayout extends Layout {
+public class NFrameLayout extends FrameLayout {
 
     private final static String TAG = "NFrameLayout_TMTEST";
+
+    public static int count = 0;
+
+    private int id;
 
     private NFrameLayoutImpl mNative;
 
@@ -49,21 +54,11 @@ public class NFrameLayout extends Layout {
         super(context, viewCache);
         mNative = new NFrameLayoutImpl(context.getContext());
         mNative.setVirtualView(this);
+        id = count++;
     }
 
     public View getNativeView() {
         return mNative;
-    }
-
-    @Override
-    public void onParseValueFinished() {
-        super.onParseValueFinished();
-        mNative.attachViews();
-    }
-
-    @Override
-    public Params generateParams() {
-        return new Params();
     }
 
     @Override
@@ -73,33 +68,16 @@ public class NFrameLayout extends Layout {
 
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+        mNative.setComMeasuredDimension(getComMeasuredWidth(), getComMeasuredHeight());
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        mNative.onLayout(changed, l, t, r, b);
-    }
-
-    public static class Params extends Layout.Params {
-        public int mLayoutGravity;
-
-        @Override
-        public boolean setAttribute(int key, int value) {
-            boolean ret = super.setAttribute(key, value);
-
-            if (!ret) {
-                ret = true;
-                switch (key) {
-                    case StringBase.STR_ID_layoutGravity:
-                        mLayoutGravity = value;
-                        break;
-                    default:
-                        ret = false;
-                }
-            }
-
-            return ret;
+        if (changed) {
+            super.onComLayout(changed, l, t, r, b);
+            mNative.layout(l, t, r, b);
+            Log.d("Longer", "onComLayout " + id + " changed " + changed + " parent " + mNative.getParent());
         }
     }
 

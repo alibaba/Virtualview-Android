@@ -68,11 +68,26 @@ public class Container extends ViewGroup implements IContainer, IView {
 
     protected void attachViews(ViewBase view) {
         if (view instanceof Layout) {
-            Layout layout = (Layout) view;
-            List<ViewBase> subViews = layout.getSubViews();
-            if (null != subViews) {
-                for (ViewBase com : subViews) {
-                    attachViews(com);
+            View v = view.getNativeView();
+            if (null != v && v != this) {
+                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                addView(v, layoutParams);
+                if (v instanceof Container) {
+                    Layout layout = (Layout) view;
+                    List<ViewBase> subViews = layout.getSubViews();
+                    if (null != subViews) {
+                        for (ViewBase com : subViews) {
+                            ((Container) v).attachViews(com);
+                        }
+                    }
+                }
+            } else {
+                Layout layout = (Layout) view;
+                List<ViewBase> subViews = layout.getSubViews();
+                if (null != subViews) {
+                    for (ViewBase com : subViews) {
+                        attachViews(com);
+                    }
                 }
             }
         } else {

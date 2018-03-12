@@ -24,10 +24,12 @@
 
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
+import android.view.View;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.NativeViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
+import com.tmall.wireless.vaf.virtualview.layout.RatioLayout;
 
 /**
  * Created by longerian on 2018/3/11.
@@ -36,18 +38,40 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache;
  * @date 2018/03/11
  */
 
-public class NRatioLayout extends NativeViewBase {
+public class NRatioLayout extends RatioLayout {
 
     private final static String TAG = "NRatioLayout_TMTEST";
+
+    private NRatioLayoutImpl mNative;
 
     public NRatioLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
+        mNative = new NRatioLayoutImpl(context.getContext());
+        mNative.setVirtualView(this);
+    }
+
+    public View getNativeView() {
+        return mNative;
     }
 
     @Override
     public boolean isContainer() {
         return true;
+    }
+
+    @Override
+    public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+        mNative.setComMeasuredDimension(getComMeasuredWidth(), getComMeasuredHeight());
+    }
+
+    @Override
+    public void onComLayout(boolean changed, int l, int t, int r, int b) {
+        if (changed) {
+            super.onComLayout(changed, l, t, r, b);
+            mNative.layout(l, t, r, b);
+        }
     }
 
     public static class Builder implements IBuilder {
