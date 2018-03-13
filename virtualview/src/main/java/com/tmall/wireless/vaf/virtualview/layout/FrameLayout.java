@@ -98,7 +98,9 @@ public class FrameLayout extends Layout {
 
         setComMeasuredDimension(getRealWidth(widthMode, width),
                 getRealHeight(heightMode, height));
-
+        if (this instanceof INativeLayout) {
+            ((INativeLayout) this).nativeLayoutMeasuredDimension(getComMeasuredWidth(), getComMeasuredHeight());
+        }
         if (mMatchParentView.size() > 0) {
             for (ViewBase vb : mMatchParentView) {
                 measureComChild(vb, View.MeasureSpec.makeMeasureSpec(mMeasuredWidth,

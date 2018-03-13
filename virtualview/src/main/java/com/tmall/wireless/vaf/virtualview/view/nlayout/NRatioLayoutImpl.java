@@ -25,11 +25,6 @@
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.View;
-import com.tmall.wireless.vaf.virtualview.core.IContainer;
-import com.tmall.wireless.vaf.virtualview.core.IView;
-import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 
 /**
  * Created by longerian on 2018/3/11.
@@ -38,7 +33,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewBase;
  * @date 2018/03/11
  */
 
-public class NRatioLayoutImpl extends NativeLayout {
+public class NRatioLayoutImpl extends NativeLayoutImpl {
 
     public NRatioLayoutImpl(Context context) {
         super(context);

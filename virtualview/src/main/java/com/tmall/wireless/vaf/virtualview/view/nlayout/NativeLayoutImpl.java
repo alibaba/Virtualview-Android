@@ -34,8 +34,8 @@ import com.tmall.wireless.vaf.virtualview.container.Container;
  * @date 2018/03/12
  */
 
-public class NativeLayout extends Container {
-    public NativeLayout(Context context) {
+public class NativeLayoutImpl extends Container {
+    public NativeLayoutImpl(Context context) {
         super(context);
     }
 

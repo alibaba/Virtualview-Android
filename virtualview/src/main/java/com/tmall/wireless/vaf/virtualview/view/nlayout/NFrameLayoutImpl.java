@@ -33,7 +33,7 @@ import android.content.Context;
  * @date 2018/03/11
  */
 
-public class NFrameLayoutImpl extends NativeLayout {
+public class NFrameLayoutImpl extends NativeLayoutImpl {
 
     public NFrameLayoutImpl(Context context) {
         super(context);
