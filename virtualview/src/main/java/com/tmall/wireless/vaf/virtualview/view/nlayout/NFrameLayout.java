@@ -62,7 +62,7 @@ public class NFrameLayout extends FrameLayout {
 
     @Override
     public boolean isContainer() {
-        return true;
+        return false;
     }
 
     @Override
@@ -76,7 +76,9 @@ public class NFrameLayout extends FrameLayout {
         if (changed) {
             super.onComLayout(changed, l, t, r, b);
             mNative.layout(l, t, r, b);
-            Log.d("Longer", "onComLayout " + id + " changed " + changed + " parent " + mNative.getParent());
+            Log.d("Longer",
+                "onComLayout " + id + " changed " + changed + " parent " + mNative.getParent() + " " + l + " " + t + " " + r
+                    + " " + b);
         }
     }
 

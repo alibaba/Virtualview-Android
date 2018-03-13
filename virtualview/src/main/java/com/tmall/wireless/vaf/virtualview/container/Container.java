@@ -35,13 +35,14 @@ import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 
 import java.util.List;
 
 /**
  * Created by gujicheng on 16/8/16.
  */
-public class Container extends ViewGroup implements IContainer, IView {
+public class Container extends ViewGroup implements IContainer {
     private final static String TAG = "Container_TMTEST";
 
     protected ViewBase mView;
@@ -134,23 +135,23 @@ public class Container extends ViewGroup implements IContainer, IView {
         }
     }
 
-    @Override
-    public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-        if (null != mView) {
-            mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
-            this.setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
-        }
-    }
+    //@Override
+    //public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
+    //    if (null != mView) {
+    //        mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
+    //        this.setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
+    //    }
+    //}
 
-    @Override
-    public void comLayout(int l, int t, int r, int b) {
-        if (null != mView) {
-            mView.comLayout(0, 0, r - l, b - t);
-            this.layout(l, t, r, b);
-        }
-    }
+    //@Override
+    //public void comLayout(int l, int t, int r, int b) {
+    //    if (null != mView) {
+    //        mView.comLayout(0, 0, r - l, b - t);
+    //        this.layout(l, t, r, b);
+    //    }
+    //}
 
-    @Override
+    //@Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (null != mView) {
             mView.onComMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -158,30 +159,30 @@ public class Container extends ViewGroup implements IContainer, IView {
         }
     }
 
-    @Override
+    //@Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
         if (null != mView) {
             mView.onComLayout(changed, l, t, r, b);
         }
     }
 
-    @Override
-    public int getComMeasuredWidth() {
-        if (null != mView) {
-            return mView.getComMeasuredWidth();
-        } else {
-            return 0;
-        }
-    }
+    //@Override
+    //public int getComMeasuredWidth() {
+    //    if (null != mView) {
+    //        return mView.getComMeasuredWidth();
+    //    } else {
+    //        return 0;
+    //    }
+    //}
 
-    @Override
-    public int getComMeasuredHeight() {
-        if (null != mView) {
-            return mView.getComMeasuredHeight();
-        } else {
-            return 0;
-        }
-    }
+    //@Override
+    //public int getComMeasuredHeight() {
+    //    if (null != mView) {
+    //        return mView.getComMeasuredHeight();
+    //    } else {
+    //        return 0;
+    //    }
+    //}
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
