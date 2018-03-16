@@ -209,6 +209,10 @@ public abstract class ViewBase implements IView {
         return mAction;
     }
 
+    public String getActionParam() {
+        return mActionParam;
+    }
+
     public Object getJSONData() {
         return mJSONData;
     }
