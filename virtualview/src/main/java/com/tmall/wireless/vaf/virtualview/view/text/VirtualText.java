@@ -160,7 +160,10 @@ public class VirtualText extends TextBase {
                 top = mContentRect.height() + mPaddingTop;
             }
 
+            canvas.save();
+            canvas.clipRect(0, 0, mMeasuredWidth, mMeasuredHeight);
             canvas.drawText(mDrawText, left, top - mDescent, mPaint);
+            canvas.restore();
 
             if (mBorderWidth > 0) {
                 if (mBorderPaint == null) {
