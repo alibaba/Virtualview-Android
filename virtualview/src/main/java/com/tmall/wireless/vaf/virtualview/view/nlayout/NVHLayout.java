@@ -48,7 +48,7 @@ public class NVHLayout extends VHLayout {
         ViewCache viewCache) {
         super(context, viewCache);
         mNative = new NVHLayoutImpl(context.getContext());
-        mNative.setVirtualView(this);
+        //mNative.setVirtualView(this);
     }
 
     public View getNativeView() {

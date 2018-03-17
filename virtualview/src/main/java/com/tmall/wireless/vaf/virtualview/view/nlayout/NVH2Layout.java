@@ -48,7 +48,7 @@ public class NVH2Layout extends VH2Layout {
         ViewCache viewCache) {
         super(context, viewCache);
         mNative = new NVH2LayoutImpl(context.getContext());
-        mNative.setVirtualView(this);
+        //mNative.setVirtualView(this);
     }
 
     public View getNativeView() {

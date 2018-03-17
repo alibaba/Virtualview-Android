@@ -48,7 +48,7 @@ public class NGridLayout extends GridLayout {
         ViewCache viewCache) {
         super(context, viewCache);
         mNative = new NGridLayoutImpl(context.getContext());
-        mNative.setVirtualView(this);
+        //mNative.setVirtualView(this);
     }
 
     public View getNativeView() {

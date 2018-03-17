@@ -234,6 +234,16 @@ public abstract class Layout extends ViewBase {
         view.mParent = this;
     }
 
+    public boolean removeView(ViewBase view) {
+        if (mSubViews.contains(view)) {
+            mSubViews.remove(view);
+            view.mParent = null;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     protected void measureComChild(ViewBase child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
         Params childParam = child.getComLayoutParams();
         final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,

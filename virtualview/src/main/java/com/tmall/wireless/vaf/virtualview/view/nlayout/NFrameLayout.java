@@ -24,6 +24,7 @@
 
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
+import android.graphics.Canvas;
 import android.util.Log;
 import android.view.View;
 import com.tmall.wireless.vaf.framework.VafContext;
@@ -38,7 +39,7 @@ import com.tmall.wireless.vaf.virtualview.layout.FrameLayout;
  * @date 2018/03/11
  */
 
-public class NFrameLayout extends FrameLayout {
+public class NFrameLayout extends FrameLayout implements INativeLayout {
 
     private final static String TAG = "NFrameLayout_TMTEST";
 
@@ -66,20 +67,56 @@ public class NFrameLayout extends FrameLayout {
     }
 
     @Override
+    public void comDraw(Canvas canvas) {
+        //super.comDraw(canvas);
+    }
+
+    @Override
+    protected void onComDraw(Canvas canvas) {
+        //super.onComDraw(canvas);
+    }
+
+    @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
-        mNative.setComMeasuredDimension(getComMeasuredWidth(), getComMeasuredHeight());
+        //super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+        mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d("Longer",
+            "onComMeasure " + id);
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed) {
-            super.onComLayout(changed, l, t, r, b);
-            mNative.layout(l, t, r, b);
-            Log.d("Longer",
-                "onComLayout " + id + " changed " + changed + " parent " + mNative.getParent() + " " + l + " " + t + " " + r
-                    + " " + b);
-        }
+        //super.onComLayout(changed, l, t, r, b);
+        mNative.onLayout(changed, l, t, r, b);
+        Log.d("Longer",
+            "onComLayout " + id + " changed " + changed + " " + l + " " + t + " " + r
+                + " " + b);
+    }
+
+    @Override
+    public void comLayout(int l, int t, int r, int b) {
+        //super.comLayout(l, t, r, b);
+        mNative.layout(l, t, r, b); //layout itself
+        Log.d("Longer",
+            "comLayout " + id  + " parent " + " " + l + " " + t + " " + r
+                + " " + b);
+    }
+
+    @Override
+    public void onLayoutMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public void onLayoutLayout(boolean changed, int l, int t, int r, int b) {
+        super.onComLayout(changed, l, t, r, b);
+    }
+
+    @Override
+    public void layoutDraw(Canvas canvas) {
+        super.comDraw(canvas);
+        Log.d("Longer",
+            "layoutDraw " + id);
     }
 
     public static class Builder implements IBuilder {

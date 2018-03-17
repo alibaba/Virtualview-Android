@@ -383,6 +383,14 @@ public abstract class ViewBase implements IView {
         return mParent == null;
     }
 
+    public boolean removeFromParent() {
+        if (mParent != null) {
+            return mParent.removeView(this);
+        } else {
+            return false;
+        }
+    }
+
     public String getViewType() {
         return mViewType;
     }

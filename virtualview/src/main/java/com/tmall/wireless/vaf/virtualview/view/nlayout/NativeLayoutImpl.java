@@ -45,7 +45,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewBase;
  * @date 2018/03/12
  */
 
-public class NativeLayoutImpl extends Container {
+public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     private final static String TAG = "NativeLayoutImpl_TMTEST";
 
@@ -55,143 +55,113 @@ public class NativeLayoutImpl extends Container {
         super(context);
     }
 
+    public void attachViews(ViewBase view) {
+        if (view instanceof Layout) {
+            View v = view.getNativeView();
+            if (null != v) {
+                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                addView(v, layoutParams);
+                if (v instanceof NativeLayoutImpl) {
+                    Layout layout = (Layout) view;
+                    List<ViewBase> subViews = layout.getSubViews();
+                    if (null != subViews) {
+                        for (ViewBase com : subViews) {
+                            ((NativeLayoutImpl) v).attachViews(com);
+                        }
+                    }
+                }
+            } else {
+                Layout layout = (Layout) view;
+                List<ViewBase> subViews = layout.getSubViews();
+                if (null != subViews) {
+                    for (ViewBase com : subViews) {
+                        attachViews(com);
+                    }
+                }
+            }
+        } else {
+            View v = view.getNativeView();
+            if (null != v) {
+                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                addView(v, layoutParams);
+            }
+        }
+    }
+
     public void setComMeasuredDimension(int measuredWidth, int measuredHeight) {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
-    //@Override
-    //protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    //    onComMeasure(widthMeasureSpec, heightMeasureSpec);
-    //}
-    //
-    //@Override
-    //protected void onLayout(boolean changed, int l, int t, int r, int b) {
-    //    Log.d("Longer", "NativeLayoutImpl_TMTEST onLayout " + " " + l + " " + t + " " + r
-    //        + " " + b);
-    //    onComLayout(changed, l, t, r, b);
-    //}
-    //
-    //@Override
-    //protected void onDraw(Canvas canvas) {
-    //    super.onDraw(canvas);
-    //    if (null != mView && mView.shouldDraw()) {
-    //        mView.comDraw(canvas);
-    //    }
-    //}
-    //
-    //@Override
-    //public void attachViews() {
-    //    attachViews(mView);
-    //}
-    //
-    //public void attachViews(ViewBase view) {
-    //    if (view instanceof Layout) {
-    //        View v = view.getNativeView();
-    //        if (null != v && v != this) {
-    //            LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
-    //            addView(v, layoutParams);
-    //            if (v instanceof NativeLayoutImpl) {
-    //                Layout layout = (Layout) view;
-    //                List<ViewBase> subViews = layout.getSubViews();
-    //                if (null != subViews) {
-    //                    for (ViewBase com : subViews) {
-    //                        ((NativeLayoutImpl) v).attachViews(com);
-    //                    }
-    //                }
-    //            }
-    //        } else {
-    //            Layout layout = (Layout) view;
-    //            List<ViewBase> subViews = layout.getSubViews();
-    //            if (null != subViews) {
-    //                for (ViewBase com : subViews) {
-    //                    attachViews(com);
-    //                }
-    //            }
-    //        }
-    //    } else {
-    //        View v = view.getNativeView();
-    //        if (null != v) {
-    //            LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
-    //            addView(v, layoutParams);
-    //        }
-    //    }
-    //}
-    //
-    //@Override
-    //public void setVirtualView(ViewBase view) {
-    //    if (null != view) {
-    //        mView = view;
-    //        mView.setHoldView(this);
-    //        if (mView.shouldDraw()) {
-    //            setWillNotDraw(false);
-    //        }
-    //        //new ClickHelper(this);
-    //    }
-    //}
-    //
-    //@Override
-    //public ViewBase getVirtualView() {
-    //    return mView;
-    //}
-    //
-    //@Override
-    //public View getHolderView() {
-    //    return this;
-    //}
-    //
-    //@Override
-    //public void destroy() {
-    //
-    //}
-    //
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        Log.d("Longer", "NativeLayoutImpl_TMTEST onMeasure ");
+        onViewBaseMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        Log.d("Longer", "NativeLayoutImpl_TMTEST onLayout " + " " + l + " " + t + " " + r
+            + " " + b);
+        onViewBaseLayout(changed, 0, 0, r - l, b - t);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (null != mView && mView.shouldDraw() && mView instanceof INativeLayout) {
+            ((INativeLayout)mView).layoutDraw(canvas);
+        }
+    }
+
+    @Override
+    public void attachViews() {
+        attachViews(mView);
+    }
+
+    @Override
+    public void setVirtualView(ViewBase view) {
+        if (null != view) {
+            mView = view;
+            mView.setHoldView(this);
+            if (mView.shouldDraw()) {
+                setWillNotDraw(false);
+            }
+        }
+    }
+
+    @Override
+    public ViewBase getVirtualView() {
+        return mView;
+    }
+
+    @Override
+    public View getHolderView() {
+        return this;
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
     @Override
     public int getType() {
         return -1;
     }
-    //
-    //@Override
-    //public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-    //    if (null != mView) {
-    //        mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
-    //        setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
-    //    }
-    //}
-    //
-    //@Override
-    //public void comLayout(int l, int t, int r, int b) {
-    //    if (null != mView) {
-    //        mView.comLayout(0, 0, r - l, b - t);
-    //        this.layout(l, t, r, b);
-    //        Log.d("Longer", "NativeLayoutImpl_TMTEST comLayout " + " " + l + " " + t + " " + r
-    //            + " " + b);
-    //    }
-    //}
-    //
-    //@Override
-    //public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    //    if (null != mView) {
-    //        mView.onComMeasure(widthMeasureSpec, heightMeasureSpec);
-    //        setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
-    //    }
-    //}
-    //
-    //@Override
-    //public void onComLayout(boolean changed, int l, int t, int r, int b) {
-    //    if (null != mView) {
-    //        mView.onComLayout(changed, 0, 0, r - l, b - t);
-    //        Log.d("Longer", "NativeLayoutImpl_TMTEST onComLayout " + " " + l + " " + t + " " + r
-    //            + " " + b);
-    //    }
-    //    this.layout(l, t, r, b);
-    //}
-    //
-    //@Override
-    //public int getComMeasuredWidth() {
-    //    return this.getMeasuredWidth();
-    //}
-    //
-    //@Override
-    //public int getComMeasuredHeight() {
-    //    return this.getMeasuredHeight();
-    //}
+
+    private void onViewBaseMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        Log.d("Longer", "NativeLayoutImpl_TMTEST onViewBaseMeasure ");
+        if (null != mView && mView instanceof INativeLayout) {
+            ((INativeLayout)mView).onLayoutMeasure(widthMeasureSpec, heightMeasureSpec);
+            setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
+        }
+    }
+
+    private void onViewBaseLayout(boolean changed, int l, int t, int r, int b) {
+        if (null != mView && mView instanceof INativeLayout) {
+            ((INativeLayout)mView).onLayoutLayout(changed, l, t, r, b);
+        Log.d("Longer", "NativeLayoutImpl_TMTEST onViewBaseLayout " + " " + l + " " + t + " " + r
+            + " " + b);
+        }
+    }
 }

@@ -24,20 +24,17 @@
 
 package com.tmall.wireless.vaf.virtualview.container;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.libra.virtualview.common.LayoutCommon;
 import com.tmall.wireless.vaf.framework.cm.ContainerService;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
-import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
-
-import java.util.List;
 
 /**
  * Created by gujicheng on 16/8/16.
@@ -70,15 +67,15 @@ public class Container extends ViewGroup implements IContainer {
     protected void attachViews(ViewBase view) {
         if (view instanceof Layout) {
             View v = view.getNativeView();
-            if (null != v && v != this) {
+            if (null != v) {
                 LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
                 addView(v, layoutParams);
-                if (v instanceof Container) {
+                if (v instanceof NativeLayoutImpl) {
                     Layout layout = (Layout) view;
                     List<ViewBase> subViews = layout.getSubViews();
                     if (null != subViews) {
                         for (ViewBase com : subViews) {
-                            ((Container) v).attachViews(com);
+                            ((NativeLayoutImpl) v).attachViews(com);
                         }
                     }
                 }

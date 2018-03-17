@@ -48,7 +48,7 @@ public class NRatioLayout extends RatioLayout {
         ViewCache viewCache) {
         super(context, viewCache);
         mNative = new NRatioLayoutImpl(context.getContext());
-        mNative.setVirtualView(this);
+        //mNative.setVirtualView(this);
     }
 
     public View getNativeView() {
