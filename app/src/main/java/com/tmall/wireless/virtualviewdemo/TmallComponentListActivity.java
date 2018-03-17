@@ -69,6 +69,11 @@ public class TmallComponentListActivity extends ListActivity {
         component8.put("class", ComponentActivity.class.getName());
         component8.put("data", "component_demo/tmall_component_8.json");
         list.add(component8);
+        HashMap<String, String> picasso = new HashMap<String, String>();
+        picasso.put("name", "Picasso");
+        picasso.put("class", ComponentActivity.class.getName());
+        picasso.put("data", "component_demo/picasso.json");
+        list.add(picasso);
         ListAdapter listAdapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1});
         setListAdapter(listAdapter);
     }

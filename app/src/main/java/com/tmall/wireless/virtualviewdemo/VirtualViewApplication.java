@@ -29,6 +29,7 @@ import com.tmall.wireless.virtualviewdemo.bytes.NTEXT;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGEITEM;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGESCROLLSCRIPT;
+import com.tmall.wireless.virtualviewdemo.bytes.PICASSO;
 import com.tmall.wireless.virtualviewdemo.bytes.PROGRESS;
 import com.tmall.wireless.virtualviewdemo.bytes.RATIOLAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.SCROLLERH;
@@ -53,6 +54,7 @@ import com.tmall.wireless.virtualviewdemo.bytes.VIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.VLINE;
 import com.tmall.wireless.virtualviewdemo.bytes.VTEXT;
 import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
+import com.tmall.wireless.virtualviewdemo.custom.PicassoImage;
 import com.tmall.wireless.virtualviewdemo.custom.TMReminderTagsView;
 import com.tmall.wireless.virtualviewdemo.custom.TotalContainer;
 
@@ -184,7 +186,9 @@ public class VirtualViewApplication extends Application {
             sViewManager.loadBinBufferSync(TMALLCOMPONENT6.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT7.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT8.BIN);
+            sViewManager.loadBinBufferSync(PICASSO.BIN);
             sViewManager.getViewFactory().registerBuilder(BizCommon.TM_TOTAL_CONTAINER,new TotalContainer.Builder());
+            sViewManager.getViewFactory().registerBuilder(1014,new PicassoImage.Builder());
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
             sVafContext.getEventManager().register(EventManager.TYPE_Click, new ClickProcessorImpl());
         }
