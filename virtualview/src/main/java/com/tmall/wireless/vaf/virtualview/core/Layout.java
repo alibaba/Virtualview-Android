@@ -177,12 +177,17 @@ public abstract class Layout extends ViewBase {
     public void comDraw(Canvas canvas) {
         super.comDraw(canvas);
 
+        //FIXME let layout clip virtual children
+        //canvas.save();
+        //VirtualViewUtils.clipCanvas(canvas, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+        //    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         // draw children
         for (ViewBase v : mSubViews) {
             if (v.shouldDraw()) {
                 v.comDraw(canvas);
             }
         }
+        //canvas.restore();
     }
 
     @Override

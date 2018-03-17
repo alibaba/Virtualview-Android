@@ -24,6 +24,8 @@
 
 package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
+import android.graphics.Canvas;
+import android.util.Log;
 import android.view.View;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.NativeViewBase;
@@ -38,17 +40,22 @@ import com.tmall.wireless.vaf.virtualview.layout.GridLayout;
  * @date 2018/03/11
  */
 
-public class NGridLayout extends GridLayout {
+public class NGridLayout extends GridLayout implements INativeLayout {
 
     private final static String TAG = "NGridLayout_TMTEST";
 
-    private NGridLayoutImpl mNative;
+    public static int count = 0;
+
+    private int id;
+
+    private NativeLayoutImpl mNative;
 
     public NGridLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new NGridLayoutImpl(context.getContext());
-        //mNative.setVirtualView(this);
+        mNative = new NativeLayoutImpl(context.getContext());
+        mNative.setVirtualView(this);
+        id = count++;
     }
 
     public View getNativeView() {
@@ -57,21 +64,51 @@ public class NGridLayout extends GridLayout {
 
     @Override
     public boolean isContainer() {
-        return true;
+        return false;
+    }
+
+    @Override
+    public void comDraw(Canvas canvas) {
+    }
+
+    @Override
+    protected void onComDraw(Canvas canvas) {
     }
 
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
-        mNative.setComMeasuredDimension(getComMeasuredWidth(), getComMeasuredHeight());
+        mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d(TAG,"onComMeasure " + id);
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed) {
-            super.onComLayout(changed, l, t, r, b);
-            mNative.layout(l, t, r, b);
-        }
+        mNative.onLayout(changed, l, t, r, b);
+        Log.d(TAG,"onComLayout " + id + " changed " + changed + " " + l + " " + t + " " + r
+            + " " + b);
+    }
+
+    @Override
+    public void comLayout(int l, int t, int r, int b) {
+        mNative.layout(l, t, r, b); //layout itself
+        Log.d(TAG,"comLayout " + id  + " parent " + " " + l + " " + t + " " + r
+            + " " + b);
+    }
+
+    @Override
+    public void onLayoutMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public void onLayoutLayout(boolean changed, int l, int t, int r, int b) {
+        super.onComLayout(changed, l, t, r, b);
+    }
+
+    @Override
+    public void layoutDraw(Canvas canvas) {
+        super.comDraw(canvas);
+        Log.d(TAG,"layoutDraw " + id);
     }
 
     public static class Builder implements IBuilder {

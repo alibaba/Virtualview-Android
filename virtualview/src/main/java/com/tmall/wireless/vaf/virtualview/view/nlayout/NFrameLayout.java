@@ -47,12 +47,12 @@ public class NFrameLayout extends FrameLayout implements INativeLayout {
 
     private int id;
 
-    private NFrameLayoutImpl mNative;
+    private NativeLayoutImpl mNative;
 
     public NFrameLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new NFrameLayoutImpl(context.getContext());
+        mNative = new NativeLayoutImpl(context.getContext());
         mNative.setVirtualView(this);
         id = count++;
     }
@@ -68,37 +68,29 @@ public class NFrameLayout extends FrameLayout implements INativeLayout {
 
     @Override
     public void comDraw(Canvas canvas) {
-        //super.comDraw(canvas);
     }
 
     @Override
     protected void onComDraw(Canvas canvas) {
-        //super.onComDraw(canvas);
     }
 
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //super.onComMeasure(widthMeasureSpec, heightMeasureSpec);
         mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d("Longer",
-            "onComMeasure " + id);
+        Log.d(TAG,"onComMeasure " + id);
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        //super.onComLayout(changed, l, t, r, b);
         mNative.onLayout(changed, l, t, r, b);
-        Log.d("Longer",
-            "onComLayout " + id + " changed " + changed + " " + l + " " + t + " " + r
+        Log.d(TAG,"onComLayout " + id + " changed " + changed + " " + l + " " + t + " " + r
                 + " " + b);
     }
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
-        //super.comLayout(l, t, r, b);
         mNative.layout(l, t, r, b); //layout itself
-        Log.d("Longer",
-            "comLayout " + id  + " parent " + " " + l + " " + t + " " + r
+        Log.d(TAG,"comLayout " + id  + " parent " + " " + l + " " + t + " " + r
                 + " " + b);
     }
 
@@ -115,8 +107,7 @@ public class NFrameLayout extends FrameLayout implements INativeLayout {
     @Override
     public void layoutDraw(Canvas canvas) {
         super.comDraw(canvas);
-        Log.d("Longer",
-            "layoutDraw " + id);
+        Log.d(TAG,"layoutDraw " + id);
     }
 
     public static class Builder implements IBuilder {

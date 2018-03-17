@@ -15,7 +15,7 @@ public class ClickProcessorImpl implements IEventProcessor {
 
     @Override
     public boolean process(EventData data) {
-        Log.d("ClickProcessorImpl", "event " + data.mVB);
+        Log.d("ClickProcessorImpl", "event " + data.mVB + " " + data.mVB.getAction());
         return true;
     }
 
