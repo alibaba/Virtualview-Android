@@ -47,7 +47,6 @@ public class ContainerService {
     public final static int MAX_CONTAINER_MRG_COUNT = 20;
 
     public final static int CONTAINER_TYPE_NORMAL = 0;
-    public final static int CONTAINER_TYPE_SURFACE = 1;
 
     private VafContext mAppContext;
     private ViewManager mVM;
@@ -57,7 +56,6 @@ public class ContainerService {
 
     public ContainerService() {
         registerContainerMrg(new NormalManager(), CONTAINER_TYPE_NORMAL);
-        registerContainerMrg(new SurfaceManager(), CONTAINER_TYPE_SURFACE);
     }
 
     public void registerContainerMrg(ContainerMrg cm, int containerID) {

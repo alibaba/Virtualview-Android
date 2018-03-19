@@ -33,7 +33,6 @@ import android.util.SparseArray;
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.container.Container;
-import com.tmall.wireless.vaf.virtualview.container.SurfaceContainer;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -184,28 +183,25 @@ public class ViewFactory {
         return ret;
     }
 
+    public boolean overrideBuilder(int id, ViewBase.IBuilder builder) {
+        boolean ret = false;
+
+        if (null != builder) {
+            mBuilders.put(id, builder);
+            ret = true;
+        } else {
+            Log.e(TAG, "register builder failed, builder is null");
+        }
+
+        return ret;
+    }
+
     public IContainer newViewWithContainer(String type) {
         IContainer ret = null;
 
         ViewBase view = newView(type);
         if (null != view) {
             ret = new Container(mAppContext.getContext());
-            ret.setVirtualView(view);
-
-            ret.attachViews();
-        } else {
-            Log.e(TAG, "new view failed type:" + type);
-        }
-
-        return ret;
-    }
-
-    public IContainer newViewWithSurfaceContainer(String type) {
-        IContainer ret = null;
-
-        ViewBase view = newView(type);
-        if (null != view) {
-            ret = new SurfaceContainer(mAppContext.getContext());
             ret.setVirtualView(view);
 
             ret.attachViews();
