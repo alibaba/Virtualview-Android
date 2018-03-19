@@ -119,11 +119,11 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_Slider, new Slider.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualProgress, new VirtualProgress.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualContainer, new VirtualContainer.Builder());
-        mBuilders.put(25, new NFrameLayout.Builder());
-        mBuilders.put(26, new NGridLayout.Builder());
-        mBuilders.put(27, new NRatioLayout.Builder());
-        mBuilders.put(28, new NVH2Layout.Builder());
-        mBuilders.put(29, new NVHLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NFrameLayout, new NFrameLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NGridLayout, new NGridLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NRatioLayout, new NRatioLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NVH2Layout, new NVH2Layout.Builder());
+        mBuilders.put(Common.VIEW_ID_NVHLayout, new NVHLayout.Builder());
     }
 
     public void destroy() {
