@@ -78,7 +78,6 @@
                 layoutHeight="150"
                 background="#0088FF"
                 layoutGravity="right"
-                textSize="12"
                 gravity="v_center|h_center"
                 borderColor="#FF0000"
                 borderWidth="10"
