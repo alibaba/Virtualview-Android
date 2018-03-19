@@ -258,6 +258,7 @@ public abstract class ViewBase implements IView {
         } else {
             if (null == mBackgroundPaint) {
                 mBackgroundPaint = new Paint();
+                mBackgroundPaint.setAntiAlias(true);
             }
             mBackgroundPaint.setColor(mBackground);
         }
@@ -361,6 +362,22 @@ public abstract class ViewBase implements IView {
 
     public int getBorderRadius() {
         return mBorderRadius;
+    }
+
+    public int getBorderTopLeftRadius() {
+        return mBorderTopLeftRadius;
+    }
+
+    public int getBorderTopRightRadius() {
+        return mBorderTopRightRadius;
+    }
+
+    public int getBorderBottomLeftRadius() {
+        return mBorderBottomLeftRadius;
+    }
+
+    public int getBorderBottomRightRadius() {
+        return mBorderBottomRightRadius;
     }
 
     public int getAlign() {
@@ -859,6 +876,7 @@ public abstract class ViewBase implements IView {
         mBackgroundImage = null;
         if (null == mBackgroundPaint) {
             mBackgroundPaint = new Paint();
+            mBackgroundPaint.setAntiAlias(true);
         }
 
         if (null == mMatrixBG) {
@@ -937,6 +955,29 @@ public abstract class ViewBase implements IView {
                 canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
             }
         }
+    }
+
+    public void drawBorder(Canvas canvas) {
+        if (mBorderWidth > 0) {
+            //if (!Float.isNaN(mAlpha)) {
+            //    if (mAlpha > 1.0f) {
+            //        mAlpha = 1.0f;
+            //    } else if (mAlpha < 0.0f) {
+            //        mAlpha = 0.0f;
+            //    }
+            //    mBorderPaint.setAlpha((int)(mAlpha * 255));
+            //}
+            if (mBorderPaint == null) {
+                mBorderPaint = new Paint();
+                mBorderPaint.setAntiAlias(true);
+                mBorderPaint.setStyle(Paint.Style.STROKE);
+            }
+            mBorderPaint.setColor(mBorderColor);
+            mBorderPaint.setStrokeWidth(mBorderWidth);
+            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
+        }
+
     }
 
     public void onParseValueFinished() {
@@ -1701,6 +1742,7 @@ public abstract class ViewBase implements IView {
 
         public VirtualViewImp() {
             mPaint = new Paint();
+            mPaint.setAntiAlias(true);
             reset();
         }
 

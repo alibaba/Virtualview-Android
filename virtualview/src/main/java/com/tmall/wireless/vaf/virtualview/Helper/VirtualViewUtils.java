@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Build;
+import android.view.View;
 
 /**
  * Created by longerian on 2017/12/18.
@@ -135,6 +137,11 @@ public class VirtualViewUtils {
 
     public static void clipCanvas(Canvas canvas, int width, int height, int borderWidth,
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
+        clipCanvas(null, canvas, width, height, borderWidth, borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius);
+    }
+
+    public static void clipCanvas(View view, Canvas canvas, int width, int height, int borderWidth,
+        int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
         if (canvas == null) {
             return;
         }
@@ -149,7 +156,7 @@ public class VirtualViewUtils {
         if (!isRounded(borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius)) {
             return;
         }
-
+        borderWidth = 0;
         float halfBorderWidth = (borderWidth / 2.0f);
         sPath.reset();
         //start point
@@ -159,7 +166,7 @@ public class VirtualViewUtils {
         //arc to right edge
         if (borderTopRightRadius > 0) {
             oval.set(width - 2 * borderTopRightRadius, 0, width, 2 * borderTopRightRadius);
-            oval.offset(-halfBorderWidth, halfBorderWidth);
+            //oval.offset(-borderWidth, borderWidth);
             sPath.arcTo(oval, 270, 90);
         }
         //line right edge
@@ -167,7 +174,7 @@ public class VirtualViewUtils {
         //arc to bottom edge
         if (borderBottomRightRadius > 0) {
             oval.set(width - 2 * borderBottomRightRadius, height - 2 * borderBottomRightRadius, width, height);
-            oval.offset(-halfBorderWidth, -halfBorderWidth);
+            //oval.offset(-borderWidth, -borderWidth);
             sPath.arcTo(oval, 0, 90);
         }
         //line bottom edge
@@ -175,7 +182,7 @@ public class VirtualViewUtils {
         //arc to left edge
         if (borderBottomLeftRadius > 0) {
             oval.set(0, height - 2 * borderBottomLeftRadius, 2 * borderBottomLeftRadius, height);
-            oval.offset(halfBorderWidth, -halfBorderWidth);
+            //oval.offset(borderWidth, -borderWidth);
             sPath.arcTo(oval, 90, 90);
         }
         //line left edge
@@ -183,8 +190,11 @@ public class VirtualViewUtils {
         //arc to top edge
         if (borderTopLeftRadius > 0) {
             oval.set(0, 0, 2 * borderTopLeftRadius, 2 * borderTopLeftRadius);
-            oval.offset(halfBorderWidth, halfBorderWidth);
+            //oval.offset(borderWidth, borderWidth);
             sPath.arcTo(oval, 180, 90);
+        }
+        if (canvas.isHardwareAccelerated() && (Build.VERSION.SDK_INT < 18) && view != null) {
+            view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         canvas.clipPath(sPath);
     }

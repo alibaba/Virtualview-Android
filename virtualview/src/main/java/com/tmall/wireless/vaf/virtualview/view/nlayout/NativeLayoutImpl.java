@@ -28,9 +28,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Build.VERSION;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.container.ClickHelper;
 import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
@@ -88,10 +91,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
         }
     }
 
-    public void setComMeasuredDimension(int measuredWidth, int measuredHeight) {
-        setMeasuredDimension(measuredWidth, measuredHeight);
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         Log.d("Longer", "NativeLayoutImpl_TMTEST onMeasure ");
@@ -106,10 +105,29 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        if (mView != null) {
+            VirtualViewUtils.clipCanvas(this, canvas, getMeasuredWidth(), getMeasuredHeight(), mView.getBorderWidth(),
+                mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
+        }
+        super.draw(canvas);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        if (mView != null) {
+            VirtualViewUtils.clipCanvas(this, canvas, getMeasuredWidth(), getMeasuredHeight(), mView.getBorderWidth(),
+                mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
+        }
+        super.dispatchDraw(canvas);
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (null != mView && mView.shouldDraw() && mView instanceof INativeLayout) {
             ((INativeLayout)mView).layoutDraw(canvas);
+            mView.drawBorder(canvas);
         }
     }
 

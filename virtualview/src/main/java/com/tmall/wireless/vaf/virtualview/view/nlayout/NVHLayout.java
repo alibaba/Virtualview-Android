@@ -72,10 +72,6 @@ public class NVHLayout extends VHLayout implements INativeLayout {
     }
 
     @Override
-    protected void onComDraw(Canvas canvas) {
-    }
-
-    @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
         Log.d(TAG,"onComMeasure " + id);

@@ -193,25 +193,7 @@ public abstract class Layout extends ViewBase {
     @Override
     protected void onComDraw(Canvas canvas) {
         super.onComDraw(canvas);
-        if (mBorderWidth > 0) {
-            //if (!Float.isNaN(mAlpha)) {
-            //    if (mAlpha > 1.0f) {
-            //        mAlpha = 1.0f;
-            //    } else if (mAlpha < 0.0f) {
-            //        mAlpha = 0.0f;
-            //    }
-            //    mBorderPaint.setAlpha((int)(mAlpha * 255));
-            //}
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setAntiAlias(true);
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
-        }
+        drawBorder(canvas);
     }
 
     @Override
@@ -221,6 +203,7 @@ public abstract class Layout extends ViewBase {
         if (mPaint == null) {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setAntiAlias(true);
         }
 
         if (mBorderWidth > 0) {
