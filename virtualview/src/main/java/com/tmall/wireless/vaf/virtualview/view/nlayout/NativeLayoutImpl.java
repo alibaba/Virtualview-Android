@@ -101,15 +101,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        if (mView != null) {
-            VirtualViewUtils.clipCanvas(this, canvas, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
-                mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
-        }
-        super.draw(canvas);
-    }
-
-    @Override
     protected void dispatchDraw(Canvas canvas) {
         if (mView != null) {
             VirtualViewUtils.clipCanvas(this, canvas, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
