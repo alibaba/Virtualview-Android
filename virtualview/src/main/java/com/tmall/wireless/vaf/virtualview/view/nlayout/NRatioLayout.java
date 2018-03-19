@@ -82,6 +82,8 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
+        mDrawLeft = l;
+        mDrawTop = t;
         mNative.layout(l, t, r, b); //layout itself
     }
 

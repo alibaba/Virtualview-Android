@@ -96,7 +96,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("Longer", "NativeLayoutImpl_TMTEST onMeasure ");
         onViewBaseMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -158,6 +157,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
             if (mView.shouldDraw()) {
                 setWillNotDraw(false);
             }
+            new ClickHelper(this);
         }
     }
 
@@ -182,7 +182,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     }
 
     private void onViewBaseMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("Longer", "NativeLayoutImpl_TMTEST onViewBaseMeasure ");
         if (null != mView && mView instanceof INativeLayout) {
             ((INativeLayout)mView).onLayoutMeasure(widthMeasureSpec, heightMeasureSpec);
             setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
@@ -192,8 +191,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     private void onViewBaseLayout(boolean changed, int l, int t, int r, int b) {
         if (null != mView && mView instanceof INativeLayout) {
             ((INativeLayout)mView).onLayoutLayout(changed, l, t, r, b);
-        Log.d("Longer", "NativeLayoutImpl_TMTEST onViewBaseLayout " + " " + l + " " + t + " " + r
-            + " " + b);
         }
     }
 }
