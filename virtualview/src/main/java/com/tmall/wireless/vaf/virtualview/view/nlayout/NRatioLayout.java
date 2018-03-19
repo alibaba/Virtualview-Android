@@ -44,10 +44,6 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
 
     private final static String TAG = "NRatioLayout_TMTEST";
 
-    public static int count = 0;
-
-    private int id;
-
     private NativeLayoutImpl mNative;
 
     public NRatioLayout(VafContext context,
@@ -55,7 +51,6 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
         super(context, viewCache);
         mNative = new NativeLayoutImpl(context.getContext());
         mNative.setVirtualView(this);
-        id = count++;
     }
 
     public View getNativeView() {
@@ -72,23 +67,22 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
     }
 
     @Override
+    protected void onComDraw(Canvas canvas) {
+    }
+
+    @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d(TAG,"onComMeasure " + id);
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
         mNative.onLayout(changed, l, t, r, b);
-        Log.d(TAG,"onComLayout " + id + " changed " + changed + " " + l + " " + t + " " + r
-            + " " + b);
     }
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
         mNative.layout(l, t, r, b); //layout itself
-        Log.d(TAG,"comLayout " + id  + " parent " + " " + l + " " + t + " " + r
-            + " " + b);
     }
 
     @Override
@@ -104,7 +98,6 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
     @Override
     public void layoutDraw(Canvas canvas) {
         super.comDraw(canvas);
-        Log.d(TAG,"layoutDraw " + id);
     }
     public static class Builder implements IBuilder {
         @Override

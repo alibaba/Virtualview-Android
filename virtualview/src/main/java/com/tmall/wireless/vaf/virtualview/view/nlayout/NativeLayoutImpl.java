@@ -28,6 +28,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build.VERSION;
 import android.util.Log;
@@ -53,6 +54,8 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     private final static String TAG = "NativeLayoutImpl_TMTEST";
 
     protected ViewBase mView;
+
+    private Paint mBackgroundPaint;
 
     public NativeLayoutImpl(Context context) {
         super(context);
@@ -107,7 +110,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     @Override
     public void draw(Canvas canvas) {
         if (mView != null) {
-            VirtualViewUtils.clipCanvas(this, canvas, getMeasuredWidth(), getMeasuredHeight(), mView.getBorderWidth(),
+            VirtualViewUtils.clipCanvas(this, canvas, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
                 mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
         }
         super.draw(canvas);
@@ -116,7 +119,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         if (mView != null) {
-            VirtualViewUtils.clipCanvas(this, canvas, getMeasuredWidth(), getMeasuredHeight(), mView.getBorderWidth(),
+            VirtualViewUtils.clipCanvas(this, canvas, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
                 mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
         }
         super.dispatchDraw(canvas);
@@ -124,6 +127,17 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (null != mView) {
+            if (mView.getBackground() != Color.TRANSPARENT) {
+                if (null == mBackgroundPaint) {
+                    mBackgroundPaint = new Paint();
+                    mBackgroundPaint.setAntiAlias(true);
+                }
+                mBackgroundPaint.setColor(mView.getBackground());
+                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
+                    mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
+            }
+        }
         super.onDraw(canvas);
         if (null != mView && mView.shouldDraw() && mView instanceof INativeLayout) {
             ((INativeLayout)mView).layoutDraw(canvas);

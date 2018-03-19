@@ -156,41 +156,35 @@ public class VirtualViewUtils {
         if (!isRounded(borderTopLeftRadius, borderTopRightRadius, borderBottomLeftRadius, borderBottomRightRadius)) {
             return;
         }
-        borderWidth = 0;
-        float halfBorderWidth = (borderWidth / 2.0f);
         sPath.reset();
         //start point
-        sPath.moveTo(borderWidth + (borderTopLeftRadius > 0 ? borderTopLeftRadius : 0), borderWidth);
+        sPath.moveTo((borderTopLeftRadius > 0 ? borderTopLeftRadius : 0), 0);
         //line top edge
-        sPath.lineTo(width - borderWidth - (borderTopRightRadius > 0 ? borderTopRightRadius : 0), borderWidth);
+        sPath.lineTo(width - (borderTopRightRadius > 0 ? borderTopRightRadius : 0), 0);
         //arc to right edge
         if (borderTopRightRadius > 0) {
             oval.set(width - 2 * borderTopRightRadius, 0, width, 2 * borderTopRightRadius);
-            //oval.offset(-borderWidth, borderWidth);
             sPath.arcTo(oval, 270, 90);
         }
         //line right edge
-        sPath.lineTo(width - borderWidth, height - borderWidth - (borderBottomRightRadius > 0 ? borderBottomRightRadius : 0));
+        sPath.lineTo(width, height - (borderBottomRightRadius > 0 ? borderBottomRightRadius : 0));
         //arc to bottom edge
         if (borderBottomRightRadius > 0) {
             oval.set(width - 2 * borderBottomRightRadius, height - 2 * borderBottomRightRadius, width, height);
-            //oval.offset(-borderWidth, -borderWidth);
             sPath.arcTo(oval, 0, 90);
         }
         //line bottom edge
-        sPath.lineTo(borderWidth + (borderBottomLeftRadius > 0 ? borderBottomLeftRadius : 0), height - borderWidth);
+        sPath.lineTo((borderBottomLeftRadius > 0 ? borderBottomLeftRadius : 0), height);
         //arc to left edge
         if (borderBottomLeftRadius > 0) {
             oval.set(0, height - 2 * borderBottomLeftRadius, 2 * borderBottomLeftRadius, height);
-            //oval.offset(borderWidth, -borderWidth);
             sPath.arcTo(oval, 90, 90);
         }
         //line left edge
-        sPath.lineTo(borderWidth, borderWidth + (borderTopLeftRadius > 0 ? borderTopLeftRadius : 0));
+        sPath.lineTo(0, (borderTopLeftRadius > 0 ? borderTopLeftRadius : 0));
         //arc to top edge
         if (borderTopLeftRadius > 0) {
             oval.set(0, 0, 2 * borderTopLeftRadius, 2 * borderTopLeftRadius);
-            //oval.offset(borderWidth, borderWidth);
             sPath.arcTo(oval, 180, 90);
         }
         if (canvas.isHardwareAccelerated() && (Build.VERSION.SDK_INT < 18) && view != null) {

@@ -58,6 +58,8 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
+import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -253,7 +255,7 @@ public abstract class ViewBase implements IView {
     protected void setBackgroundColor(int color) {
         mBackground = color;
         View view = getNativeView();
-        if (null != view) {
+        if (null != view && !(view instanceof NativeLayoutImpl)) {
             view.setBackgroundColor(color);
         } else {
             if (null == mBackgroundPaint) {
