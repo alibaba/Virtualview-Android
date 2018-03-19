@@ -59,7 +59,7 @@ public class NVHLayout extends VHLayout implements INativeLayout {
 
     @Override
     public boolean isContainer() {
-        return false;
+        return true;
     }
 
     @Override

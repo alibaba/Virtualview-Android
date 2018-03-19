@@ -136,14 +136,16 @@ public class Container extends ViewGroup implements IContainer, IView {
     @Override
     public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
         if (null != mView) {
-            mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
+            if (!mView.isGone()) {
+                mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
+            }
             this.setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
         }
     }
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
-        if (null != mView) {
+        if (null != mView && !mView.isGone()) {
             mView.comLayout(0, 0, r - l, b - t);
             this.layout(l, t, r, b);
         }
@@ -152,14 +154,16 @@ public class Container extends ViewGroup implements IContainer, IView {
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (null != mView) {
-            mView.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+            if (!mView.isGone()) {
+                mView.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+            }
             setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
         }
     }
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        if (null != mView) {
+        if (null != mView && !mView.isGone()) {
             mView.onComLayout(changed, l, t, r, b);
         }
     }

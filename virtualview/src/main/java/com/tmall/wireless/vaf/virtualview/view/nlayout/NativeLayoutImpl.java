@@ -30,15 +30,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build.VERSION;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.container.ClickHelper;
-import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
-import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 
@@ -64,7 +60,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     public void attachViews(ViewBase view) {
         if (view instanceof Layout) {
             View v = view.getNativeView();
-            if (null != v) {
+            if (null != v && v != this) {
                 LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
                 addView(v, layoutParams);
                 if (v instanceof NativeLayoutImpl) {
@@ -101,8 +97,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d("Longer", "NativeLayoutImpl_TMTEST onLayout " + " " + l + " " + t + " " + r
-            + " " + b);
         onViewBaseLayout(changed, 0, 0, r - l, b - t);
     }
 
@@ -183,13 +177,15 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     private void onViewBaseMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (null != mView && mView instanceof INativeLayout) {
-            ((INativeLayout)mView).onLayoutMeasure(widthMeasureSpec, heightMeasureSpec);
+            if (!mView.isGone()) {
+                ((INativeLayout)mView).onLayoutMeasure(widthMeasureSpec, heightMeasureSpec);
+            }
             setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
         }
     }
 
     private void onViewBaseLayout(boolean changed, int l, int t, int r, int b) {
-        if (null != mView && mView instanceof INativeLayout) {
+        if (null != mView && mView instanceof INativeLayout && !mView.isGone()) {
             ((INativeLayout)mView).onLayoutLayout(changed, l, t, r, b);
         }
     }

@@ -58,7 +58,7 @@ public class NFrameLayout extends FrameLayout implements INativeLayout {
 
     @Override
     public boolean isContainer() {
-        return false;
+        return true;
     }
 
     @Override

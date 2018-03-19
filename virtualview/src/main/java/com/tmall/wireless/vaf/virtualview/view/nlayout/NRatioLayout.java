@@ -59,7 +59,7 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
 
     @Override
     public boolean isContainer() {
-        return false;
+        return true;
     }
 
     @Override

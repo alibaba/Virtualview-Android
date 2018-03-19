@@ -59,7 +59,7 @@ public class NGridLayout extends GridLayout implements INativeLayout {
 
     @Override
     public boolean isContainer() {
-        return false;
+        return true;
     }
 
     @Override

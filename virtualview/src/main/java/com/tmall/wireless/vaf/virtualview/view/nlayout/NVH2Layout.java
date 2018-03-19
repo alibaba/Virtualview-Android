@@ -59,7 +59,7 @@ public class NVH2Layout extends VH2Layout implements INativeLayout {
 
     @Override
     public boolean isContainer() {
-        return false;
+        return true;
     }
 
     @Override
