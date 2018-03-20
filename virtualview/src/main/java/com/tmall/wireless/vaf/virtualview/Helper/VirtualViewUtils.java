@@ -29,6 +29,8 @@ public class VirtualViewUtils {
 
     private static Paint sBorderPaint;
 
+    private static Paint sBackgroundPaint;
+
     public static void drawBorder(Canvas canvas, int borderColor, int width, int height, int borderWidth,
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
         if (canvas == null || borderWidth <= 0 || borderColor == Color.TRANSPARENT) {
@@ -93,11 +95,16 @@ public class VirtualViewUtils {
         }
     }
 
-    public static void drawBackground(Canvas canvas, Paint backgroundPaint, int width, int height, int borderWidth,
+    public static void drawBackground(Canvas canvas, int backgruondColor, int width, int height, int borderWidth,
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
-        if (canvas == null || backgroundPaint == null) {
+        if (canvas == null) {
             return;
         }
+        if (null == sBackgroundPaint) {
+            sBackgroundPaint = new Paint();
+            sBackgroundPaint.setAntiAlias(true);
+        }
+        sBackgroundPaint.setColor(backgruondColor);
         if (!enableBorderRadius) {
             borderTopLeftRadius = 0;
             borderTopRightRadius = 0;
@@ -142,7 +149,7 @@ public class VirtualViewUtils {
             oval.offset(halfBorderWidth, halfBorderWidth);
             sPath.arcTo(oval, 180, 90);
         }
-        canvas.drawPath(sPath, backgroundPaint);
+        canvas.drawPath(sPath, sBackgroundPaint);
     }
 
     public static void clipCanvas(Canvas canvas, int width, int height, int borderWidth,

@@ -47,7 +47,6 @@ public class NativeTextImp extends TextView implements IView {
     private int mBorderBottomRightRadius = 0;
     private int mBorderWidth = 0;
     private int mBorderColor = Color.BLACK;
-    private Paint mBackgroundPaint;
 
     public NativeTextImp(Context context) {
         super(context);
@@ -86,12 +85,7 @@ public class NativeTextImp extends TextView implements IView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (mBackgroundColor != Color.TRANSPARENT) {
-            if (null == mBackgroundPaint) {
-                mBackgroundPaint = new Paint();
-                mBackgroundPaint.setAntiAlias(true);
-            }
-            mBackgroundPaint.setColor(mBackgroundColor);
-            VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, canvas.getWidth(), canvas.getHeight(), mBorderWidth,
+            VirtualViewUtils.drawBackground(canvas, mBackgroundColor, canvas.getWidth(), canvas.getHeight(), mBorderWidth,
                 mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         }
         super.onDraw(canvas);

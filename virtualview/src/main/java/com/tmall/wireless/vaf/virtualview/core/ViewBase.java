@@ -92,7 +92,6 @@ public abstract class ViewBase implements IView {
     protected int mDrawLeft;
     protected int mDrawTop;
     protected Paint mPaint;
-    protected Paint mBackgroundPaint;
 
     protected int mBackground;
     protected String mBackgroundImagePath;
@@ -242,12 +241,6 @@ public abstract class ViewBase implements IView {
         View view = getNativeView();
         if (null != view && !(view instanceof NativeLayoutImpl)) {
             view.setBackgroundColor(color);
-        } else {
-            if (null == mBackgroundPaint) {
-                mBackgroundPaint = new Paint();
-                mBackgroundPaint.setAntiAlias(true);
-            }
-            mBackgroundPaint.setColor(mBackground);
         }
     }
 
@@ -333,10 +326,6 @@ public abstract class ViewBase implements IView {
         }
 
         return ret;
-    }
-
-    public Paint getBackgroundPaint() {
-        return mBackgroundPaint;
     }
 
     public int getBackground() {
@@ -862,15 +851,9 @@ public abstract class ViewBase implements IView {
     public void setBackgroundImage(String path) {
         mBackgroundImagePath = path;
         mBackgroundImage = null;
-        if (null == mBackgroundPaint) {
-            mBackgroundPaint = new Paint();
-            mBackgroundPaint.setAntiAlias(true);
-        }
-
         if (null == mMatrixBG) {
             mMatrixBG = new Matrix();
         }
-
         mContext.getImageLoader().getBitmap(path, mMeasuredWidth, mMeasuredHeight, new ImageLoader.Listener() {
             @Override
             public void onImageLoadSuccess(Bitmap bmp) {
@@ -925,22 +908,13 @@ public abstract class ViewBase implements IView {
 
     protected void onComDraw(Canvas canvas) {
         if (getNativeView() == null) {
-            //if (!Float.isNaN(mAlpha)) {
-            //    if (mAlpha > 1.0f) {
-            //        mAlpha = 1.0f;
-            //    } else if (mAlpha < 0.0f) {
-            //        mAlpha = 0.0f;
-            //    }
-            //    mPaint.setAlpha((int)(mAlpha * 255));
-            //    mBackgroundPaint.setAlpha((int)(mAlpha * 255));
-            //}
             if (mBackground != Color.TRANSPARENT) {
-                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                VirtualViewUtils.drawBackground(canvas, mBackground, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                     mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
                 //TODO clip canvas if border radius set
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
-                canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
+                canvas.drawBitmap(mBackgroundImage, mMatrixBG, null);
             }
         }
     }

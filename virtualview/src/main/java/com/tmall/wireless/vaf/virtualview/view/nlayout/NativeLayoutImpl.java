@@ -51,8 +51,6 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     protected ViewBase mView;
 
-    private Paint mBackgroundPaint;
-
     public NativeLayoutImpl(Context context) {
         super(context);
     }
@@ -115,12 +113,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     protected void onDraw(Canvas canvas) {
         if (null != mView) {
             if (mView.getBackground() != Color.TRANSPARENT) {
-                if (null == mBackgroundPaint) {
-                    mBackgroundPaint = new Paint();
-                    mBackgroundPaint.setAntiAlias(true);
-                }
-                mBackgroundPaint.setColor(mView.getBackground());
-                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
+                VirtualViewUtils.drawBackground(canvas, mView.getBackground(), mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
                     mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
             }
         }
