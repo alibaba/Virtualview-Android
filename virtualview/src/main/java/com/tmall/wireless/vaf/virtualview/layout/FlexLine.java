@@ -30,6 +30,7 @@ import java.util.List;
 /**
  * Holds properties related to a single flex line. This class is not expected to be changed outside
  */
+@Deprecated
 public class FlexLine {
 
     FlexLine() {

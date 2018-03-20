@@ -46,7 +46,7 @@ import java.util.List;
 /**
  * Created by gujicheng on 16/12/20.
  */
-
+@Deprecated
 public class VirtualContainer extends ViewBase {
     private final static String TAG = "VContainer_TMTEST";
 
