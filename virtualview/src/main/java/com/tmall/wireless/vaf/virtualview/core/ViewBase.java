@@ -24,6 +24,7 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
+import java.util.Iterator;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -41,7 +42,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.Common;
@@ -57,13 +57,9 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
-
-import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayout;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -376,11 +372,18 @@ public abstract class ViewBase implements IView {
         return mParent == null;
     }
 
-    public boolean removeFromParent() {
-        if (mParent != null) {
-            return mParent.removeView(this);
+    public int decideFinalVisibility() {
+        if (mParent == null) {
+            return mVisibility;
         } else {
-            return false;
+            int parentVisibility = mParent.decideFinalVisibility();
+            if (parentVisibility == ViewBaseCommon.VISIBLE) {
+                return mVisibility;
+            } else if (parentVisibility == ViewBaseCommon.INVISIBLE) {
+                return ViewBaseCommon.INVISIBLE;
+            } else {
+                return ViewBaseCommon.GONE;
+            }
         }
     }
 
@@ -462,11 +465,12 @@ public abstract class ViewBase implements IView {
         }
     }
 
-    private boolean changeVisibility() {
+    protected boolean changeVisibility() {
+        int finalVisibility = decideFinalVisibility();
         boolean ret = false;
         View nativeView = this.getNativeView();
         if (null != nativeView) {
-            switch (mVisibility) {
+            switch (finalVisibility) {
                 case ViewBaseCommon.INVISIBLE:
                     nativeView.setVisibility(View.INVISIBLE);
                     break;
@@ -483,7 +487,7 @@ public abstract class ViewBase implements IView {
             }
             ret = true;
         } else if (isContainer()) {
-            switch(mVisibility) {
+            switch(finalVisibility) {
                 case ViewBaseCommon.INVISIBLE:
                     mViewCache.getHolderView().setVisibility(View.INVISIBLE);
                     break;

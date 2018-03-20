@@ -24,23 +24,17 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
-
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
-import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
-import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
-import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gujicheng on 16/8/15.
@@ -214,9 +208,21 @@ public abstract class Layout extends ViewBase {
 
     }
 
+    @Override
+    protected boolean changeVisibility() {
+        boolean ret = super.changeVisibility();
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
+            v.changeVisibility();
+        }
+        return ret;
+    }
+
+
     public void addView(ViewBase view) {
         mSubViews.add(view);
         view.mParent = this;
+        view.changeVisibility();
     }
 
     public boolean removeView(ViewBase view) {
