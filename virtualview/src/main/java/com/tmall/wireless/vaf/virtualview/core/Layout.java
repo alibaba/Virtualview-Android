@@ -212,15 +212,6 @@ public abstract class Layout extends ViewBase {
             mPaint.setAntiAlias(true);
         }
 
-        if (mBorderWidth > 0) {
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setAntiAlias(true);
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-        }
     }
 
     public void addView(ViewBase view) {

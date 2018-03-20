@@ -99,7 +99,6 @@ public abstract class ViewBase implements IView {
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
 
-    protected Paint mBorderPaint;
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
     protected int mBorderRadius = 0;
@@ -221,25 +220,11 @@ public abstract class ViewBase implements IView {
 
     public void setBorderWidth(int width) {
         mBorderWidth = width;
-
-        if (null == mBorderPaint) {
-            mBorderPaint = new Paint();
-            mBorderPaint.setStyle(Paint.Style.STROKE);
-            mBorderPaint.setAntiAlias(true);
-        }
-        mBorderPaint.setStrokeWidth(mBorderWidth);
         this.refresh();
     }
 
     public void setBorderColor(int color) {
         mBorderColor = color;
-
-        if (null == mBorderPaint) {
-            mBorderPaint = new Paint();
-            mBorderPaint.setStyle(Paint.Style.STROKE);
-            mBorderPaint.setAntiAlias(true);
-        }
-        mBorderPaint.setColor(mBorderColor);
         this.refresh();
     }
 
@@ -961,26 +946,8 @@ public abstract class ViewBase implements IView {
     }
 
     public void drawBorder(Canvas canvas) {
-        if (mBorderWidth > 0) {
-            //if (!Float.isNaN(mAlpha)) {
-            //    if (mAlpha > 1.0f) {
-            //        mAlpha = 1.0f;
-            //    } else if (mAlpha < 0.0f) {
-            //        mAlpha = 0.0f;
-            //    }
-            //    mBorderPaint.setAlpha((int)(mAlpha * 255));
-            //}
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setAntiAlias(true);
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
-        }
-
+        VirtualViewUtils.drawBorder(canvas, mBorderColor, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+            mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
     }
 
     public void onParseValueFinished() {

@@ -1,6 +1,7 @@
 package com.tmall.wireless.vaf.virtualview.Helper;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -26,11 +27,20 @@ public class VirtualViewUtils {
 
     private static Path sPath = new Path();
 
-    public static void drawBorder(Canvas canvas, Paint borderPaint, int width, int height, int borderWidth,
+    private static Paint sBorderPaint;
+
+    public static void drawBorder(Canvas canvas, int borderColor, int width, int height, int borderWidth,
         int borderTopLeftRadius, int borderTopRightRadius, int borderBottomLeftRadius, int borderBottomRightRadius) {
-        if (canvas == null || borderPaint == null) {
+        if (canvas == null || borderWidth <= 0 || borderColor == Color.TRANSPARENT) {
             return;
         }
+        if (sBorderPaint == null) {
+            sBorderPaint = new Paint();
+            sBorderPaint.setAntiAlias(true);
+            sBorderPaint.setStyle(Paint.Style.STROKE);
+        }
+        sBorderPaint.setColor(borderColor);
+        sBorderPaint.setStrokeWidth(borderWidth);
         if (!enableBorderRadius) {
             borderTopLeftRadius = 0;
             borderTopRightRadius = 0;
@@ -40,46 +50,46 @@ public class VirtualViewUtils {
         float halfBorderWidth = (borderWidth / 2.0f);
         //draw left border
         canvas.drawLine(halfBorderWidth, borderTopLeftRadius > 0 ? borderTopLeftRadius + halfBorderWidth : 0, halfBorderWidth,
-            borderBottomLeftRadius > 0 ? height - borderBottomLeftRadius - halfBorderWidth : height, borderPaint);
+            borderBottomLeftRadius > 0 ? height - borderBottomLeftRadius - halfBorderWidth : height, sBorderPaint);
 
         //draw top border
         canvas.drawLine(borderTopLeftRadius > 0 ? halfBorderWidth + borderTopLeftRadius : 0, halfBorderWidth,
-            borderTopRightRadius > 0 ? width - borderTopRightRadius - halfBorderWidth : width, halfBorderWidth, borderPaint);
+            borderTopRightRadius > 0 ? width - borderTopRightRadius - halfBorderWidth : width, halfBorderWidth, sBorderPaint);
 
         //draw right border
         canvas.drawLine(width - halfBorderWidth, borderTopRightRadius > 0 ? halfBorderWidth + borderTopRightRadius : 0, width - halfBorderWidth,
-            borderBottomRightRadius > 0 ? height - borderBottomRightRadius - halfBorderWidth : height, borderPaint);
+            borderBottomRightRadius > 0 ? height - borderBottomRightRadius - halfBorderWidth : height, sBorderPaint);
 
         //draw bottom border
         canvas.drawLine(borderBottomLeftRadius > 0 ? halfBorderWidth + borderBottomLeftRadius : 0, height - halfBorderWidth,
-            borderBottomRightRadius > 0 ? width - borderBottomRightRadius - halfBorderWidth : width, height - halfBorderWidth, borderPaint);
+            borderBottomRightRadius > 0 ? width - borderBottomRightRadius - halfBorderWidth : width, height - halfBorderWidth, sBorderPaint);
 
         //draw top left corner
         if (borderTopLeftRadius > 0) {
             oval.set(0, 0, 2 * borderTopLeftRadius, 2 * borderTopLeftRadius);
             oval.offset(halfBorderWidth, halfBorderWidth);
-            canvas.drawArc(oval, 179, 91, false, borderPaint);
+            canvas.drawArc(oval, 179, 91, false, sBorderPaint);
         }
 
         //draw top right corner
         if (borderTopRightRadius > 0) {
             oval.set(width - 2 * borderTopRightRadius, 0, width, 2 * borderTopRightRadius);
             oval.offset(-halfBorderWidth, halfBorderWidth);
-            canvas.drawArc(oval, 269, 91, false, borderPaint);
+            canvas.drawArc(oval, 269, 91, false, sBorderPaint);
         }
 
         //draw bottom right corner
         if (borderBottomRightRadius > 0) {
             oval.set(width - 2 * borderBottomRightRadius, height - 2 * borderBottomRightRadius, width, height);
             oval.offset(-halfBorderWidth, -halfBorderWidth);
-            canvas.drawArc(oval, -1, 91, false, borderPaint);
+            canvas.drawArc(oval, -1, 91, false, sBorderPaint);
         }
 
         //draw bottom left corner
         if (borderBottomLeftRadius > 0) {
             oval.set(0, height - 2 * borderBottomLeftRadius, 2 * borderBottomLeftRadius, height);
             oval.offset(halfBorderWidth, -halfBorderWidth);
-            canvas.drawArc(oval, 89, 91, false, borderPaint);
+            canvas.drawArc(oval, 89, 91, false, sBorderPaint);
         }
     }
 
