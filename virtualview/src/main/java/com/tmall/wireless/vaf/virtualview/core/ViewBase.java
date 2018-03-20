@@ -533,6 +533,7 @@ public abstract class ViewBase implements IView {
     public boolean isGone() {
         return (mVisibility == ViewBaseCommon.GONE);
     }
+
     public int getVisibility() {
         return mVisibility;
     }

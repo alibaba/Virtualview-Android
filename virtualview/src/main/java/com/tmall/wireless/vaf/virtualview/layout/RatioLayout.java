@@ -178,7 +178,8 @@ public class RatioLayout extends Layout {
         findTotalRatio();
 
         boolean hasMatchHeight = false;
-        for (ViewBase child : mSubViews) {
+        for (int i = 0, length = mSubViews.size(); i < length; i++) {
+            ViewBase child = mSubViews.get(i);
             if (child.isGone()) {
                 continue;
             }
@@ -205,7 +206,8 @@ public class RatioLayout extends Layout {
             int uniformMeasureHeightSpec = View.MeasureSpec.makeMeasureSpec(getComMeasuredHeight(),
                     View.MeasureSpec.EXACTLY);
 
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (child.isGone()) {
                     continue;
                 }
@@ -219,7 +221,8 @@ public class RatioLayout extends Layout {
 
     private void findTotalRatio() {
         mTotalRatio = 0;
-        for (ViewBase child : mSubViews) {
+        for (int i = 0, length = mSubViews.size(); i < length; i++) {
+            ViewBase child = mSubViews.get(i);
             if (child.isGone()) {
                 continue;
             }
@@ -240,7 +243,8 @@ public class RatioLayout extends Layout {
         findTotalRatio();
 
         boolean hasMatchWidth = false;
-        for (ViewBase child : mSubViews) {
+        for (int i = 0, length = mSubViews.size(); i < length; i++) {
+            ViewBase child = mSubViews.get(i);
             if (child.isGone()) {
                 continue;
             }
@@ -268,7 +272,8 @@ public class RatioLayout extends Layout {
             int uniformMeasureHeightSpec = View.MeasureSpec.makeMeasureSpec(getComMeasuredHeight(),
                     View.MeasureSpec.EXACTLY);
 
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (child.isGone()) {
                     continue;
                 }
@@ -289,7 +294,8 @@ public class RatioLayout extends Layout {
             if (ViewBaseCommon.HORIZONTAL == mOrientation) {
                 ret = size;
             } else if (ViewBaseCommon.VERTICAL == mOrientation) {
-                for (ViewBase child : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase child = mSubViews.get(i);
                     if (child.isGone()) {
                         continue;
                     }
@@ -319,7 +325,8 @@ public class RatioLayout extends Layout {
             int childrenHeight = 0;
 
             if (ViewBaseCommon.HORIZONTAL == mOrientation) {
-                for (ViewBase child : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase child = mSubViews.get(i);
                     if (child.isGone()) {
                         continue;
                     }
@@ -341,7 +348,8 @@ public class RatioLayout extends Layout {
             int childrenHeight = 0;
 
             if (ViewBaseCommon.HORIZONTAL == mOrientation) {
-                for (ViewBase child : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase child = mSubViews.get(i);
                     if (child.isGone()) {
                         continue;
                     }
@@ -355,7 +363,8 @@ public class RatioLayout extends Layout {
                 childrenHeight += mPaddingTop + mPaddingBottom + (mBorderWidth << 1);
                 ret = childrenHeight;
             } else if (ViewBaseCommon.VERTICAL == mOrientation) {
-                for (ViewBase child : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase child = mSubViews.get(i);
                     if (child.isGone()) {
                         continue;
                     }
@@ -376,7 +385,8 @@ public class RatioLayout extends Layout {
         switch (mOrientation) {
             case ViewBaseCommon.HORIZONTAL: {
                 int left = l + mPaddingLeft + mBorderWidth;
-                for (ViewBase view : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase view = mSubViews.get(i);
                     if (view.isGone()) {
                         continue;
                     }
@@ -403,7 +413,8 @@ public class RatioLayout extends Layout {
 
             case ViewBaseCommon.VERTICAL: {
                 int top = t + mPaddingTop + mBorderWidth;
-                for (ViewBase view : mSubViews) {
+                for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                    ViewBase view = mSubViews.get(i);
                     if (view.isGone()) {
                         continue;
                     }

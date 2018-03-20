@@ -66,7 +66,8 @@ public abstract class Layout extends ViewBase {
     public void ready() {
         super.ready();
 
-        for (ViewBase vb : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase vb = mSubViews.get(i);
             vb.ready();
         }
     }
@@ -75,7 +76,8 @@ public abstract class Layout extends ViewBase {
     public void destroy() {
         super.destroy();
 
-        for (ViewBase vb : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase vb = mSubViews.get(i);
             vb.destroy();
         }
 
@@ -87,7 +89,8 @@ public abstract class Layout extends ViewBase {
         ViewBase ret = super.findViewBaseById(id);
 
         if (null == ret) {
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (null != (ret = child.findViewBaseById(id))) {
                     break;
                 }
@@ -102,7 +105,8 @@ public abstract class Layout extends ViewBase {
         ViewBase ret = super.findViewBaseByName(name);
 
         if (null == ret) {
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (null != (ret = child.findViewBaseByName(name))) {
                     break;
                 }
@@ -168,7 +172,8 @@ public abstract class Layout extends ViewBase {
     public void reset() {
         super.reset();
 
-        for (ViewBase v : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
             v.reset();
         }
     }
@@ -182,7 +187,8 @@ public abstract class Layout extends ViewBase {
         //VirtualViewUtils.clipCanvas(canvas, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
         //    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         // draw children
-        for (ViewBase v : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
             if (v.shouldDraw()) {
                 v.comDraw(canvas);
             }

@@ -123,7 +123,8 @@ public class VirtualContainer extends ViewBase {
             Layout layout = (Layout) view;
             List<ViewBase> subViews = layout.getSubViews();
             if (null != subViews) {
-                for (ViewBase com : subViews) {
+                for (int i = 0, size = subViews.size(); i < size; i++) {
+                    ViewBase com = subViews.get(i);
                     attachViews(com);
                 }
             }
@@ -140,7 +141,8 @@ public class VirtualContainer extends ViewBase {
             Layout layout = (Layout) view;
             List<ViewBase> subViews = layout.getSubViews();
             if (null != subViews) {
-                for (ViewBase com : subViews) {
+                for (int i = 0, size = subViews.size(); i < size; i++) {
+                    ViewBase com = subViews.get(i);
                     detachViews(com);
                 }
             }
