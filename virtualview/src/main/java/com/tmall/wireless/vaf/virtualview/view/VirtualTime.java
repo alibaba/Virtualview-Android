@@ -31,7 +31,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 /**
  * Created by gujicheng on 16/12/9.
  */
-
+@Deprecated
 public class VirtualTime extends ViewBase {
     public VirtualTime(VafContext context, ViewCache viewCache) {
         super(context, viewCache);

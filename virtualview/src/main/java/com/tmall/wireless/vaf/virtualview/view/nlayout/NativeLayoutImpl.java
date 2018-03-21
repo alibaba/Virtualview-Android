@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 Alibaba Group
+ * Copyright (c) 2018 Alibaba Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,53 +22,43 @@
  * SOFTWARE.
  */
 
-package com.tmall.wireless.vaf.virtualview.container;
+package com.tmall.wireless.vaf.virtualview.view.nlayout;
 
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
-import com.tmall.wireless.vaf.framework.cm.ContainerService;
+import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
+import com.tmall.wireless.vaf.virtualview.container.ClickHelper;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
-import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
-import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 
 /**
- * Created by gujicheng on 16/8/16.
+ * Created by longerian on 2018/3/12.
+ *
+ * @author longerian
+ * @date 2018/03/12
  */
-public class Container extends ViewGroup implements IContainer, IView {
-    private final static String TAG = "Container_TMTEST";
+
+public class NativeLayoutImpl extends ViewGroup implements IContainer {
+
+    private final static String TAG = "NativeLayoutImpl_TMTEST";
 
     protected ViewBase mView;
 
-    public Container(Context context) {
+    public NativeLayoutImpl(Context context) {
         super(context);
     }
 
-    @Override
-    public void destroy() {
-        mView.destroy();
-        mView = null;
-    }
-
-    @Override
-    public int getType() {
-        return ContainerService.CONTAINER_TYPE_NORMAL;
-    }
-
-    @Override
-    public void attachViews() {
-        attachViews(mView);
-    }
-
-    protected void attachViews(ViewBase view) {
+    public void attachViews(ViewBase view) {
         if (view instanceof Layout) {
             View v = view.getNativeView();
-            if (null != v) {
+            if (null != v && v != this) {
                 LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
                 addView(v, layoutParams);
                 if (v instanceof NativeLayoutImpl) {
@@ -101,21 +91,54 @@ public class Container extends ViewGroup implements IContainer, IView {
     }
 
     @Override
-    public void setVirtualView(ViewBase l) {
-        if (null != l) {
-            mView = l;
-            mView.setHoldView(this);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        onViewBaseMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
-            if (mView.shouldDraw()) {
-                setWillNotDraw(false);
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        onViewBaseLayout(changed, 0, 0, r - l, b - t);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        if (mView != null) {
+            VirtualViewUtils.clipCanvas(this, canvas, mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
+                mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
+        }
+        super.dispatchDraw(canvas);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (null != mView) {
+            if (mView.getBackground() != Color.TRANSPARENT) {
+                VirtualViewUtils.drawBackground(canvas, mView.getBackground(), mView.getComMeasuredWidth(), mView.getComMeasuredHeight(), mView.getBorderWidth(),
+                    mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
             }
-
-            new ClickHelper(this);
+        }
+        super.onDraw(canvas);
+        if (null != mView && mView.shouldDraw() && mView instanceof INativeLayout) {
+            ((INativeLayout)mView).layoutDraw(canvas);
+            mView.drawBorder(canvas);
         }
     }
 
-    public void detachViews() {
-        this.removeAllViews();
+    @Override
+    public void attachViews() {
+        attachViews(mView);
+    }
+
+    @Override
+    public void setVirtualView(ViewBase view) {
+        if (null != view) {
+            mView = view;
+            mView.setHoldView(this);
+            if (mView.shouldDraw()) {
+                setWillNotDraw(false);
+            }
+            new ClickHelper(this);
+        }
     }
 
     @Override
@@ -129,73 +152,27 @@ public class Container extends ViewGroup implements IContainer, IView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        if (null != mView && mView.shouldDraw()) {
-            mView.comDraw(canvas);
-        }
+    public void destroy() {
+
     }
 
     @Override
-    public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-        if (null != mView) {
+    public int getType() {
+        return -1;
+    }
+
+    private void onViewBaseMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (null != mView && mView instanceof INativeLayout) {
             if (!mView.isGone()) {
-                mView.measureComponent(widthMeasureSpec, heightMeasureSpec);
-            }
-            this.setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
-        }
-    }
-
-    @Override
-    public void comLayout(int l, int t, int r, int b) {
-        if (null != mView && !mView.isGone()) {
-            mView.comLayout(0, 0, r - l, b - t);
-            this.layout(l, t, r, b);
-        }
-    }
-
-    @Override
-    public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (null != mView) {
-            if (!mView.isGone()) {
-                mView.onComMeasure(widthMeasureSpec, heightMeasureSpec);
+                ((INativeLayout)mView).onLayoutMeasure(widthMeasureSpec, heightMeasureSpec);
             }
             setMeasuredDimension(mView.getComMeasuredWidth(), mView.getComMeasuredHeight());
         }
     }
 
-    @Override
-    public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        if (null != mView && !mView.isGone()) {
-            mView.onComLayout(changed, l, t, r, b);
+    private void onViewBaseLayout(boolean changed, int l, int t, int r, int b) {
+        if (null != mView && mView instanceof INativeLayout && !mView.isGone()) {
+            ((INativeLayout)mView).onLayoutLayout(changed, l, t, r, b);
         }
     }
-
-    @Override
-    public int getComMeasuredWidth() {
-        if (null != mView) {
-            return mView.getComMeasuredWidth();
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    public int getComMeasuredHeight() {
-        if (null != mView) {
-            return mView.getComMeasuredHeight();
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        onComMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        onComLayout(changed, 0, 0, r - l, b - t);
-    }
-
 }

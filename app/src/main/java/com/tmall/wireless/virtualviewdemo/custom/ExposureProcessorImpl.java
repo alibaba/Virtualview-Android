@@ -5,17 +5,17 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.IEventProcessor;
 
 /**
- * Created by longerian on 2017/12/15.
+ * Created by longerian on 2018/3/19.
  *
  * @author longerian
- * @date 2017/12/15
+ * @date 2018/03/19
  */
 
-public class ClickProcessorImpl implements IEventProcessor {
+public class ExposureProcessorImpl implements IEventProcessor {
 
     @Override
     public boolean process(EventData data) {
-        Log.d("ClickProcessorImpl", "event " + data.mVB + " " + data.mVB.getAction());
+        Log.d("ExposureProcessorImpl", "event " + data.mVB + " " + data.mVB.getAction());
         return true;
     }
 

@@ -64,8 +64,6 @@ dependencies {
     compile project(path: ':virtualview')
     compile 'com.android.support:recyclerview-v7:23.1.1@aar'
 
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-//    compile 'com.android.volley:volley:1.0.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     compile 'com.squareup.picasso:picasso:2.5.2'

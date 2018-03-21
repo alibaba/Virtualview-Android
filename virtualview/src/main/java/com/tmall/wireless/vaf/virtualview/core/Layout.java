@@ -24,23 +24,17 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
-
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
-import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
-import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
-import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gujicheng on 16/8/15.
@@ -66,7 +60,8 @@ public abstract class Layout extends ViewBase {
     public void ready() {
         super.ready();
 
-        for (ViewBase vb : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase vb = mSubViews.get(i);
             vb.ready();
         }
     }
@@ -75,7 +70,8 @@ public abstract class Layout extends ViewBase {
     public void destroy() {
         super.destroy();
 
-        for (ViewBase vb : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase vb = mSubViews.get(i);
             vb.destroy();
         }
 
@@ -87,7 +83,8 @@ public abstract class Layout extends ViewBase {
         ViewBase ret = super.findViewBaseById(id);
 
         if (null == ret) {
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (null != (ret = child.findViewBaseById(id))) {
                     break;
                 }
@@ -102,7 +99,8 @@ public abstract class Layout extends ViewBase {
         ViewBase ret = super.findViewBaseByName(name);
 
         if (null == ret) {
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (null != (ret = child.findViewBaseByName(name))) {
                     break;
                 }
@@ -168,7 +166,8 @@ public abstract class Layout extends ViewBase {
     public void reset() {
         super.reset();
 
-        for (ViewBase v : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
             v.reset();
         }
     }
@@ -177,36 +176,24 @@ public abstract class Layout extends ViewBase {
     public void comDraw(Canvas canvas) {
         super.comDraw(canvas);
 
+        //FIXME let layout clip virtual children
+        //canvas.save();
+        //VirtualViewUtils.clipCanvas(canvas, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+        //    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
         // draw children
-        for (ViewBase v : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
             if (v.shouldDraw()) {
                 v.comDraw(canvas);
             }
         }
+        //canvas.restore();
     }
 
     @Override
     protected void onComDraw(Canvas canvas) {
         super.onComDraw(canvas);
-        if (mBorderWidth > 0) {
-            //if (!Float.isNaN(mAlpha)) {
-            //    if (mAlpha > 1.0f) {
-            //        mAlpha = 1.0f;
-            //    } else if (mAlpha < 0.0f) {
-            //        mAlpha = 0.0f;
-            //    }
-            //    mBorderPaint.setAlpha((int)(mAlpha * 255));
-            //}
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setAntiAlias(true);
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-            VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
-        }
+        drawBorder(canvas);
     }
 
     @Override
@@ -216,22 +203,36 @@ public abstract class Layout extends ViewBase {
         if (mPaint == null) {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setAntiAlias(true);
         }
 
-        if (mBorderWidth > 0) {
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setAntiAlias(true);
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-        }
     }
+
+    @Override
+    protected boolean changeVisibility() {
+        boolean ret = super.changeVisibility();
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase v = mSubViews.get(i);
+            v.changeVisibility();
+        }
+        return ret;
+    }
+
 
     public void addView(ViewBase view) {
         mSubViews.add(view);
         view.mParent = this;
+        view.changeVisibility();
+    }
+
+    public boolean removeView(ViewBase view) {
+        if (mSubViews.contains(view)) {
+            mSubViews.remove(view);
+            view.mParent = null;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     protected void measureComChild(ViewBase child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {

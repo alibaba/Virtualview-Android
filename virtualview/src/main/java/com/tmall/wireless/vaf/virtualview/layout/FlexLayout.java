@@ -72,6 +72,7 @@ import static com.libra.virtualview.common.FlexLayoutCommon.JUSTIFY_CONTENT_SPAC
 /**
  * Created by gujicheng on 16/8/22.
  */
+@Deprecated
 public class FlexLayout extends Layout {
     private final static String TAG = "FlexLayout_TMTEST";
 
