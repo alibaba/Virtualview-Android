@@ -55,6 +55,8 @@ import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
+import com.tmall.wireless.virtualviewdemo.custom.ExposureProcessorImpl;
+import org.json.JSONObject;
 
 /**
  * Created by longerian on 2018/3/2.
@@ -107,6 +109,7 @@ public class PreviewActivity extends Activity {
         marginLayoutParams.rightMargin = p.mLayoutMarginRight;
         marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
         mLinearLayout.addView(container, marginLayoutParams);
+        iContainer.getVirtualView().setVData(new JSONObject());
     }
 
     private void initForPreview() {
@@ -143,6 +146,7 @@ public class PreviewActivity extends Activity {
             mViewManager = mVafContext.getViewManager();
             mViewManager.init(this.getApplicationContext());
             mVafContext.getEventManager().register(EventManager.TYPE_Click, new ClickProcessorImpl());
+            mVafContext.getEventManager().register(EventManager.TYPE_Exposure, new ExposureProcessorImpl());
         }
     }
 

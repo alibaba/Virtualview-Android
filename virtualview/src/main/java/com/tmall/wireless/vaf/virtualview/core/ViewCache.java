@@ -142,21 +142,22 @@ public class ViewCache {
                         case TYPE_GRAVITY:
                             int tempValue = 0;
                             String[] strArr = string.split("\\|");
-                            for (String str : strArr) {
-                                str = str.trim();
-                                if (TextUtils.equals("left", str)) {
+                            String gravityStr = "";
+                            for (int i = 0; i < strArr.length; i++) {
+                                gravityStr = strArr[i].trim();
+                                if (TextUtils.equals("left", gravityStr)) {
                                     tempValue |= ViewBaseCommon.LEFT;
-                                } else if (TextUtils.equals("right", str)) {
+                                } else if (TextUtils.equals("right", gravityStr)) {
                                     tempValue |= ViewBaseCommon.RIGHT;
-                                } else if (TextUtils.equals("h_center", str)) {
+                                } else if (TextUtils.equals("h_center", gravityStr)) {
                                     tempValue |= ViewBaseCommon.H_CENTER;
-                                } else if (TextUtils.equals("top", str)) {
+                                } else if (TextUtils.equals("top", gravityStr)) {
                                     tempValue |= ViewBaseCommon.TOP;
-                                } else if (TextUtils.equals("bottom", str)) {
+                                } else if (TextUtils.equals("bottom", gravityStr)) {
                                     tempValue |= ViewBaseCommon.BOTTOM;
-                                } else if (TextUtils.equals("v_center", str)) {
+                                } else if (TextUtils.equals("v_center", gravityStr)) {
                                     tempValue |= ViewBaseCommon.V_CENTER;
-                                } else if (TextUtils.equals("center", str)) {
+                                } else if (TextUtils.equals("center", gravityStr)) {
                                     tempValue |= ViewBaseCommon.H_CENTER;
                                     tempValue |= ViewBaseCommon.V_CENTER;
                                 } else {
@@ -168,13 +169,14 @@ public class ViewCache {
                         case TYPE_TEXT_STYLE:
                             int styleValue = 0;
                             String[] strs = string.split("\\|");
-                            for (String str : strs) {
-                                str = str.trim();
-                                if (TextUtils.equals("bold", str)) {
+                            String styleStr = "";
+                            for (int i = 0; i < strs.length; i++) {
+                                styleStr = strs[i].trim();
+                                if (TextUtils.equals("bold", styleStr)) {
                                     styleValue |= TextBaseCommon.BOLD;
-                                } else if (TextUtils.equals("italic", str)) {
+                                } else if (TextUtils.equals("italic", styleStr)) {
                                     styleValue |= TextBaseCommon.ITALIC;
-                                } else if (TextUtils.equals("strike", str)) {
+                                } else if (TextUtils.equals("styleStrike", styleStr)) {
                                     styleValue |= TextBaseCommon.STRIKE;
                                 }
                             }

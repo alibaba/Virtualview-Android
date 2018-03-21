@@ -33,7 +33,6 @@ import android.util.SparseArray;
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.container.Container;
-import com.tmall.wireless.vaf.virtualview.container.SurfaceContainer;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -57,6 +56,11 @@ import com.tmall.wireless.vaf.virtualview.view.image.NativeImage;
 import com.tmall.wireless.vaf.virtualview.view.image.VirtualImage;
 import com.tmall.wireless.vaf.virtualview.view.line.NativeLine;
 import com.tmall.wireless.vaf.virtualview.view.line.VirtualLine;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NFrameLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NGridLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NRatioLayout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NVH2Layout;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NVHLayout;
 import com.tmall.wireless.vaf.virtualview.view.page.Page;
 import com.tmall.wireless.vaf.virtualview.view.progress.VirtualProgress;
 import com.tmall.wireless.vaf.virtualview.view.scroller.Scroller;
@@ -114,6 +118,11 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_Slider, new Slider.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualProgress, new VirtualProgress.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualContainer, new VirtualContainer.Builder());
+        mBuilders.put(Common.VIEW_ID_NFrameLayout, new NFrameLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NGridLayout, new NGridLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NRatioLayout, new NRatioLayout.Builder());
+        mBuilders.put(Common.VIEW_ID_NVH2Layout, new NVH2Layout.Builder());
+        mBuilders.put(Common.VIEW_ID_NVHLayout, new NVHLayout.Builder());
     }
 
     public void destroy() {
@@ -174,28 +183,25 @@ public class ViewFactory {
         return ret;
     }
 
+    public boolean overrideBuilder(int id, ViewBase.IBuilder builder) {
+        boolean ret = false;
+
+        if (null != builder) {
+            mBuilders.put(id, builder);
+            ret = true;
+        } else {
+            Log.e(TAG, "register builder failed, builder is null");
+        }
+
+        return ret;
+    }
+
     public IContainer newViewWithContainer(String type) {
         IContainer ret = null;
 
         ViewBase view = newView(type);
         if (null != view) {
             ret = new Container(mAppContext.getContext());
-            ret.setVirtualView(view);
-
-            ret.attachViews();
-        } else {
-            Log.e(TAG, "new view failed type:" + type);
-        }
-
-        return ret;
-    }
-
-    public IContainer newViewWithSurfaceContainer(String type) {
-        IContainer ret = null;
-
-        ViewBase view = newView(type);
-        if (null != view) {
-            ret = new SurfaceContainer(mAppContext.getContext());
             ret.setVirtualView(view);
 
             ret.attachViews();

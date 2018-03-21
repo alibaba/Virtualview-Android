@@ -24,6 +24,7 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
+import java.util.Iterator;
 import java.util.List;
 
 import android.graphics.Bitmap;
@@ -41,7 +42,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.Common;
@@ -57,11 +57,9 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
-
+import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Iterator;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -90,14 +88,12 @@ public abstract class ViewBase implements IView {
     protected int mDrawLeft;
     protected int mDrawTop;
     protected Paint mPaint;
-    protected Paint mBackgroundPaint;
 
     protected int mBackground;
     protected String mBackgroundImagePath;
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
 
-    protected Paint mBorderPaint;
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
     protected int mBorderRadius = 0;
@@ -219,25 +215,11 @@ public abstract class ViewBase implements IView {
 
     public void setBorderWidth(int width) {
         mBorderWidth = width;
-
-        if (null == mBorderPaint) {
-            mBorderPaint = new Paint();
-            mBorderPaint.setStyle(Paint.Style.STROKE);
-            mBorderPaint.setAntiAlias(true);
-        }
-        mBorderPaint.setStrokeWidth(mBorderWidth);
         this.refresh();
     }
 
     public void setBorderColor(int color) {
         mBorderColor = color;
-
-        if (null == mBorderPaint) {
-            mBorderPaint = new Paint();
-            mBorderPaint.setStyle(Paint.Style.STROKE);
-            mBorderPaint.setAntiAlias(true);
-        }
-        mBorderPaint.setColor(mBorderColor);
         this.refresh();
     }
 
@@ -253,13 +235,8 @@ public abstract class ViewBase implements IView {
     protected void setBackgroundColor(int color) {
         mBackground = color;
         View view = getNativeView();
-        if (null != view) {
+        if (null != view && !(view instanceof NativeLayoutImpl)) {
             view.setBackgroundColor(color);
-        } else {
-            if (null == mBackgroundPaint) {
-                mBackgroundPaint = new Paint();
-            }
-            mBackgroundPaint.setColor(mBackground);
         }
     }
 
@@ -347,10 +324,6 @@ public abstract class ViewBase implements IView {
         return ret;
     }
 
-    public Paint getBackgroundPaint() {
-        return mBackgroundPaint;
-    }
-
     public int getBackground() {
         return mBackground;
     }
@@ -361,6 +334,22 @@ public abstract class ViewBase implements IView {
 
     public int getBorderRadius() {
         return mBorderRadius;
+    }
+
+    public int getBorderTopLeftRadius() {
+        return mBorderTopLeftRadius;
+    }
+
+    public int getBorderTopRightRadius() {
+        return mBorderTopRightRadius;
+    }
+
+    public int getBorderBottomLeftRadius() {
+        return mBorderBottomLeftRadius;
+    }
+
+    public int getBorderBottomRightRadius() {
+        return mBorderBottomRightRadius;
     }
 
     public int getAlign() {
@@ -381,6 +370,21 @@ public abstract class ViewBase implements IView {
 
     public boolean isRoot() {
         return mParent == null;
+    }
+
+    public int decideFinalVisibility() {
+        if (mParent == null) {
+            return mVisibility;
+        } else {
+            int parentVisibility = mParent.decideFinalVisibility();
+            if (parentVisibility == ViewBaseCommon.VISIBLE) {
+                return mVisibility;
+            } else if (parentVisibility == ViewBaseCommon.INVISIBLE) {
+                return ViewBaseCommon.INVISIBLE;
+            } else {
+                return ViewBaseCommon.GONE;
+            }
+        }
     }
 
     public String getViewType() {
@@ -461,11 +465,12 @@ public abstract class ViewBase implements IView {
         }
     }
 
-    private boolean changeVisibility() {
+    protected boolean changeVisibility() {
+        int finalVisibility = decideFinalVisibility();
         boolean ret = false;
         View nativeView = this.getNativeView();
         if (null != nativeView) {
-            switch (mVisibility) {
+            switch (finalVisibility) {
                 case ViewBaseCommon.INVISIBLE:
                     nativeView.setVisibility(View.INVISIBLE);
                     break;
@@ -482,7 +487,7 @@ public abstract class ViewBase implements IView {
             }
             ret = true;
         } else if (isContainer()) {
-            switch(mVisibility) {
+            switch(finalVisibility) {
                 case ViewBaseCommon.INVISIBLE:
                     mViewCache.getHolderView().setVisibility(View.INVISIBLE);
                     break;
@@ -506,6 +511,7 @@ public abstract class ViewBase implements IView {
     public boolean isGone() {
         return (mVisibility == ViewBaseCommon.GONE);
     }
+
     public int getVisibility() {
         return mVisibility;
     }
@@ -849,14 +855,9 @@ public abstract class ViewBase implements IView {
     public void setBackgroundImage(String path) {
         mBackgroundImagePath = path;
         mBackgroundImage = null;
-        if (null == mBackgroundPaint) {
-            mBackgroundPaint = new Paint();
-        }
-
         if (null == mMatrixBG) {
             mMatrixBG = new Matrix();
         }
-
         mContext.getImageLoader().getBitmap(path, mMeasuredWidth, mMeasuredHeight, new ImageLoader.Listener() {
             @Override
             public void onImageLoadSuccess(Bitmap bmp) {
@@ -911,24 +912,20 @@ public abstract class ViewBase implements IView {
 
     protected void onComDraw(Canvas canvas) {
         if (getNativeView() == null) {
-            //if (!Float.isNaN(mAlpha)) {
-            //    if (mAlpha > 1.0f) {
-            //        mAlpha = 1.0f;
-            //    } else if (mAlpha < 0.0f) {
-            //        mAlpha = 0.0f;
-            //    }
-            //    mPaint.setAlpha((int)(mAlpha * 255));
-            //    mBackgroundPaint.setAlpha((int)(mAlpha * 255));
-            //}
             if (mBackground != Color.TRANSPARENT) {
-                VirtualViewUtils.drawBackground(canvas, mBackgroundPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                VirtualViewUtils.drawBackground(canvas, mBackground, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                     mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
                 //TODO clip canvas if border radius set
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
-                canvas.drawBitmap(mBackgroundImage, mMatrixBG, mBackgroundPaint);
+                canvas.drawBitmap(mBackgroundImage, mMatrixBG, null);
             }
         }
+    }
+
+    public void drawBorder(Canvas canvas) {
+        VirtualViewUtils.drawBorder(canvas, mBorderColor, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+            mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
     }
 
     public void onParseValueFinished() {
@@ -1693,6 +1690,7 @@ public abstract class ViewBase implements IView {
 
         public VirtualViewImp() {
             mPaint = new Paint();
+            mPaint.setAntiAlias(true);
             reset();
         }
 

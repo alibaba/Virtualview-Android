@@ -84,7 +84,8 @@ public class FrameLayout extends Layout {
 
         mMatchParentView.clear();
 
-        for (ViewBase child : mSubViews) {
+        for (int i = 0, size = mSubViews.size(); i < size; i++) {
+            ViewBase child = mSubViews.get(i);
             if (child.isGone()) {
                 continue;
             }
@@ -100,7 +101,8 @@ public class FrameLayout extends Layout {
                 getRealHeight(heightMode, height));
 
         if (mMatchParentView.size() > 0) {
-            for (ViewBase vb : mMatchParentView) {
+            for (int i = 0, length = mMatchParentView.size(); i < length; i++) {
+                ViewBase vb = mMatchParentView.get(i);
                 measureComChild(vb, View.MeasureSpec.makeMeasureSpec(mMeasuredWidth,
                         View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(mMeasuredHeight,
                         View.MeasureSpec.EXACTLY));
@@ -112,7 +114,8 @@ public class FrameLayout extends Layout {
         int ret = size;
         if (View.MeasureSpec.AT_MOST == mode) {
             int childrenWidth = 0;
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (child.isGone()) {
                     continue;
                 }
@@ -139,7 +142,8 @@ public class FrameLayout extends Layout {
         int ret = size;
         if (View.MeasureSpec.AT_MOST == mode) {
             int childrenHeight = 0;
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (child.isGone()) {
                     continue;
                 }
@@ -157,7 +161,8 @@ public class FrameLayout extends Layout {
             ret = size;
         } else {
             int childrenHeight = 0;
-            for (ViewBase child : mSubViews) {
+            for (int i = 0, length = mSubViews.size(); i < length; i++) {
+                ViewBase child = mSubViews.get(i);
                 if (child.isGone()) {
                     continue;
                 }
@@ -178,7 +183,8 @@ public class FrameLayout extends Layout {
 
     @Override
     public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        for (ViewBase child : mSubViews) {
+        for (int i = 0, length = mSubViews.size(); i < length; i++) {
+            ViewBase child = mSubViews.get(i);
             if (child.isGone()) {
                 continue;
             }
