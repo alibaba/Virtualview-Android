@@ -59,16 +59,6 @@ public class VirtualText extends TextBase {
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-        if (mBorderWidth > 0) {
-            if (mBorderPaint == null) {
-                mBorderPaint = new Paint();
-                mBorderPaint.setStyle(Paint.Style.STROKE);
-                mBorderPaint.setAntiAlias(true);
-            }
-            mBorderPaint.setColor(mBorderColor);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
-        }
-
         if (0 != (mTextStyle & TextBaseCommon.BOLD)) {
             mPaint.setFakeBoldText(true);
         }
@@ -164,18 +154,8 @@ public class VirtualText extends TextBase {
             canvas.clipRect(0, 0, mMeasuredWidth, mMeasuredHeight);
             canvas.drawText(mDrawText, left, top - mDescent, mPaint);
             canvas.restore();
-
-            if (mBorderWidth > 0) {
-                if (mBorderPaint == null) {
-                    mBorderPaint = new Paint();
-                    mBorderPaint.setStyle(Paint.Style.STROKE);
-                    mBorderPaint.setAntiAlias(true);
-                }
-                mBorderPaint.setColor(mBorderColor);
-                mBorderPaint.setStrokeWidth(mBorderWidth);
-                VirtualViewUtils.drawBorder(canvas, mBorderPaint, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-                    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
-            }
+            VirtualViewUtils.drawBorder(canvas, mBorderColor, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
 
         } else {
             Log.w(TAG, "skip draw text");

@@ -60,7 +60,8 @@ public class VH2Layout extends VHLayout {
                 int leftStart = l + mPaddingLeft;
                 int rightStart = r - mPaddingRight;
 
-                for (ViewBase view : mSubViews) {
+                for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                    ViewBase view = mSubViews.get(i);
                     if (view.isGone()) {
                         continue;
                     }
@@ -99,7 +100,8 @@ public class VH2Layout extends VHLayout {
                 int topStart = t + mPaddingTop;
                 int bottomStart = b - mPaddingBottom;
 
-                for (ViewBase view : mSubViews) {
+                for (int i = 0, size = mSubViews.size(); i < size; i++) {
+                    ViewBase view = mSubViews.get(i);
                     if (view.isGone()) {
                         continue;
                     }

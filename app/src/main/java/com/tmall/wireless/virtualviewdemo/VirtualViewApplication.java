@@ -23,9 +23,14 @@ import com.tmall.wireless.virtualviewdemo.bytes.FRAMELAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.GRID;
 import com.tmall.wireless.virtualviewdemo.bytes.GRIDITEM;
 import com.tmall.wireless.virtualviewdemo.bytes.GRIDLAYOUT;
+import com.tmall.wireless.virtualviewdemo.bytes.NFRAMELAYOUT;
+import com.tmall.wireless.virtualviewdemo.bytes.NGRIDLAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.NIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.NLINE;
+import com.tmall.wireless.virtualviewdemo.bytes.NRATIOLAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.NTEXT;
+import com.tmall.wireless.virtualviewdemo.bytes.NVH2LAYOUT;
+import com.tmall.wireless.virtualviewdemo.bytes.NVHLAYOUT;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGEITEM;
 import com.tmall.wireless.virtualviewdemo.bytes.PAGESCROLLSCRIPT;
@@ -54,6 +59,7 @@ import com.tmall.wireless.virtualviewdemo.bytes.VIMAGE;
 import com.tmall.wireless.virtualviewdemo.bytes.VLINE;
 import com.tmall.wireless.virtualviewdemo.bytes.VTEXT;
 import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
+import com.tmall.wireless.virtualviewdemo.custom.ExposureProcessorImpl;
 import com.tmall.wireless.virtualviewdemo.custom.PicassoImage;
 import com.tmall.wireless.virtualviewdemo.custom.TMReminderTagsView;
 import com.tmall.wireless.virtualviewdemo.custom.TotalContainer;
@@ -177,6 +183,11 @@ public class VirtualViewApplication extends Application {
             sViewManager.loadBinBufferSync(SCROLLERVS.BIN);
             sViewManager.loadBinBufferSync(SCROLLERH.BIN);
             sViewManager.loadBinBufferSync(TOTALCONTAINER.BIN);
+            sViewManager.loadBinBufferSync(NFRAMELAYOUT.BIN);
+            sViewManager.loadBinBufferSync(NGRIDLAYOUT.BIN);
+            sViewManager.loadBinBufferSync(NRATIOLAYOUT.BIN);
+            sViewManager.loadBinBufferSync(NVHLAYOUT.BIN);
+            sViewManager.loadBinBufferSync(NVH2LAYOUT.BIN);
             sViewManager.loadBinBufferSync(CLICKSCRIPT.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT1.BIN);
             sViewManager.loadBinBufferSync(TMALLCOMPONENT2.BIN);
@@ -191,6 +202,7 @@ public class VirtualViewApplication extends Application {
             sViewManager.getViewFactory().registerBuilder(1014,new PicassoImage.Builder());
             sVafContext.getCompactNativeManager().register("TMTags", TMReminderTagsView.class);
             sVafContext.getEventManager().register(EventManager.TYPE_Click, new ClickProcessorImpl());
+            sVafContext.getEventManager().register(EventManager.TYPE_Exposure, new ExposureProcessorImpl());
         }
 
     }

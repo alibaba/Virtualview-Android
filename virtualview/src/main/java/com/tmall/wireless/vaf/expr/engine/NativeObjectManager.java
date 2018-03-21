@@ -178,7 +178,8 @@ public class NativeObjectManager {
         ViewBase ret = null;
 
         if (!TextUtils.isEmpty(name)) {
-            for (ViewBase com : mViews) {
+            for (int i = 0, length = mViews.size(); i < length; i++) {
+                ViewBase com = mViews.get(i);
                 if (TextUtils.equals(com.getName(), name)) {
                     ret = com;
                     break;
