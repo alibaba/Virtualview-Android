@@ -48,6 +48,9 @@ public class ContainerService {
 
     public final static int CONTAINER_TYPE_NORMAL = 0;
 
+    @Deprecated
+    public final static int CONTAINER_TYPE_SURFACE = 1;
+
     private VafContext mAppContext;
     private ViewManager mVM;
     protected ComContainerTypeMap mComContainerTypeMap;
@@ -56,6 +59,7 @@ public class ContainerService {
 
     public ContainerService() {
         registerContainerMrg(new NormalManager(), CONTAINER_TYPE_NORMAL);
+        registerContainerMrg(new NormalManager(), CONTAINER_TYPE_SURFACE);
     }
 
     public void registerContainerMrg(ContainerMrg cm, int containerID) {
