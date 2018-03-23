@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 Alibaba Group
+ * Copyright (c) 2018 Alibaba Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,9 @@ android {
         targetSdkVersion System.properties['targetSdkVersion'] ? Integer.parseInt(System.properties['targetSdkVersion']) : 25
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         debug {
@@ -50,31 +53,31 @@ android {
         }
     }
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/anim'] } }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 configurations.all {
     // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 10, 'seconds'
+    resolutionStrategy.cacheChangingModulesFor 1000, 'seconds'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(path: ':virtualview')
     compile 'com.android.support:recyclerview-v7:23.1.1@aar'
-
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
     compile 'com.squareup.picasso:picasso:2.5.2'
-
-    provided ('com.alibaba.android:virtual-common:1.0.5') {
+    provided('com.alibaba.android:virtual-common:1.0.7') {
         changing = true
     }
-    compile ('com.alibaba.android:compiler:1.0.0-SNAPSHOT@jar') {
+    compile('com.alibaba.android:virtual-compiler:1.0.7@jar') {
         exclude group: 'xmlpull', module: 'xmlpull'
         exclude group: 'net.sf.kxml', module: 'kxml2'
         changing = true
     }
-
 }
