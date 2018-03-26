@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 Alibaba Group
+ * Copyright (c) 2018 Alibaba Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 
 package com.tmall.wireless.vaf.virtualview.view.text;
 
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -171,24 +170,6 @@ public class NativeText extends TextBase {
         } else {
             setRealText("");
         }
-
-        //if (isClickable()) {
-        //    mNative.setOnClickListener(new View.OnClickListener() {
-        //        @Override
-        //        public void onClick(View view) {
-        //            NativeText.this.click(0, 0, false);
-        //        }
-        //    });
-        //}
-        //if (isLongClickable()) {
-        //    mNative.setOnLongClickListener(new View.OnLongClickListener() {
-        //        @Override
-        //        public boolean onLongClick(View view) {
-        //            NativeText.this.click(0, 0, true);
-        //            return false;
-        //        }
-        //    });
-        //}
     }
 
     @Override

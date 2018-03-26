@@ -29,7 +29,6 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
@@ -55,7 +54,8 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
         super(context);
     }
 
-    public void attachViews(ViewBase view) {
+    public void attachViews(ViewBase view, View displayViewHolder) {
+        view.setDisplayViewContainer(displayViewHolder);
         if (view instanceof Layout) {
             View v = view.getNativeView();
             if (null != v && v != this) {
@@ -67,17 +67,18 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
                     if (null != subViews) {
                         for (int i = 0, size = subViews.size(); i < size; i++) {
                             ViewBase com = subViews.get(i);
-                            ((NativeLayoutImpl) v).attachViews(com);
+                            ((NativeLayoutImpl) v).attachViews(com, v);
                         }
                     }
                 }
             } else {
                 Layout layout = (Layout) view;
+                view.setDisplayViewContainer(displayViewHolder);
                 List<ViewBase> subViews = layout.getSubViews();
                 if (null != subViews) {
                     for (int i = 0, size = subViews.size(); i < size; i++) {
                         ViewBase com = subViews.get(i);
-                        attachViews(com);
+                        attachViews(com, displayViewHolder);
                     }
                 }
             }
@@ -126,7 +127,7 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
 
     @Override
     public void attachViews() {
-        attachViews(mView);
+        attachViews(mView, this);
     }
 
     @Override

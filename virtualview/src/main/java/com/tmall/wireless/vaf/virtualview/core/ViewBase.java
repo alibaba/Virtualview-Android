@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2017 Alibaba Group
+ * Copyright (c) 2018 Alibaba Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -84,6 +84,8 @@ public abstract class ViewBase implements IView {
     protected String mViewType;
     protected int mVersion;
     protected boolean mIsDrawed;
+
+    protected View mDisplayViewContainer;
 
     protected int mDrawLeft;
     protected int mDrawTop;
@@ -199,6 +201,14 @@ public abstract class ViewBase implements IView {
         mViewType = "";
         mVersion = 0;
         mUuid = 0;
+    }
+
+    public void setDisplayViewContainer(View displayViewContainer) {
+        mDisplayViewContainer = displayViewContainer;
+    }
+
+    public View getDisplayViewContainer() {
+        return mDisplayViewContainer;
     }
 
     public String getAction() {
@@ -673,15 +683,9 @@ public abstract class ViewBase implements IView {
     }
 
     public void refresh(int l, int t, int r, int b) {
-//        Log.d(TAG, "refresh:" + mIsDrawed);
-//        if (mIsDrawed) {
-        View holderView = mViewCache.getHolderView();
-        if (null != mViewCache && null != holderView) {
-            holderView.invalidate(l, t, r, b);
-        } else {
-//            Log.d(TAG, "refresh holdView is null" + this + mData);
+        if (mDisplayViewContainer != null) {
+            mDisplayViewContainer.invalidate(l, t, r, b);
         }
-//        }
     }
 
     public ViewBase findViewBaseById(int id) {

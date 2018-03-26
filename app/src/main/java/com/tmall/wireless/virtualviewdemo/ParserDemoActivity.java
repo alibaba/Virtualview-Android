@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018 Alibaba Group
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tmall.wireless.virtualviewdemo;
 
 import java.io.BufferedReader;
@@ -20,7 +44,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import com.libra.expr.compiler.api.ViewCompilerApi;
 import com.libra.virtualview.compiler.ViewCompiler;
+import com.libra.virtualview.compiler.config.ConfigManager;
+import com.libra.virtualview.compiler.config.LocalConfigLoader;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import org.json.JSONException;
@@ -36,10 +63,9 @@ import org.json.JSONObject;
 public class ParserDemoActivity extends Activity implements OnClickListener {
 
     private static final String TYPE = "PLAY_VV";
-    private static final String PATH = "/sdcard/virtualview.xml";
-    private static final String OUT_PATH = "/sdcard/virtualview.out";
     private static final String PLAY = "component_demo/virtualview.xml";
     private static final String PLAY_DATA = "component_demo/virtualview.json";
+    private static final String CONFIG = "config.properties";
     private Button mDoParse;
     private LinearLayout mLinearLayout;
 
@@ -74,40 +100,27 @@ public class ParserDemoActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (!isPlayXMLExisted()) {
-            copyPlayXML(PLAY, PATH);
-        }
-        boolean result = compile(TYPE, PATH, OUT_PATH);
-        if (result) {
-            byte[] bin = readBin(OUT_PATH);
-            if (bin != null) {
-                mLinearLayout.removeAllViews();
-                ((VirtualViewApplication) getApplication()).getViewManager().loadBinBufferSync(bin);
-                View container = ((VirtualViewApplication) getApplication()).getVafContext().getContainerService().getContainer(TYPE, true);
-                IContainer iContainer = (IContainer)container;
-                JSONObject json = getJSONDataFromAsset(PLAY_DATA);
-                if (json != null) {
-                    iContainer.getVirtualView().setVData(json);
-                }
-                Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
-                LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
-                marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
-                marginLayoutParams.topMargin = p.mLayoutMarginTop;
-                marginLayoutParams.rightMargin = p.mLayoutMarginRight;
-                marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
-                mLinearLayout.addView(container, marginLayoutParams);
-            } else {
-                Toast.makeText(getApplicationContext(), "读取出错，检查日志", Toast.LENGTH_LONG).show();
+        byte[] binResult = compile(TYPE, PLAY, 1);
+        if (binResult != null) {
+            mLinearLayout.removeAllViews();
+            ((VirtualViewApplication) getApplication()).getViewManager().loadBinBufferSync(binResult);
+            View container = ((VirtualViewApplication) getApplication()).getVafContext().getContainerService().getContainer(TYPE, true);
+            IContainer iContainer = (IContainer)container;
+            JSONObject json = getJSONDataFromAsset(PLAY_DATA);
+            if (json != null) {
+                iContainer.getVirtualView().setVData(json);
             }
+            Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
+            LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
+            marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
+            marginLayoutParams.topMargin = p.mLayoutMarginTop;
+            marginLayoutParams.rightMargin = p.mLayoutMarginRight;
+            marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
+            mLinearLayout.addView(container, marginLayoutParams);
         } else {
             Toast.makeText(getApplicationContext(), "编译出错，检查日志", Toast.LENGTH_LONG).show();
         }
 
-    }
-
-    private boolean isPlayXMLExisted() {
-        File file = new File(PATH);
-        return file.exists();
     }
 
     private void copyPlayXML(String name, String target) {
@@ -129,39 +142,18 @@ public class ParserDemoActivity extends Activity implements OnClickListener {
         }
     }
 
-    private boolean compile(String type, String sourcePath, String outputPath) {
-        boolean ret = false;
-        ViewCompiler compiler = new ViewCompiler();
-        compiler.resetString();
-        compiler.resetExpr();
-        if (compiler.newOutputFile(outputPath, 1, 1)) {
-            if (!compiler.compile(type, sourcePath)) {
-                Log.d("ParserDemoActivity", "compile file error --> " + sourcePath);
-            }
-            ret = compiler.compileEnd();
-            if (!ret) {
-                Log.d("ParserDemoActivity", "compile file end error --> " + sourcePath);
-            }
-        } else {
-            Log.d("ParserDemoActivity", "new output file failed --> " + sourcePath);
-        }
-        return ret;
-    }
-
-    private byte[] readBin(String path) {
+    private byte[] compile(String type, String name, int version) {
+        ViewCompilerApi viewCompiler = new ViewCompilerApi();
+        viewCompiler.setConfigLoader(new AssetConfigLoader());
+        InputStream fis = null;
         try {
-            FileInputStream fin = new FileInputStream(path);
-            int length = fin.available();
-            byte[] buf = new byte[length];
-            fin.read(buf);
-            fin.close();
-            return buf;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            fis = getAssets().open(name);
+            byte[] result = viewCompiler.compile(fis, type, version);
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     private JSONObject getJSONDataFromAsset(String name) {
@@ -181,6 +173,20 @@ public class ParserDemoActivity extends Activity implements OnClickListener {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private class AssetConfigLoader implements ConfigManager.ConfigLoader {
+
+        @Override
+        public InputStream getConfigResource() {
+            try {
+                InputStream inputStream = getAssets().open(CONFIG);
+                return inputStream;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }
