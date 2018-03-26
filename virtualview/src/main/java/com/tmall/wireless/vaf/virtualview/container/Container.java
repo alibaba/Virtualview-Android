@@ -62,10 +62,11 @@ public class Container extends ViewGroup implements IContainer, IView {
 
     @Override
     public void attachViews() {
-        attachViews(mView);
+        attachViews(mView, this);
     }
 
-    protected void attachViews(ViewBase view) {
+    protected void attachViews(ViewBase view, View displayViewHolder) {
+        view.setDisplayViewContainer(displayViewHolder);
         if (view instanceof Layout) {
             View v = view.getNativeView();
             if (null != v) {
@@ -77,7 +78,7 @@ public class Container extends ViewGroup implements IContainer, IView {
                     if (null != subViews) {
                         for (int i = 0, size = subViews.size(); i < size; i++) {
                             ViewBase com = subViews.get(i);
-                            ((NativeLayoutImpl) v).attachViews(com);
+                            ((NativeLayoutImpl) v).attachViews(com, v);
                         }
                     }
                 }
@@ -87,7 +88,7 @@ public class Container extends ViewGroup implements IContainer, IView {
                 if (null != subViews) {
                     for (int i = 0, size = subViews.size(); i < size; i++) {
                         ViewBase com = subViews.get(i);
-                        attachViews(com);
+                        attachViews(com, displayViewHolder);
                     }
                 }
             }

@@ -72,7 +72,8 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
 
     @Override
     public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mNative.measure(widthMeasureSpec, heightMeasureSpec);
+        //mNative.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override

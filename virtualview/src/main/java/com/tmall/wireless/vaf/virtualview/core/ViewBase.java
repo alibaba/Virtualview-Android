@@ -85,6 +85,8 @@ public abstract class ViewBase implements IView {
     protected int mVersion;
     protected boolean mIsDrawed;
 
+    protected View mDisplayViewContainer;
+
     protected int mDrawLeft;
     protected int mDrawTop;
     protected Paint mPaint;
@@ -199,6 +201,14 @@ public abstract class ViewBase implements IView {
         mViewType = "";
         mVersion = 0;
         mUuid = 0;
+    }
+
+    public void setDisplayViewContainer(View displayViewContainer) {
+        mDisplayViewContainer = displayViewContainer;
+    }
+
+    public View getDisplayViewContainer() {
+        return mDisplayViewContainer;
     }
 
     public String getAction() {
@@ -673,15 +683,9 @@ public abstract class ViewBase implements IView {
     }
 
     public void refresh(int l, int t, int r, int b) {
-//        Log.d(TAG, "refresh:" + mIsDrawed);
-//        if (mIsDrawed) {
-        View holderView = mViewCache.getHolderView();
-        if (null != mViewCache && null != holderView) {
-            holderView.invalidate(l, t, r, b);
-        } else {
-//            Log.d(TAG, "refresh holdView is null" + this + mData);
+        if (mDisplayViewContainer != null) {
+            mDisplayViewContainer.invalidate(l, t, r, b);
         }
-//        }
     }
 
     public ViewBase findViewBaseById(int id) {
