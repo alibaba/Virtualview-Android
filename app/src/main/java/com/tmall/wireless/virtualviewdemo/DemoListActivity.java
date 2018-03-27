@@ -39,6 +39,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.tmall.wireless.virtualviewdemo.preview.PreviewListActivity;
+
 /**
  * Created by longerian on 2017/7/24.
  *
@@ -73,6 +75,12 @@ public class DemoListActivity extends ListActivity {
         script.put("name", "脚本引擎演示(实验中)");
         script.put("class", ScriptListActivity.class.getName());
         list.add(script);
+
+        HashMap<String, String> preview = new HashMap<String, String>();
+        preview.put("name", "模板实时预览");
+        preview.put("class", PreviewListActivity.class.getName());
+        list.add(preview);
+
         ListAdapter listAdapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_1, new String[]{"name"}, new int[]{android.R.id.text1});
         setListAdapter(listAdapter);
     }

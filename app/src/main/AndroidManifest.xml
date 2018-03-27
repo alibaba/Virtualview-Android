@@ -58,6 +58,9 @@
                 <action android:name="com.tmall.wireless.virtualviewdemo.PREVIEW" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".preview.PreviewListActivity"/>
+        <activity android:name=".preview.PreviewActivity"/>
     </application>
 
 </manifest>
