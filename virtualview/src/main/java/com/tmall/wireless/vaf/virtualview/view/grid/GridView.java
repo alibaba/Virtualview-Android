@@ -32,6 +32,8 @@ import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_Y;
 
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
+
 /**
  * Created by gujicheng on 16/10/27.
  */
@@ -163,7 +165,9 @@ public class GridView extends ViewGroup {
             for (int col = 0; col < mColumnCount; ++col) {
                 if (index < count) {
                     View child = this.getChildAt(index);
-                    child.layout(left, top, left + mItemWidth, top + mCalItemHeight);
+
+                    int realLeft = RtlHelper.getRealLeft(RtlHelper.isRtl(), 0, (r-l), left, mItemWidth);
+                    child.layout(realLeft, top, realLeft + mItemWidth, top + mCalItemHeight);
                 } else {
                     break;
                 }
