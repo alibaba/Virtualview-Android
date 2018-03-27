@@ -934,6 +934,8 @@ public abstract class ViewBase implements IView {
     }
 
     public void onParseValueFinished() {
+        resolveRtlPropertiesIfNeeded();
+
         if (getNativeView() != null) {
             getNativeView().setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         }
@@ -1830,6 +1832,20 @@ public abstract class ViewBase implements IView {
      */
     public boolean isRtl() {
         return RtlHelper.isRtl() && !disableRtl;
+    }
+
+    /**
+     * resolve rtl properties. such as Padding etc.
+     * Depends on CSS Box Model: https://www.w3.org/TR/CSS2/box.html
+     * Do not convert Margin cause Margin out of the view.
+     */
+    public void resolveRtlPropertiesIfNeeded() {
+        if (isRtl()) {
+            // padding
+            int tempPadding = mPaddingLeft;
+            mPaddingLeft = mPaddingRight;
+            mPaddingRight = tempPadding;
+        }
     }
     //----- RTL support end --- //
 }

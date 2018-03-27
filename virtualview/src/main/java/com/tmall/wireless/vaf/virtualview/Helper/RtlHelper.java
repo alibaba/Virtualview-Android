@@ -4,6 +4,8 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.libra.virtualview.common.ViewBaseCommon;
+
 import java.util.Locale;
 
 /**
@@ -44,5 +46,22 @@ public class RtlHelper {
             left += parentLeft;
         }
         return left;
+    }
+
+    /**
+     * Convert (left/right) gravity to (right/left).
+     * @param gravity
+     * @return rtl gravity
+     */
+    public static int resolveRtlGravity(int gravity) {
+        if (0 != (gravity & ViewBaseCommon.RIGHT)) {
+            gravity &= ~ViewBaseCommon.RIGHT;
+            gravity |= ViewBaseCommon.LEFT;
+        } else if (0 != (gravity & ViewBaseCommon.LEFT)) {
+            gravity &= ~ViewBaseCommon.LEFT;
+            gravity |= ViewBaseCommon.RIGHT;
+        }
+
+        return gravity;
     }
 }
