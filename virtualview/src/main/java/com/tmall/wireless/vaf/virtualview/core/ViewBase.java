@@ -52,6 +52,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
@@ -1818,4 +1819,17 @@ public abstract class ViewBase implements IView {
             return 0;
         }
     }
+
+    //----- RTL support begin --- //
+    // use this attr to control RTL or not.
+    private boolean disableRtl;
+
+    /**
+     * Use Rtl or not.
+     * @return true if in locale use Rtl direction && this layout do not disable Rtl.
+     */
+    public boolean isRtl() {
+        return RtlHelper.isRtl() && !disableRtl;
+    }
+    //----- RTL support end --- //
 }
