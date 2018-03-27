@@ -30,10 +30,7 @@ import com.tmall.wireless.virtualviewdemo.preview.util.HttpUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -57,15 +54,8 @@ public class PreviewActivity extends AppCompatActivity {
     private static final int FROM_SCAN = 1;
     private static final int FROM_REAL_PREVIEW = 2;
 
-    private String mTemplateName;
-    private JSONObject mJsonData;
-
-    public static void start(Context context, String dir) {
-        Intent intent = new Intent(context, PreviewActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(KEY_DIR, dir);
-        context.startActivity(intent);
-    }
+    protected String mTemplateName;
+    protected JSONObject mJsonData;
 
     public static void startForScanPreview(Context context, String url) {
         Intent intent = new Intent(context, PreviewActivity.class);
@@ -136,7 +126,7 @@ public class PreviewActivity extends AppCompatActivity {
         setTitle(mTemplateName);
     }
 
-    private void preview(String templateName, JSONObject jsonData) {
+    protected void preview(String templateName, JSONObject jsonData) {
         if (TextUtils.isEmpty(templateName)) {
             Log.e(TAG, "Template name should not be empty!!!!");
             return;
@@ -156,25 +146,6 @@ public class PreviewActivity extends AppCompatActivity {
 
         mLinearLayout.removeAllViews();
         mLinearLayout.addView(mContainer, marginLayoutParams);
-    }
-
-    private JSONObject getJSONDataFromAsset(String name) {
-        try {
-            InputStream inputStream = getAssets().open(name);
-            BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String str;
-            while ((str = inputStreamReader.readLine()) != null) {
-                sb.append(str);
-            }
-            inputStreamReader.close();
-            return new JSONObject(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
