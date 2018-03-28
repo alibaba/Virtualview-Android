@@ -47,15 +47,25 @@ public class PreviewListActivity extends ListActivity {
                                     }
                                 });
                             } else {
-                                Toast.makeText(PreviewListActivity.this, "No templates!",
-                                        Toast.LENGTH_SHORT).show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(PreviewListActivity.this, "No templates!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(PreviewListActivity.this, "Server is not running!",
-                            Toast.LENGTH_SHORT).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(PreviewListActivity.this, "Server is not running!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }).start();
