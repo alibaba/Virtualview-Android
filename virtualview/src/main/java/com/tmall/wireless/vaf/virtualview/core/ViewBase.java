@@ -58,7 +58,6 @@ import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayoutImpl;
-import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -123,9 +122,14 @@ public abstract class ViewBase implements IView {
     protected float mAutoDimX = 1;
     protected float mAutoDimY = 1;
 
+    private int mPadding;
+    private boolean isPaddingLeftSet;
     protected int mPaddingLeft;
+    private boolean isPaddingRightSet;
     protected int mPaddingRight;
+    private boolean isPaddingTopSet;
     protected int mPaddingTop;
+    private boolean isPaddingBottomSet;
     protected int mPaddingBottom;
 
     protected int mGravity;
@@ -1077,20 +1081,39 @@ public abstract class ViewBase implements IView {
     protected boolean setRPAttribute(int key, float value) {
         boolean ret = true;
         switch (key) {
+            case StringBase.STR_ID_padding:
+                mPadding = Utils.rp2px(value);
+                if (!isPaddingLeftSet) {
+                    mPaddingLeft = mPadding;
+                }
+                if (!isPaddingRightSet) {
+                    mPaddingRight = mPadding;
+                }
+                if (!isPaddingTopSet) {
+                    mPaddingTop = mPadding;
+                }
+                if (!isPaddingBottomSet) {
+                    mPaddingBottom = mPadding;
+                }
+                break;
             case StringBase.STR_ID_paddingLeft:
                 mPaddingLeft = Utils.rp2px(value);
+                isPaddingLeftSet = true;
                 break;
 
             case StringBase.STR_ID_paddingTop:
                 mPaddingTop = Utils.rp2px(value);
+                isPaddingTopSet = true;
                 break;
 
             case StringBase.STR_ID_paddingRight:
                 mPaddingRight = Utils.rp2px(value);
+                isPaddingRightSet = true;
                 break;
 
             case StringBase.STR_ID_paddingBottom:
                 mPaddingBottom = Utils.rp2px(value);
+                isPaddingBottomSet = true;
                 break;
 
             case StringBase.STR_ID_minWidth:
@@ -1106,17 +1129,36 @@ public abstract class ViewBase implements IView {
                     this.mParams.mLayoutWidth = (int)value;
                 }
                 break;
+            case StringBase.STR_ID_layoutMargin:
+                this.mParams.mLayoutMargin = Utils.rp2px(value);
+                if (!this.mParams.isLayoutMarginLeftSet) {
+                    this.mParams.mLayoutMarginLeft = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginRightSet) {
+                    this.mParams.mLayoutMarginRight = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginTopSet) {
+                    this.mParams.mLayoutMarginTop = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginBottomSet) {
+                    this.mParams.mLayoutMarginBottom = this.mParams.mLayoutMargin;
+                }
+                break;
             case StringBase.STR_ID_layoutMarginLeft:
                 this.mParams.mLayoutMarginLeft = Utils.rp2px(value);
+                this.mParams.isLayoutMarginLeftSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginTop:
                 this.mParams.mLayoutMarginTop = Utils.rp2px(value);
+                this.mParams.isLayoutMarginTopSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginRight:
                 this.mParams.mLayoutMarginRight = Utils.rp2px(value);
+                this.mParams.isLayoutMarginRightSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginBottom:
                 this.mParams.mLayoutMarginBottom = Utils.rp2px(value);
+                this.mParams.isLayoutMarginBottomSet = true;
                 break;
 
             case StringBase.STR_ID_layoutHeight:
@@ -1170,20 +1212,39 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_alpha:
                 mAlpha = value;
                 break;
+            case StringBase.STR_ID_padding:
+                mPadding = Utils.dp2px(value);
+                if (!isPaddingLeftSet) {
+                    mPaddingLeft = mPadding;
+                }
+                if (!isPaddingRightSet) {
+                    mPaddingRight = mPadding;
+                }
+                if (!isPaddingTopSet) {
+                    mPaddingTop = mPadding;
+                }
+                if (!isPaddingBottomSet) {
+                    mPaddingBottom = mPadding;
+                }
+                break;
             case StringBase.STR_ID_paddingLeft:
                 mPaddingLeft = Utils.dp2px(value);
+                isPaddingLeftSet = true;
                 break;
 
             case StringBase.STR_ID_paddingTop:
                 mPaddingTop = Utils.dp2px(value);
+                isPaddingTopSet = true;
                 break;
 
             case StringBase.STR_ID_paddingRight:
                 mPaddingRight = Utils.dp2px(value);
+                isPaddingRightSet = true;
                 break;
 
             case StringBase.STR_ID_paddingBottom:
                 mPaddingBottom = Utils.dp2px(value);
+                isPaddingBottomSet = true;
                 break;
 
             case StringBase.STR_ID_minWidth:
@@ -1207,17 +1268,36 @@ public abstract class ViewBase implements IView {
                     this.mParams.mLayoutWidth = (int)value;
                 }
                 break;
+            case StringBase.STR_ID_layoutMargin:
+                this.mParams.mLayoutMargin = Utils.dp2px(value);
+                if (!this.mParams.isLayoutMarginLeftSet) {
+                    this.mParams.mLayoutMarginLeft = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginRightSet) {
+                    this.mParams.mLayoutMarginRight = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginTopSet) {
+                    this.mParams.mLayoutMarginTop = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginBottomSet) {
+                    this.mParams.mLayoutMarginBottom = this.mParams.mLayoutMargin;
+                }
+                break;
             case StringBase.STR_ID_layoutMarginLeft:
                 this.mParams.mLayoutMarginLeft = Utils.dp2px(value);
+                this.mParams.isLayoutMarginLeftSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginTop:
                 this.mParams.mLayoutMarginTop = Utils.dp2px(value);
+                this.mParams.isLayoutMarginTopSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginRight:
                 this.mParams.mLayoutMarginRight = Utils.dp2px(value);
+                this.mParams.isLayoutMarginRightSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginBottom:
                 this.mParams.mLayoutMarginBottom = Utils.dp2px(value);
+                this.mParams.isLayoutMarginBottomSet = true;
                 break;
 
             case StringBase.STR_ID_layoutHeight:
@@ -1275,6 +1355,9 @@ public abstract class ViewBase implements IView {
                 mViewCache.put(this, StringBase.STR_ID_layoutWidth, stringValue, Item.TYPE_FLOAT);
                 this.mParams.mLayoutWidth = LayoutCommon.WRAP_CONTENT;
                 break;
+            case StringBase.STR_ID_layoutMargin:
+                mViewCache.put(this, StringBase.STR_ID_layoutMargin, stringValue, Item.TYPE_FLOAT);
+                break;
             case StringBase.STR_ID_layoutMarginLeft:
                 mViewCache.put(this, StringBase.STR_ID_layoutMarginLeft, stringValue, Item.TYPE_FLOAT);
                 break;
@@ -1290,6 +1373,9 @@ public abstract class ViewBase implements IView {
             case StringBase.STR_ID_layoutHeight:
                 mViewCache.put(this, StringBase.STR_ID_layoutHeight, stringValue, Item.TYPE_FLOAT);
                 this.mParams.mLayoutHeight = LayoutCommon.WRAP_CONTENT;
+                break;
+            case StringBase.STR_ID_padding:
+                mViewCache.put(this, StringBase.STR_ID_padding, stringValue, Item.TYPE_FLOAT);
                 break;
             case StringBase.STR_ID_paddingLeft:
                 mViewCache.put(this, StringBase.STR_ID_paddingLeft, stringValue, Item.TYPE_FLOAT);
@@ -1465,17 +1551,36 @@ public abstract class ViewBase implements IView {
         boolean ret = true;
 
         switch (key) {
+            case StringBase.STR_ID_padding:
+                mPadding = Utils.rp2px(value);
+                if (!isPaddingLeftSet) {
+                    mPaddingLeft = mPadding;
+                }
+                if (!isPaddingRightSet) {
+                    mPaddingRight = mPadding;
+                }
+                if (!isPaddingTopSet) {
+                    mPaddingTop = mPadding;
+                }
+                if (!isPaddingBottomSet) {
+                    mPaddingBottom = mPadding;
+                }
+                break;
             case StringBase.STR_ID_paddingLeft:
                 mPaddingLeft = Utils.rp2px(value);
+                isPaddingLeftSet = true;
                 break;
             case StringBase.STR_ID_paddingRight:
                 mPaddingRight = Utils.rp2px(value);
+                isPaddingRightSet = true;
                 break;
             case StringBase.STR_ID_paddingTop:
                 mPaddingTop = Utils.rp2px(value);
+                isPaddingTopSet = true;
                 break;
             case StringBase.STR_ID_paddingBottom:
                 mPaddingBottom = Utils.rp2px(value);
+                isPaddingBottomSet = true;
                 break;
 
             case StringBase.STR_ID_minWidth:
@@ -1491,17 +1596,36 @@ public abstract class ViewBase implements IView {
                     this.mParams.mLayoutWidth = value;
                 }
                 break;
+            case StringBase.STR_ID_layoutMargin:
+                this.mParams.mLayoutMargin = Utils.rp2px(value);
+                if (!this.mParams.isLayoutMarginLeftSet) {
+                    this.mParams.mLayoutMarginLeft = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginRightSet) {
+                    this.mParams.mLayoutMarginRight = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginTopSet) {
+                    this.mParams.mLayoutMarginTop = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginBottomSet) {
+                    this.mParams.mLayoutMarginBottom = this.mParams.mLayoutMargin;
+                }
+                break;
             case StringBase.STR_ID_layoutMarginLeft:
                 this.mParams.mLayoutMarginLeft = Utils.rp2px(value);
+                this.mParams.isLayoutMarginLeftSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginTop:
                 this.mParams.mLayoutMarginTop = Utils.rp2px(value);
+                this.mParams.isLayoutMarginTopSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginRight:
                 this.mParams.mLayoutMarginRight = Utils.rp2px(value);
+                this.mParams.isLayoutMarginRightSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginBottom:
                 this.mParams.mLayoutMarginBottom = Utils.rp2px(value);
+                this.mParams.isLayoutMarginBottomSet = true;
                 break;
 
             case StringBase.STR_ID_layoutHeight:
@@ -1552,17 +1676,36 @@ public abstract class ViewBase implements IView {
         boolean ret = true;
 
         switch (key) {
+            case StringBase.STR_ID_padding:
+                mPadding = Utils.dp2px(value);
+                if (!isPaddingLeftSet) {
+                    mPaddingLeft = mPadding;
+                }
+                if (!isPaddingRightSet) {
+                    mPaddingRight = mPadding;
+                }
+                if (!isPaddingTopSet) {
+                    mPaddingTop = mPadding;
+                }
+                if (!isPaddingBottomSet) {
+                    mPaddingBottom = mPadding;
+                }
+                break;
             case StringBase.STR_ID_paddingLeft:
                 mPaddingLeft = Utils.dp2px(value);
+                isPaddingLeftSet = true;
                 break;
             case StringBase.STR_ID_paddingRight:
                 mPaddingRight = Utils.dp2px(value);
+                isPaddingRightSet = true;
                 break;
             case StringBase.STR_ID_paddingTop:
                 mPaddingTop = Utils.dp2px(value);
+                isPaddingTopSet = true;
                 break;
             case StringBase.STR_ID_paddingBottom:
                 mPaddingBottom = Utils.dp2px(value);
+                isPaddingBottomSet = true;
                 break;
 
             case StringBase.STR_ID_id:
@@ -1619,17 +1762,36 @@ public abstract class ViewBase implements IView {
                     this.mParams.mLayoutWidth = value;
                 }
                 break;
+            case StringBase.STR_ID_layoutMargin:
+                this.mParams.mLayoutMargin = Utils.dp2px(value);
+                if (!this.mParams.isLayoutMarginLeftSet) {
+                    this.mParams.mLayoutMarginLeft = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginRightSet) {
+                    this.mParams.mLayoutMarginRight = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginTopSet) {
+                    this.mParams.mLayoutMarginTop = this.mParams.mLayoutMargin;
+                }
+                if (!this.mParams.isLayoutMarginBottomSet) {
+                    this.mParams.mLayoutMarginBottom = this.mParams.mLayoutMargin;
+                }
+                break;
             case StringBase.STR_ID_layoutMarginLeft:
                 this.mParams.mLayoutMarginLeft = Utils.dp2px(value);
+                this.mParams.isLayoutMarginLeftSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginTop:
                 this.mParams.mLayoutMarginTop = Utils.dp2px(value);
+                this.mParams.isLayoutMarginTopSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginRight:
                 this.mParams.mLayoutMarginRight = Utils.dp2px(value);
+                this.mParams.isLayoutMarginRightSet = true;
                 break;
             case StringBase.STR_ID_layoutMarginBottom:
                 this.mParams.mLayoutMarginBottom = Utils.dp2px(value);
+                this.mParams.isLayoutMarginBottomSet = true;
                 break;
 
             case StringBase.STR_ID_layoutHeight:

@@ -397,10 +397,15 @@ public abstract class Layout extends ViewBase {
         public int mLayoutWidth;
         public int mLayoutHeight;
 
+        public int mLayoutMargin;
         public int mLayoutMarginLeft;
+        protected boolean isLayoutMarginLeftSet;
         public int mLayoutMarginRight;
+        protected boolean isLayoutMarginRightSet;
         public int mLayoutMarginTop;
+        protected boolean isLayoutMarginTopSet;
         public int mLayoutMarginBottom;
+        protected boolean isLayoutMarginBottomSet;
 
         public Params() {
             mLayoutWidth = 0;
@@ -426,18 +431,36 @@ public abstract class Layout extends ViewBase {
                 case StringBase.STR_ID_layoutHeight:
                     mLayoutHeight = Utils.rp2px(value);
                     break;
-
+                case StringBase.STR_ID_layoutMargin:
+                    mLayoutMargin = Utils.rp2px(value);
+                    if (!isLayoutMarginLeftSet) {
+                        mLayoutMarginLeft = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginRightSet) {
+                        mLayoutMarginRight = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginTopSet) {
+                        mLayoutMarginTop = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginBottomSet) {
+                        mLayoutMarginBottom = mLayoutMargin;
+                    }
+                    break;
                 case StringBase.STR_ID_layoutMarginLeft:
                     mLayoutMarginLeft = Utils.rp2px(value);
+                    isLayoutMarginLeftSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginRight:
                     mLayoutMarginRight = Utils.rp2px(value);
+                    isLayoutMarginRightSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginTop:
                     mLayoutMarginTop = Utils.rp2px(value);
+                    isLayoutMarginTopSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginBottom:
                     mLayoutMarginBottom = Utils.rp2px(value);
+                    isLayoutMarginBottomSet = true;
                     break;
 
                 default:
@@ -465,18 +488,36 @@ public abstract class Layout extends ViewBase {
                         mLayoutHeight = (int) value;
                     }
                     break;
-
+                case StringBase.STR_ID_layoutMargin:
+                    mLayoutMargin = Utils.dp2px(value);
+                    if (!isLayoutMarginLeftSet) {
+                        mLayoutMarginLeft = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginRightSet) {
+                        mLayoutMarginRight = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginTopSet) {
+                        mLayoutMarginTop = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginBottomSet) {
+                        mLayoutMarginBottom = mLayoutMargin;
+                    }
+                    break;
                 case StringBase.STR_ID_layoutMarginLeft:
                     mLayoutMarginLeft = Utils.dp2px(value);
+                    isLayoutMarginLeftSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginRight:
                     mLayoutMarginRight = Utils.dp2px(value);
+                    isLayoutMarginRightSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginTop:
                     mLayoutMarginTop = Utils.dp2px(value);
+                    isLayoutMarginTopSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginBottom:
                     mLayoutMarginBottom = Utils.dp2px(value);
+                    isLayoutMarginBottomSet = true;
                     break;
 
                 default:
@@ -501,18 +542,36 @@ public abstract class Layout extends ViewBase {
                 case StringBase.STR_ID_layoutHeight:
                     mLayoutHeight = Utils.rp2px(value);
                     break;
-
+                case StringBase.STR_ID_layoutMargin:
+                    mLayoutMargin = Utils.rp2px(value);
+                    if (!isLayoutMarginLeftSet) {
+                        mLayoutMarginLeft = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginRightSet) {
+                        mLayoutMarginRight = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginTopSet) {
+                        mLayoutMarginTop = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginBottomSet) {
+                        mLayoutMarginBottom = mLayoutMargin;
+                    }
+                    break;
                 case StringBase.STR_ID_layoutMarginLeft:
                     mLayoutMarginLeft = Utils.rp2px(value);
+                    isLayoutMarginLeftSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginRight:
                     mLayoutMarginRight = Utils.rp2px(value);
+                    isLayoutMarginRightSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginTop:
                     mLayoutMarginTop = Utils.rp2px(value);
+                    isLayoutMarginTopSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginBottom:
                     mLayoutMarginBottom = Utils.rp2px(value);
+                    isLayoutMarginBottomSet = true;
                     break;
 
                 default:
@@ -540,18 +599,36 @@ public abstract class Layout extends ViewBase {
                         mLayoutHeight = value;
                     }
                     break;
-
+                case StringBase.STR_ID_layoutMargin:
+                    mLayoutMargin = Utils.dp2px(value);
+                    if (!isLayoutMarginLeftSet) {
+                        mLayoutMarginLeft = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginRightSet) {
+                        mLayoutMarginRight = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginTopSet) {
+                        mLayoutMarginTop = mLayoutMargin;
+                    }
+                    if (!isLayoutMarginBottomSet) {
+                        mLayoutMarginBottom = mLayoutMargin;
+                    }
+                    break;
                 case StringBase.STR_ID_layoutMarginLeft:
                     mLayoutMarginLeft = Utils.dp2px(value);
+                    isLayoutMarginLeftSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginRight:
                     mLayoutMarginRight = Utils.dp2px(value);
+                    isLayoutMarginRightSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginTop:
                     mLayoutMarginTop = Utils.dp2px(value);
+                    isLayoutMarginTopSet = true;
                     break;
                 case StringBase.STR_ID_layoutMarginBottom:
                     mLayoutMarginBottom = Utils.dp2px(value);
+                    isLayoutMarginBottomSet = true;
                     break;
 
                 default:
