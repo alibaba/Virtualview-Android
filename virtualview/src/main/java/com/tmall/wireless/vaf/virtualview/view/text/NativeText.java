@@ -27,26 +27,41 @@ package com.tmall.wireless.vaf.virtualview.view.text;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.LineHeightSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.TextBaseCommon;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
+import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 
 /**
  * Created by gujicheng on 16/8/15.
  */
 public class NativeText extends TextBase {
+
     private final static String TAG = "NativeText_TMTEST";
+
     protected NativeTextImp mNative;
+
+    protected VVLineHeightSpannableStringBuilder mSpannableStringBuilder;
+
     protected boolean mSupportHtmlStyle = false;
+
     protected float mLineSpaceMultipiler = 1.0f;
+
     protected float mLineSpaceExtra = 0.0f;
+
+    protected float mLineHeight = Float.NaN;
 
     public NativeText(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
@@ -182,10 +197,15 @@ public class NativeText extends TextBase {
     }
 
     protected void setRealText(String str) {
-        if (mSupportHtmlStyle) {
-            mNative.setText(Html.fromHtml(str));
+        CharSequence content = mSupportHtmlStyle ? Html.fromHtml(str) : str;
+        if (!Float.isNaN(mLineHeight)) {
+            if (mSpannableStringBuilder == null) {
+                mSpannableStringBuilder = new VVLineHeightSpannableStringBuilder();
+            }
+            mSpannableStringBuilder.setContent(content, mLineHeight);
+            mNative.setText(mSpannableStringBuilder);
         } else {
-            mNative.setText(str);
+            mNative.setText(content);
         }
     }
 
@@ -210,6 +230,9 @@ public class NativeText extends TextBase {
 
                 case StringBase.STR_ID_maxLines:
                     mNative.setMaxLines(value);
+                    break;
+                case StringBase.STR_ID_lineHeight:
+                    mLineHeight = Utils.dp2px(value);
                     break;
                 default:
                     ret = false;
@@ -238,7 +261,9 @@ public class NativeText extends TextBase {
                 case StringBase.STR_ID_lineSpaceExtra:
                     mLineSpaceExtra = value;
                     break;
-
+                case StringBase.STR_ID_lineHeight:
+                    mLineHeight = Utils.dp2px(value);
+                    break;
                 default:
                     ret = false;
                     break;
@@ -248,10 +273,147 @@ public class NativeText extends TextBase {
         return ret;
     }
 
+    @Override
+    protected boolean setRPAttribute(int key, int value) {
+        boolean ret = super.setRPAttribute(key, value);
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_lineHeight:
+                    mLineHeight = Utils.rp2px(value);
+                    break;
+                default:
+                    ret = false;
+                    break;
+            }
+
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected boolean setRPAttribute(int key, float value) {
+        boolean ret = super.setRPAttribute(key, value);
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_lineHeight:
+                    mLineHeight = Utils.rp2px(value);
+                    break;
+                default:
+                    ret = false;
+                    break;
+            }
+
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected boolean setAttribute(int key, String stringValue) {
+        boolean ret = super.setAttribute(key, stringValue);
+        if (!ret) {
+            ret = true;
+            switch (key) {
+                case StringBase.STR_ID_lineHeight:
+                    mViewCache.put(this, StringBase.STR_ID_lineHeight, stringValue, Item.TYPE_FLOAT);
+                    break;
+                default:
+                    ret = false;
+                    break;
+            }
+        }
+        return ret;
+    }
+
     public static class Builder implements ViewBase.IBuilder {
         @Override
         public ViewBase build(VafContext context, ViewCache viewCache) {
             return new NativeText(context, viewCache);
         }
     }
+
+    public static class VVLineHeightSpannableStringBuilder extends SpannableStringBuilder {
+
+        private VVLineHeightSpan mVVLineHeightSpan;
+
+
+        public void setContent(CharSequence sequence, float lineHeight) {
+            clear();
+            clearSpans();
+            if (mVVLineHeightSpan == null) {
+                mVVLineHeightSpan = new VVLineHeightSpan(lineHeight);
+            } else {
+                mVVLineHeightSpan.setHeight(lineHeight);
+            }
+            append(sequence);
+            setSpan(mVVLineHeightSpan, 0, sequence.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+
+    }
+
+    /**
+     * It is learned from facebook's ReactiveNative.
+     * See <a href="https://github.com/facebook/react-native/blob/master/ReactAndroid/src/main/java/com/facebook/react/views/text/CustomLineHeightSpan.java">here</a>
+     */
+    public static class VVLineHeightSpan implements LineHeightSpan {
+
+        private int mHeight;
+
+        VVLineHeightSpan(float height) {
+            this.mHeight = (int) Math.ceil(height);
+        }
+
+        public void setHeight(float height) {
+            mHeight = (int) Math.ceil(height);
+        }
+
+        public int getHeight() {
+            return mHeight;
+        }
+
+        @Override
+        public void chooseHeight(
+            CharSequence text,
+            int start,
+            int end,
+            int spanstartv,
+            int v,
+            Paint.FontMetricsInt fm) {
+            // This is more complicated that I wanted it to be. You can find a good explanation of what the
+            // FontMetrics mean here: http://stackoverflow.com/questions/27631736.
+            // The general solution is that if there's not enough height to show the full line height, we
+            // will prioritize in this order: descent, ascent, bottom, top
+
+            if (fm.descent > mHeight) {
+                // Show as much descent as possible
+                fm.bottom = fm.descent = Math.min(mHeight, fm.descent);
+                fm.top = fm.ascent = 0;
+            } else if (-fm.ascent + fm.descent > mHeight) {
+                // Show all descent, and as much ascent as possible
+                fm.bottom = fm.descent;
+                fm.top = fm.ascent = -mHeight + fm.descent;
+            } else if (-fm.ascent + fm.bottom > mHeight) {
+                // Show all ascent, descent, as much bottom as possible
+                fm.top = fm.ascent;
+                fm.bottom = fm.ascent + mHeight;
+            } else if (-fm.top + fm.bottom > mHeight) {
+                // Show all ascent, descent, bottom, as much top as possible
+                fm.top = fm.bottom - mHeight;
+            } else {
+                // Show proportionally additional ascent / top & descent / bottom
+                final int additional = mHeight - (-fm.top + fm.bottom);
+
+                // Round up for the negative values and down for the positive values  (arbritary choice)
+                // So that bottom - top equals additional even if it's an odd number.
+                fm.top -= Math.ceil(additional / 2.0f);
+                fm.bottom += Math.floor(additional / 2.0f);
+                fm.ascent = fm.top;
+                fm.descent = fm.bottom;
+            }
+        }
+    }
+
 }
