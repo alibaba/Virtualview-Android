@@ -31,6 +31,7 @@ import android.view.View.MeasureSpec;
 import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -188,7 +189,9 @@ public class GridLayout extends Layout {
                         continue;
                     }
 
-                    child.comLayout(ll, top, ll + itemWidth, top + itemHeight);
+                    int realLeft = RtlHelper.getRealLeft(isRtl(), l, getWidth(), ll, itemWidth);
+                    child.comLayout(realLeft, top, realLeft + itemWidth, top + itemHeight);
+
                     ll += itemWidth + mItemHorizontalMargin;
                 }
                 if (mItemHeight > 0) {

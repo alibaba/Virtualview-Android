@@ -29,6 +29,7 @@ import android.util.Log;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 
@@ -90,7 +91,9 @@ public class VH2Layout extends VHLayout {
                     } else {
                         tt = t + mPaddingTop + childP.mLayoutMarginTop;
                     }
-                    view.comLayout(left, tt, left + w, tt + h);
+
+                    int realLeft = RtlHelper.getRealLeft(isRtl(), l, getWidth(), left, w);
+                    view.comLayout(realLeft, tt, realLeft + w, tt + h);
                 }
                 break;
             }
@@ -131,7 +134,8 @@ public class VH2Layout extends VHLayout {
                         ll = l + mPaddingLeft + childP.mLayoutMarginLeft;
                     }
 
-                    view.comLayout(ll, top, ll + w, top + h);
+                    int realLeft = RtlHelper.getRealLeft(isRtl(), l, getWidth(), ll, w);
+                    view.comLayout(realLeft, top, realLeft + w, top + h);
                 }
                 break;
             }

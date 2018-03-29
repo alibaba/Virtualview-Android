@@ -24,4 +24,7 @@
 
 <resources>
     <string name="app_name">VirtualViewDemo</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="rtl">RTL</string>
 </resources>

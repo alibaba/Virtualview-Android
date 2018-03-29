@@ -52,6 +52,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.expr.engine.ExprEngine;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
@@ -938,6 +939,8 @@ public abstract class ViewBase implements IView {
     }
 
     public void onParseValueFinished() {
+        resolveRtlPropertiesIfNeeded();
+
         if (getNativeView() != null) {
             getNativeView().setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, mPaddingBottom);
         }
@@ -1507,18 +1510,20 @@ public abstract class ViewBase implements IView {
                 if (Utils.isEL(stringValue)) {
                     mViewCache.put(this, StringBase.STR_ID_tag, stringValue, Item.TYPE_STRING);
                 } else {
-                    try {
-                        // if has more data, use Keyed Tag.
-                        JSONObject jsonObject = new JSONObject(stringValue);
-                        Iterator<String> sIterator = jsonObject.keys();
-                        while(sIterator.hasNext()){
-                            // tag key
-                            String tagKey = sIterator.next();
-                            setTag(tagKey, jsonObject.getString(tagKey));
+                    if (!TextUtils.isEmpty(stringValue)) {
+                        try {
+                            // if has more data, use Keyed Tag.
+                            JSONObject jsonObject = new JSONObject(stringValue);
+                            Iterator<String> sIterator = jsonObject.keys();
+                            while (sIterator.hasNext()) {
+                                // tag key
+                                String tagKey = sIterator.next();
+                                setTag(tagKey, jsonObject.getString(tagKey));
+                            }
+                        } catch (JSONException e) {
+                            // just a String value, can't convert to a JSONObject, use Tag only
+                            mTag = stringValue;
                         }
-                    } catch (JSONException e) {
-                        // just a String value, can't convert to a JSONObject, use Tag only
-                        mTag = stringValue;
                     }
                 }
                 break;
@@ -1981,4 +1986,31 @@ public abstract class ViewBase implements IView {
             return 0;
         }
     }
+
+    //----- RTL support begin --- //
+    // use this attr to control RTL or not.
+    private boolean disableRtl;
+
+    /**
+     * Use Rtl or not.
+     * @return true if in locale use Rtl direction && this layout do not disable Rtl.
+     */
+    public boolean isRtl() {
+        return RtlHelper.isRtl() && !disableRtl;
+    }
+
+    /**
+     * resolve rtl properties. such as Padding etc.
+     * Depends on CSS Box Model: https://www.w3.org/TR/CSS2/box.html
+     * Do not convert Margin cause Margin out of the view.
+     */
+    public void resolveRtlPropertiesIfNeeded() {
+        if (isRtl()) {
+            // padding
+            int tempPadding = mPaddingLeft;
+            mPaddingLeft = mPaddingRight;
+            mPaddingRight = tempPadding;
+        }
+    }
+    //----- RTL support end --- //
 }
