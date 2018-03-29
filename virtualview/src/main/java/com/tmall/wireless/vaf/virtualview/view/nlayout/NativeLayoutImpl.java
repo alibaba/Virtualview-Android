@@ -44,7 +44,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewBase;
  * @date 2018/03/12
  */
 
-public class NativeLayoutImpl extends ViewGroup implements IContainer {
+public class NativeLayoutImpl extends ViewGroup implements IContainer, INativeLayoutImpl {
 
     private final static String TAG = "NativeLayoutImpl_TMTEST";
 
@@ -54,20 +54,22 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
         super(context);
     }
 
+    @Override
     public void attachViews(ViewBase view, View displayViewHolder) {
         view.setDisplayViewContainer(displayViewHolder);
         if (view instanceof Layout) {
             View v = view.getNativeView();
             if (null != v && v != this) {
-                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth,
+                    view.getComLayoutParams().mLayoutHeight);
                 addView(v, layoutParams);
-                if (v instanceof NativeLayoutImpl) {
+                if (v instanceof INativeLayoutImpl) {
                     Layout layout = (Layout) view;
                     List<ViewBase> subViews = layout.getSubViews();
                     if (null != subViews) {
                         for (int i = 0, size = subViews.size(); i < size; i++) {
                             ViewBase com = subViews.get(i);
-                            ((NativeLayoutImpl) v).attachViews(com, v);
+                            ((INativeLayoutImpl) v).attachViews(com, v);
                         }
                     }
                 }
@@ -99,6 +101,15 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         onViewBaseLayout(changed, 0, 0, r - l, b - t);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (mView != null) {
+            VirtualViewUtils.clipCanvas(this, canvas, getMeasuredWidth(), getMeasuredHeight(), mView.getBorderWidth(),
+                mView.getBorderTopLeftRadius(), mView.getBorderTopRightRadius(), mView.getBorderBottomLeftRadius(), mView.getBorderBottomRightRadius());
+        }
+        super.draw(canvas);
     }
 
     @Override

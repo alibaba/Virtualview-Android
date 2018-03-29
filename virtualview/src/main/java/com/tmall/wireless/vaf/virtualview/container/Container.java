@@ -35,6 +35,7 @@ import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayoutImpl;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.NativeLayoutImpl;
 
 /**
@@ -72,13 +73,13 @@ public class Container extends ViewGroup implements IContainer, IView {
             if (null != v) {
                 LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
                 addView(v, layoutParams);
-                if (v instanceof NativeLayoutImpl) {
+                if (v instanceof INativeLayoutImpl) {
                     Layout layout = (Layout) view;
                     List<ViewBase> subViews = layout.getSubViews();
                     if (null != subViews) {
                         for (int i = 0, size = subViews.size(); i < size; i++) {
                             ViewBase com = subViews.get(i);
-                            ((NativeLayoutImpl) v).attachViews(com, v);
+                            ((INativeLayoutImpl) v).attachViews(com, v);
                         }
                     }
                 }
