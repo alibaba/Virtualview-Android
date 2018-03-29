@@ -67,12 +67,12 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
     compile project(path: ':virtualview')
-    compile 'com.android.support:recyclerview-v7:23.1.1@aar'
+    compile 'com.android.support:recyclerview-v7:26.0.2@aar'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    provided('com.alibaba.android:virtual-common:1.0.7') {
+    provided('com.alibaba.android:virtual-common:1.0.9') {
         changing = true
     }
     compile('com.alibaba.android:virtual-compiler:1.0.7@jar') {
