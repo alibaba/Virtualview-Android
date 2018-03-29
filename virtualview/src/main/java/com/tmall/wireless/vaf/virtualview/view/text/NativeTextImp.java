@@ -30,6 +30,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
+import android.text.style.LineHeightSpan;
 import android.widget.TextView;
 
 import com.tmall.wireless.vaf.virtualview.Helper.VirtualViewUtils;
@@ -122,4 +123,5 @@ public class NativeTextImp extends TextView implements IView {
     public void comLayout(int l, int t, int r, int b) {
         this.layout(l, t, r, b);
     }
+
 }
