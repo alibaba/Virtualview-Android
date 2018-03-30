@@ -32,6 +32,7 @@ import android.util.SparseArray;
 
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.VVFeatureConfig;
 import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
@@ -65,6 +66,7 @@ import com.tmall.wireless.vaf.virtualview.view.page.Page;
 import com.tmall.wireless.vaf.virtualview.view.progress.VirtualProgress;
 import com.tmall.wireless.vaf.virtualview.view.scroller.Scroller;
 import com.tmall.wireless.vaf.virtualview.view.slider.Slider;
+import com.tmall.wireless.vaf.virtualview.view.slider.SliderCompact;
 import com.tmall.wireless.vaf.virtualview.view.text.NativeText;
 import com.tmall.wireless.vaf.virtualview.view.text.VirtualText;
 import com.tmall.wireless.vaf.virtualview.view.vh.VH;
@@ -96,7 +98,6 @@ public class ViewFactory {
     private VafContext mAppContext;
 
     public ViewFactory() {
-
         mBuilders.put(Common.VIEW_ID_FrameLayout, new FrameLayout.Builder());
         mBuilders.put(Common.VIEW_ID_GridLayout, new GridLayout.Builder());
         mBuilders.put(Common.VIEW_ID_VHLayout, new VHLayout.Builder());
@@ -115,7 +116,11 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_VirtualGraph, new VirtualGraph.Builder());
         mBuilders.put(Common.VIEW_ID_VH, new VH.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualTime, new VirtualTime.Builder());
-        mBuilders.put(Common.VIEW_ID_Slider, new Slider.Builder());
+        if (VVFeatureConfig.isSliderCompat()) {
+            mBuilders.put(Common.VIEW_ID_Slider, new SliderCompact.Builder());
+        } else {
+            mBuilders.put(Common.VIEW_ID_Slider, new Slider.Builder());
+        }
         mBuilders.put(Common.VIEW_ID_VirtualProgress, new VirtualProgress.Builder());
         mBuilders.put(Common.VIEW_ID_VirtualContainer, new VirtualContainer.Builder());
         mBuilders.put(Common.VIEW_ID_NFrameLayout, new NFrameLayout.Builder());

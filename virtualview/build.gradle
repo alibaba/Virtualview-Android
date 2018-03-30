@@ -30,6 +30,7 @@ buildscript {
         maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
         mavenCentral()
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 
     dependencies {
@@ -42,6 +43,7 @@ repositories {
     maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
     jcenter()
     mavenLocal()
+    maven { url 'https://maven.google.com' }
 }
 
 ext {
