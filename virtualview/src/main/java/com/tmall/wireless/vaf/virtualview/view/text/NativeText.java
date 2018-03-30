@@ -146,6 +146,9 @@ public class NativeText extends TextBase {
         if (0 != (mTextStyle & TextBaseCommon.STRIKE)) {
             flag |= Paint.STRIKE_THRU_TEXT_FLAG;
         }
+        if (0 != (mTextStyle & TextBaseCommon.UNDERLINE)) {
+            flag |= Paint.UNDERLINE_TEXT_FLAG;
+        }
         mNative.setPaintFlags(flag);
 
         if (0 != (mTextStyle & TextBaseCommon.ITALIC)) {
