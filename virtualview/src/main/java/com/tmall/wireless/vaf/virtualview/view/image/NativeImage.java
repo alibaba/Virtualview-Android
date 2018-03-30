@@ -46,7 +46,7 @@ public class NativeImage extends ImageBase {
 
     public NativeImage(VafContext context, ViewCache viewCache) {
     super(context, viewCache);
-        mNative = new NativeImageImp(context.getContext());
+        mNative = new NativeImageImp(context.forViewConstruction());
     }
 
     @Override

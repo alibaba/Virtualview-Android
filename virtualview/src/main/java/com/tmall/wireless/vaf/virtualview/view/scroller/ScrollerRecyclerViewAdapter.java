@@ -166,7 +166,7 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
 
         if (type == mStickyTopType) {
             Layout.Params p = ((IContainer) container).getVirtualView().getComLayoutParams();
-            mStickyView = new android.widget.FrameLayout(mContext.getContext());
+            mStickyView = new android.widget.FrameLayout(mContext.forViewConstruction());
             if (ScrollerCommon.MODE_StaggeredGrid == mScrollerImp.mMode) {
                 lp = new StaggeredGridLayoutManager.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
                 mStickyView.setLayoutParams(lp);

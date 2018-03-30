@@ -201,7 +201,7 @@ public class ViewFactory {
 
         ViewBase view = newView(type);
         if (null != view) {
-            ret = new Container(mAppContext.getContext());
+            ret = new Container(mAppContext.forViewConstruction());
             ret.setVirtualView(view);
 
             ret.attachViews();

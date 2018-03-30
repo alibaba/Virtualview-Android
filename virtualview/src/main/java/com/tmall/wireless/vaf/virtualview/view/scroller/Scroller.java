@@ -142,7 +142,7 @@ public class Scroller extends NativeViewBase {
         mNative.setSupportSticky(mSupportSticky);
         if (mSupportSticky) {
             if (mNative.getParent() == null) {
-                ScrollerStickyParent ssp = new ScrollerStickyParent(mContext.getContext());
+                ScrollerStickyParent ssp = new ScrollerStickyParent(mContext.forViewConstruction());
                 ssp.addView(mNative, mParams.mLayoutWidth, mParams.mLayoutHeight);
                 __mNative = ssp;
             }

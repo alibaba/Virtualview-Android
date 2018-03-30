@@ -39,7 +39,7 @@ public class NormalManager extends ContainerMrg {
         if (mContainers.size() > 0) {
             ret = mContainers.remove(0);
         } else {
-            ret = new Container(context.getContext());
+            ret = new Container(context.forViewConstruction());
         }
         return ret;
     }

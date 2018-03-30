@@ -114,7 +114,7 @@ public class PreviewActivity extends Activity {
 
     private void initForPreview() {
         if (mVafContext == null) {
-            mVafContext = new VafContext(this.getApplicationContext());
+            mVafContext = new VafContext(this);
             mVafContext.setImageLoaderAdapter(new IImageLoaderAdapter() {
 
                 private List<ImageTarget> cache = new ArrayList<ImageTarget>();

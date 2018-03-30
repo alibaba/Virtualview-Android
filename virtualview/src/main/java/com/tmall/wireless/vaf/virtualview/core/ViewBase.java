@@ -958,7 +958,7 @@ public abstract class ViewBase implements IView {
                     //Object obj = Class.forName(mClass, true, this.getClass().getClassLoader()).newInstance();
                     if (obj instanceof IBean) {
                         mBean = (IBean) obj;
-                        mBean.init(mContext.getContext(), this);
+                        mBean.init(mContext.forViewConstruction(), this);
                     } else {
                         Log.e(TAG, mClass + " is not bean");
                     }

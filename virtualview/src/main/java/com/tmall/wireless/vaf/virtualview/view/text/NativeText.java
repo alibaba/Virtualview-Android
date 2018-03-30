@@ -66,7 +66,7 @@ public class NativeText extends TextBase {
     public NativeText(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        mNative = new NativeTextImp(context.getContext());
+        mNative = new NativeTextImp(context.forViewConstruction());
     }
 
     @Override

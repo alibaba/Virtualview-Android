@@ -49,7 +49,7 @@ public class NGridLayout extends GridLayout implements INativeLayout {
     public NGridLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new NativeLayoutImpl(context.getContext());
+        mNative = new NativeLayoutImpl(context.forViewConstruction());
         mNative.setVirtualView(this);
     }
 
