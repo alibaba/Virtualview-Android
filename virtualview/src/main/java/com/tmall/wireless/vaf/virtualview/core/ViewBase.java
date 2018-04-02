@@ -597,7 +597,7 @@ public abstract class ViewBase implements IView {
             ret = onClick(id);
         }
         if (!ret && null != mParent) {
-            ret = mParent.clickRoute(id, isLong);
+            ret = mParent.clickRoute(mParent.mId, isLong);
         }
         return ret;
     }
