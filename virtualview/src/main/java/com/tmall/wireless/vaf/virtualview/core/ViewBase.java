@@ -434,7 +434,7 @@ public abstract class ViewBase implements IView {
         return null;
     }
 
-    private void setTag(String key, Object tag) {
+    public void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
             mKeyedTags = new SimpleArrayMap<>();
         }
