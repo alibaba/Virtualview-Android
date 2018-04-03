@@ -55,7 +55,7 @@ public class VH extends NativeViewBase {
 
     public VH(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new VHImp(context.getContext());
+        mNative = new VHImp(context.forViewConstruction());
         __mNative = mNative;
     }
 

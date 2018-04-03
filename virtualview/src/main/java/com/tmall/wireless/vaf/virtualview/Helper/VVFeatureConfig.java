@@ -22,26 +22,39 @@
  * SOFTWARE.
  */
 
-package com.tmall.wireless.vaf.framework.cm;
+package com.tmall.wireless.vaf.virtualview.Helper;
 
 import com.tmall.wireless.vaf.framework.VafContext;
-import com.tmall.wireless.vaf.virtualview.container.Container;
-import com.tmall.wireless.vaf.virtualview.core.IContainer;
+import com.tmall.wireless.vaf.virtualview.view.slider.SliderCompact;
 
 /**
- * Created by gujicheng on 16/12/12.
+ * Created by longerian on 2018/3/30.
+ *
+ * @author longerian
+ * @date 2018/03/30
  */
 
-public class NormalManager extends ContainerMrg {
-    @Override
-    public IContainer getContainer(VafContext context) {
-        IContainer ret;
-        if (mContainers.size() > 0) {
-            ret = mContainers.remove(0);
-        } else {
-            ret = new Container(context.forViewConstruction());
-        }
-        return ret;
+public class VVFeatureConfig {
+
+    private static boolean sliderCompat = false;
+
+    /**
+     * Call this before create {@link VafContext} instance.
+     * @param enableBorderRadius true, enable border radius and clip view.
+     */
+    public static void setEnableBorderRadius(boolean enableBorderRadius) {
+        VirtualViewUtils.setEnableBorderRadius(enableBorderRadius);
     }
 
+    /**
+     *
+     * @param compat true, use {@link SliderCompact} to render slider, otherwise use {@link com.tmall.wireless.vaf.virtualview.view.slider.Slider}
+     */
+    public static void setSliderCompat(boolean compat) {
+        sliderCompat = compat;
+    }
+
+    public static boolean isSliderCompat() {
+        return sliderCompat;
+    }
 }

@@ -113,7 +113,7 @@ public class TotalContainer extends NativeViewBase {
                 sConstructorMap.put(mNativeViewName, constructor);
             }
             if (constructor != null) {
-                mConstructorArgs[0] = mContext.getContext();
+                mConstructorArgs[0] = mContext.forViewConstruction();
                 mConstructorArgs[1] = null;
                 final Object obj = constructor.newInstance(mConstructorArgs);
                 if (obj instanceof IViewInterface) {

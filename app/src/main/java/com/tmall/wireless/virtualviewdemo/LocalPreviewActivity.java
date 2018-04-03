@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -56,6 +58,8 @@ import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.custom.ClickProcessorImpl;
 import com.tmall.wireless.virtualviewdemo.custom.ExposureProcessorImpl;
+import com.tmall.wireless.virtualviewdemo.preview.PreviewActivity;
+import com.tmall.wireless.virtualviewdemo.preview.util.HttpUtil;
 import org.json.JSONObject;
 
 /**
@@ -65,7 +69,7 @@ import org.json.JSONObject;
  * @date 2018/03/02
  */
 
-public class PreviewActivity extends Activity {
+public class LocalPreviewActivity extends PreviewActivity {
 
     private LinearLayout mLinearLayout;
 
@@ -87,6 +91,27 @@ public class PreviewActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handlePreviewIntent(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_rtl:
+                changeRtl();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void changeRtl() {
+        if ("ar".equalsIgnoreCase(Locale.getDefault().getLanguage())) {
+            Locale locale = new Locale("en");
+            Locale.setDefault(locale);
+        } else {
+            Locale locale = new Locale("ar");
+            Locale.setDefault(locale);
+        }
+        handlePreviewIntent(getIntent());
     }
 
     private void handlePreviewIntent(Intent intent) {
@@ -114,15 +139,15 @@ public class PreviewActivity extends Activity {
 
     private void initForPreview() {
         if (mVafContext == null) {
-            mVafContext = new VafContext(this.getApplicationContext());
+            mVafContext = new VafContext(this);
             mVafContext.setImageLoaderAdapter(new IImageLoaderAdapter() {
 
                 private List<ImageTarget> cache = new ArrayList<ImageTarget>();
 
                 @Override
                 public void bindImage(String uri, final ImageBase imageBase, int reqWidth, int reqHeight) {
-                    RequestCreator requestCreator = Picasso.with(PreviewActivity.this).load(uri);
-                    Log.d("PreviewActivity", "bindImage request width height " + reqHeight + " " + reqWidth);
+                    RequestCreator requestCreator = Picasso.with(LocalPreviewActivity.this).load(uri);
+                    Log.d("LocalPreviewActivity", "bindImage request width height " + reqHeight + " " + reqWidth);
                     if (reqHeight > 0 || reqWidth > 0) {
                         requestCreator.resize(reqWidth, reqHeight);
                     }
@@ -133,8 +158,8 @@ public class PreviewActivity extends Activity {
 
                 @Override
                 public void getBitmap(String uri, int reqWidth, int reqHeight, final Listener lis) {
-                    RequestCreator requestCreator = Picasso.with(PreviewActivity.this).load(uri);
-                    Log.d("PreviewActivity", "getBitmap request width height " + reqHeight + " " + reqWidth);
+                    RequestCreator requestCreator = Picasso.with(LocalPreviewActivity.this).load(uri);
+                    Log.d("LocalPreviewActivity", "getBitmap request width height " + reqHeight + " " + reqWidth);
                     if (reqHeight > 0 || reqWidth > 0) {
                         requestCreator.resize(reqWidth, reqHeight);
                     }
@@ -187,7 +212,7 @@ public class PreviewActivity extends Activity {
             if (mListener != null) {
                 mListener.onImageLoadSuccess(bitmap);
             }
-            Log.d("PreviewActivity", "onBitmapLoaded " + from);
+            Log.d("LocalPreviewActivity", "onBitmapLoaded " + from);
         }
 
         @Override
@@ -195,12 +220,12 @@ public class PreviewActivity extends Activity {
             if (mListener != null) {
                 mListener.onImageLoadFailed();
             }
-            Log.d("PreviewActivity", "onBitmapFailed ");
+            Log.d("LocalPreviewActivity", "onBitmapFailed ");
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-            Log.d("PreviewActivity", "onPrepareLoad ");
+            Log.d("LocalPreviewActivity", "onPrepareLoad ");
         }
     }
 

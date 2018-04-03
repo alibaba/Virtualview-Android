@@ -22,82 +22,94 @@
  * SOFTWARE.
  */
 
-package com.tmall.wireless.vaf.virtualview.view.line;
+package com.tmall.wireless.vaf.virtualview.view.slider;
 
 import android.view.View;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.core.ArrayAdapter;
+import com.tmall.wireless.vaf.virtualview.core.IContainer;
+import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
-import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 
 /**
- * Created by gujicheng on 16/11/2.
+ * Created by gujicheng on 16/12/15.
  */
 
-public class NativeLine extends LineBase {
-    private final static String TAG = "NativeLine_TMTEST";
+public class SliderCompactImp extends SliderView implements IView , IContainer{
+    private final static String TAG = "SliderImp_TMTEST";
 
-    private NativeLineImp mNative;
+    protected ViewBase mVirtualView;
 
-    public NativeLine(VafContext context, ViewCache viewCache) {
-        super(context, viewCache);
+    public SliderCompactImp(VafContext context) {
+        super(context.getContext());
 
-        mNative = new NativeLineImp(context.forViewConstruction(), this);
+        mAdapter = new ArrayAdapter(context);
     }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-
-        mNative.destroy();
-        mNative = null;
+    public void reset() {
+        scrollTo(0, 0);
     }
 
-    @Override
-    public View getNativeView() {
-        return mNative;
-    }
-
-    @Override
-    public void onParseValueFinished() {
-        super.onParseValueFinished();
-        mNative.setPaintParam(mLineColor, mLineWidth, mStyle);
-    }
-
-    @Override
-    public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mNative.onComMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    public void onComLayout(boolean changed, int l, int t, int r, int b) {
-        mNative.onComLayout(changed, l, t, r, b);
+    public void setData(Object data) {
+        mDataChanged = true;
+        mAdapter.setData(data);
     }
 
     @Override
     public void measureComponent(int widthMeasureSpec, int heightMeasureSpec) {
-        mNative.measureComponent(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    public int getComMeasuredWidth() {
-        return mNative.getComMeasuredWidth();
-    }
-
-    @Override
-    public int getComMeasuredHeight() {
-        return mNative.getComMeasuredHeight();
+        this.measure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
     public void comLayout(int l, int t, int r, int b) {
-        super.comLayout(l, t, r, b);
-        mNative.comLayout(l, t, r, b);
+        this.layout(l, t, r, b);
     }
 
-    public static class Builder implements ViewBase.IBuilder {
-        @Override
-        public ViewBase build(VafContext context, ViewCache viewCache) {
-            return new NativeLine(context, viewCache);
-        }
+    @Override
+    public void onComMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        this.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public void onComLayout(boolean changed, int l, int t, int r, int b) {
+        this.onLayout(changed, l, t, r, b);
+    }
+
+    @Override
+    public int getComMeasuredWidth() {
+        return this.getMeasuredWidth();
+    }
+
+    @Override
+    public int getComMeasuredHeight() {
+        return this.getMeasuredHeight();
+    }
+
+    @Override
+    public void attachViews() {
+    }
+
+    @Override
+    public void setVirtualView(ViewBase view) {
+        mVirtualView = view;
+    }
+
+    @Override
+    public ViewBase getVirtualView() {
+        return mVirtualView;
+    }
+
+    @Override
+    public View getHolderView() {
+        return null;
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    public int getType() {
+        return -1;
     }
 }

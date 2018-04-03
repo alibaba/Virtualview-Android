@@ -434,7 +434,7 @@ public abstract class ViewBase implements IView {
         return null;
     }
 
-    private void setTag(String key, Object tag) {
+    public void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
             mKeyedTags = new SimpleArrayMap<>();
         }
@@ -597,7 +597,7 @@ public abstract class ViewBase implements IView {
             ret = onClick(id);
         }
         if (!ret && null != mParent) {
-            ret = mParent.clickRoute(id, isLong);
+            ret = mParent.clickRoute(mParent.mId, isLong);
         }
         return ret;
     }
@@ -958,7 +958,7 @@ public abstract class ViewBase implements IView {
                     //Object obj = Class.forName(mClass, true, this.getClass().getClassLoader()).newInstance();
                     if (obj instanceof IBean) {
                         mBean = (IBean) obj;
-                        mBean.init(mContext.getContext(), this);
+                        mBean.init(mContext.forViewConstruction(), this);
                     } else {
                         Log.e(TAG, mClass + " is not bean");
                     }

@@ -107,6 +107,22 @@
             layoutHeight="20" />
 
     <NText
+            text="Title: textStyle = underline"
+            textSize="12"
+            textColor="#333333"
+            background="#008899"
+            layoutWidth="match_parent"
+            layoutHeight="20" />
+
+    <NText
+            text="Hello Virtual View"
+            textSize="12"
+            textColor="#333333"
+            textStyle="underline"
+            layoutWidth="wrap_content"
+            layoutHeight="20" />
+
+    <NText
             text="Title: textStyle = italic"
             textSize="12"
             textColor="#333333"
@@ -140,7 +156,7 @@
             layoutHeight="20" />
 
     <NText
-            text="Title: borderWidth = 1 borderColor = #0088FF borderRadius = 5"
+            text="Title: borderWidth = 1 borderColor = #0088FF borderRadius = 2"
             textSize="12"
             textColor="#333333"
             background="#008899"
@@ -149,14 +165,14 @@
 
     <NText
             text="Hello Virtual View"
-            background="#56E6D5"
             textSize="12"
             textColor="#333333"
-            borderRadius="5"
             borderColor="#0088FF"
+            borderRadius="2"
             borderWidth="1"
             layoutWidth="wrap_content"
             layoutHeight="20" />
+
 
     <NText
             text="Title: gravity = h_center|v_center"
@@ -329,7 +345,7 @@
             layoutHeight="wrap_content" />
 
     <NText
-            text="Title: textSize 12rp"
+            text="Title: lineHeight = 30 with pure text"
             textSize="12"
             textColor="#333333"
             background="#008899"
@@ -337,14 +353,15 @@
             layoutHeight="20" />
 
     <NText
-            text="Hello Virtual View"
-            textSize="12rp"
+            text="(alway center in vertically, layoutHeight should be wrap_content)"
+            textSize="12"
             textColor="#333333"
+            lineHeight="30"
             layoutWidth="match_parent"
             layoutHeight="wrap_content" />
 
     <NText
-            text="Title: ellipsize end"
+            text="Title: lineHeight = 30 with rich text"
             textSize="12"
             textColor="#333333"
             background="#008899"
@@ -352,28 +369,11 @@
             layoutHeight="20" />
 
     <NText
-            text="Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View"
-            ellipsize="end"
-            lines="1"
+            text="rich text: <font color=#00bbaa>Lorem ipsum...</font>"
             textSize="12"
             textColor="#333333"
-            layoutWidth="match_parent"
-            layoutHeight="wrap_content" />
-
-    <NText
-            text="Title: ellipsize none"
-            textSize="12"
-            textColor="#333333"
-            background="#008899"
-            layoutWidth="match_parent"
-            layoutHeight="20" />
-
-    <NText
-            text="Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View, Hello Virtual View"
-            ellipsize="none"
-            lines="1"
-            textSize="12"
-            textColor="#333333"
+            lineHeight="30"
+            supportHTMLStyle="true"
             layoutWidth="match_parent"
             layoutHeight="wrap_content" />
 </VHLayout>

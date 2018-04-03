@@ -49,7 +49,7 @@ public class NRatioLayout extends RatioLayout implements INativeLayout {
     public NRatioLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new NativeLayoutImpl(context.getContext());
+        mNative = new NativeLayoutImpl(context.forViewConstruction());
         mNative.setVirtualView(this);
     }
 
