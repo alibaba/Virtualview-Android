@@ -40,6 +40,7 @@ import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
+import com.tmall.wireless.vaf.virtualview.Helper.VVFeatureConfig;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
@@ -150,6 +151,7 @@ public class VirtualViewApplication extends Application {
     public void onCreate() {
         super.onCreate();
         if (sVafContext == null) {
+            //VVFeatureConfig.setSliderCompat(true);
             Picasso.setSingletonInstance(new Picasso.Builder(this).loggingEnabled(true).build());
             sVafContext = new VafContext(this.getApplicationContext());
             sVafContext.setImageLoaderAdapter(new IImageLoaderAdapter() {

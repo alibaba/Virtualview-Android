@@ -25,25 +25,22 @@
 package com.tmall.wireless.vaf.virtualview.view.slider;
 
 import android.view.View;
-
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ArrayAdapter;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.IView;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 
-import org.json.JSONObject;
-
 /**
  * Created by gujicheng on 16/12/15.
  */
 
-public class SliderImp extends SliderView implements IView , IContainer{
+public class SliderCompactImp extends SliderView implements IView , IContainer{
     private final static String TAG = "SliderImp_TMTEST";
 
     protected ViewBase mVirtualView;
 
-    public SliderImp(VafContext context) {
+    public SliderCompactImp(VafContext context) {
         super(context.getContext());
 
         mAdapter = new ArrayAdapter(context);

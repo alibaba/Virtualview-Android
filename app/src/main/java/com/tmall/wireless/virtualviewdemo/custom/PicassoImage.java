@@ -55,7 +55,7 @@ public class PicassoImage extends ViewBase {
     public PicassoImage(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mPicassoImageView = new PicassoImageView(context.getContext());
+        mPicassoImageView = new PicassoImageView(context.forViewConstruction());
         StringSupport mStringSupport = context.getStringLoader();
         urlId = mStringSupport.getStringId("url", false);
         degreeId = mStringSupport.getStringId("degree", false);
@@ -125,13 +125,13 @@ public class PicassoImage extends ViewBase {
     @Override
     public void reset() {
         super.reset();
-        Picasso.with(mContext.getContext()).cancelRequest(mPicassoImageView);
+        Picasso.with(mContext.getApplicationContext()).cancelRequest(mPicassoImageView);
     }
 
     @Override
     public void onParseValueFinished() {
         super.onParseValueFinished();
-        Picasso.with(mContext.getContext()).load(url).rotate(degrees).into(mPicassoImageView);
+        Picasso.with(mContext.getApplicationContext()).load(url).rotate(degrees).into(mPicassoImageView);
     }
 
     public static class Builder implements ViewBase.IBuilder {

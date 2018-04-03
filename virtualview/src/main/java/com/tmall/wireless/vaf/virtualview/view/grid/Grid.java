@@ -55,7 +55,7 @@ public class Grid extends NativeViewBase {
     public Grid(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        mNative = new GridImp(context.getContext());
+        mNative = new GridImp(context.forViewConstruction());
         mNative.setVirtualView(this);
         __mNative = mNative;
     }

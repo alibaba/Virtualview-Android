@@ -53,11 +53,14 @@
 
         <activity android:name=".ScriptListActivity"></activity>
         <activity android:name=".ParserDemoActivity"></activity>
-        <activity android:name=".PreviewActivity" android:exported="true">
+        <activity android:name=".LocalPreviewActivity" android:exported="true">
             <intent-filter>
                 <action android:name="com.tmall.wireless.virtualviewdemo.PREVIEW" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".preview.PreviewListActivity"/>
+        <activity android:name=".preview.PreviewActivity"/>
     </application>
 
 </manifest>

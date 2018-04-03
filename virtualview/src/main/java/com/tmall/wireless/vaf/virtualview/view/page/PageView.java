@@ -48,6 +48,7 @@ import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.Adapter;
 import com.tmall.wireless.vaf.virtualview.core.Adapter.ViewHolder;
+import com.tmall.wireless.vaf.virtualview.core.IContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -523,7 +524,7 @@ public class PageView extends ViewGroup {
         View v = this.getChildAt(index);
 
         Adapter.ViewHolder vh = (Adapter.ViewHolder)v.getTag();
-        ((Container)vh.mItemView).getVirtualView().reset();
+        ((IContainer)vh.mItemView).getVirtualView().reset();
         List<Adapter.ViewHolder> items = mItemCache.get(vh.mType);
         if (null == items) {
             items = new ArrayList<>();

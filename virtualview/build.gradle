@@ -30,6 +30,7 @@ buildscript {
         maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
         mavenCentral()
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 
     dependencies {
@@ -42,6 +43,7 @@ repositories {
     maven { url "http://oss.jfrog.org/oss-snapshot-local/" }
     jcenter()
     mavenLocal()
+    maven { url 'https://maven.google.com' }
 }
 
 ext {
@@ -102,12 +104,13 @@ configurations.all {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:23.1.1@aar'
-    compile 'com.android.support:support-annotations:23.1.1'
+    compile 'com.android.support:support-v4:26.0.2@aar'
+    compile 'com.android.support:support-compat:26.0.2@aar'
+    compile 'com.android.support:support-annotations:26.0.2'
     compile('com.alibaba.android:virtual-common:1.0.9') {
         changing = true
     }
-    provided 'com.android.support:recyclerview-v7:23.1.1@aar'
+    compile 'com.android.support:recyclerview-v7:26.0.2@aar'
 }
 
 File deployConfig = rootProject.file('jcenterInstall.gradle')

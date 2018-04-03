@@ -41,7 +41,7 @@ public class PageImp extends PageView implements IView, IContainer {
     protected ViewBase mVirtualView;
 
     public PageImp(VafContext context) {
-        super(context.getContext());
+        super(context.forViewConstruction());
 
         mAdapter = new ArrayAdapter(context);
     }

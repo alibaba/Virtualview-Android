@@ -410,7 +410,7 @@ public class SliderView extends ViewGroup {
         refresh();
 
         this.measureChildren(View.MeasureSpec.makeMeasureSpec(mItemWidth, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
+            View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
 
         setMeasuredDimension(mWidth, height);
     }

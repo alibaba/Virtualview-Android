@@ -24,21 +24,19 @@
 
 package com.tmall.wireless.virtualviewdemo;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import com.tmall.wireless.virtualviewdemo.preview.PreviewActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.LinearLayout;
-import com.tmall.wireless.vaf.virtualview.core.IContainer;
-import com.tmall.wireless.vaf.virtualview.core.Layout;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by longerian on 2017/7/24.
@@ -47,33 +45,21 @@ import org.json.JSONObject;
  * @date 2017/07/24
  */
 
-public class ComponentActivity extends Activity {
+public class ComponentActivity extends PreviewActivity {
 
-    private LinearLayout mLinearLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_component);
-        mLinearLayout = (LinearLayout)findViewById(R.id.container);
-        String name = getIntent().getStringExtra("name");
-        String data = getIntent().getStringExtra("data");
-        View container = ((VirtualViewApplication) getApplication()).getVafContext().getContainerService().getContainer(name, true);
-        IContainer iContainer = (IContainer)container;
-        if (!TextUtils.isEmpty(data)) {
-            JSONObject json = getJSONDataFromAsset(data);
-            if (json != null) {
-                iContainer.getVirtualView().setVData(json);
-            }
-        }
-        Layout.Params p = iContainer.getVirtualView().getComLayoutParams();
-        LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(p.mLayoutWidth, p.mLayoutHeight);
-        marginLayoutParams.leftMargin = p.mLayoutMarginLeft;
-        marginLayoutParams.topMargin = p.mLayoutMarginTop;
-        marginLayoutParams.rightMargin = p.mLayoutMarginRight;
-        marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
-        mLinearLayout.addView(container, marginLayoutParams);
 
+        mTemplateName = getIntent().getStringExtra("name");
+        String data = getIntent().getStringExtra("data");
+        if (!TextUtils.isEmpty(data)) {
+            mJsonData = getJSONDataFromAsset(data);
+        }
+
+        setTitle(mTemplateName);
+        preview(mTemplateName, mJsonData);
     }
 
     private JSONObject getJSONDataFromAsset(String name) {

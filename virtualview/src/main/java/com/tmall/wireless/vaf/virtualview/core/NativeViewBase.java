@@ -78,9 +78,9 @@ public class NativeViewBase extends ViewBase {
     @Override
     protected void setBackgroundImage(Bitmap bmp) {
         if (VERSION.SDK_INT >= 16) {
-            ((View)__mNative).setBackground(new BitmapDrawable(mContext.getContext().getResources(), bmp));
+            ((View)__mNative).setBackground(new BitmapDrawable(mContext.forViewConstruction().getResources(), bmp));
         } else {
-            ((View)__mNative).setBackgroundDrawable(new BitmapDrawable(mContext.getContext().getResources(), bmp));
+            ((View)__mNative).setBackgroundDrawable(new BitmapDrawable(mContext.forViewConstruction().getResources(), bmp));
         }
     }
 

@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
@@ -82,6 +83,15 @@ public abstract class TextBase extends ViewBase {
             mTextColor = color;
             mPaint.setColor(mTextColor);
             refresh();
+        }
+    }
+
+    @Override
+    public void onParseValueFinished() {
+        super.onParseValueFinished();
+
+        if (isRtl()) {
+            mGravity = RtlHelper.resolveRtlGravity(mGravity);
         }
     }
 

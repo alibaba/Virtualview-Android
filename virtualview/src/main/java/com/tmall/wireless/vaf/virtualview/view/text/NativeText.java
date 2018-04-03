@@ -66,7 +66,7 @@ public class NativeText extends TextBase {
     public NativeText(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        mNative = new NativeTextImp(context.getContext());
+        mNative = new NativeTextImp(context.forViewConstruction());
     }
 
     @Override
@@ -145,6 +145,9 @@ public class NativeText extends TextBase {
         }
         if (0 != (mTextStyle & TextBaseCommon.STRIKE)) {
             flag |= Paint.STRIKE_THRU_TEXT_FLAG;
+        }
+        if (0 != (mTextStyle & TextBaseCommon.UNDERLINE)) {
+            flag |= Paint.UNDERLINE_TEXT_FLAG;
         }
         mNative.setPaintFlags(flag);
 

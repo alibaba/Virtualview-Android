@@ -31,6 +31,7 @@ import com.libra.virtualview.common.LayoutCommon;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.vaf.virtualview.Helper.RtlHelper;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.core.ViewCache;
@@ -212,7 +213,8 @@ public class FrameLayout extends Layout {
                 tt = t + mPaddingTop + childP.mLayoutMarginTop + mBorderWidth;
             }
 
-            child.comLayout(ll, tt, ll + w, tt + h);
+            int realLeft = RtlHelper.getRealLeft(isRtl(), l, getWidth(), ll, w);
+            child.comLayout(realLeft, tt, realLeft + w, tt + h);
         }
     }
 

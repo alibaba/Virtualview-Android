@@ -49,7 +49,7 @@ public class NVHLayout extends VHLayout implements INativeLayout {
     public NVHLayout(VafContext context,
         ViewCache viewCache) {
         super(context, viewCache);
-        mNative = new NativeLayoutImpl(context.getContext());
+        mNative = new NativeLayoutImpl(context.forViewConstruction());
         mNative.setVirtualView(this);
     }
 

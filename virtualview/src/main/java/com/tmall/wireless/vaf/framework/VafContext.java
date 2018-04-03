@@ -81,14 +81,9 @@ public class VafContext {
         this(context, false);
     }
 
-    public void init(Context context) {
-        mContext = context;
-    }
-
-    public void uninit() {
-        mContext = null;
-        mCurActivity = null;
-        EventData.clear();
+    public VafContext(Activity context) {
+        this(context.getApplicationContext(), false);
+        mCurActivity = context;
     }
 
     public VafContext(Context context, boolean coreOnly) {
@@ -111,6 +106,16 @@ public class VafContext {
         }
         mImageLoader = ImageLoader.build(context);
         SLOP = ViewConfiguration.get(context).getScaledTouchSlop();
+    }
+
+    public void init(Context context) {
+        mContext = context;
+    }
+
+    public void uninit() {
+        mContext = null;
+        mCurActivity = null;
+        EventData.clear();
     }
 
     public void onResume(int pageId) {
@@ -157,8 +162,27 @@ public class VafContext {
         return mExprEngine;
     }
 
+    /**
+     * Use {@link #getApplicationContext()} instead if you need application context. <br />
+     * Use {@link #getActivityContext()} or {@link #getCurActivity()} if you need activity to create view. This require you provide activity instance by {@link #setCurActivity(Activity)} or creating {@link VafContext} with {@link #VafContext(Activity)}<br />
+     * For convenience and compatibility, use {@link #forViewConstruction()} to create view.
+     * @return
+     */
+    @Deprecated
     final public Context getContext() {
         return mContext;
+    }
+
+    final public Context getApplicationContext() {
+        return mContext.getApplicationContext();
+    }
+
+    final public Context getActivityContext() {
+        return mCurActivity;
+    }
+
+    final public Context forViewConstruction() {
+        return mCurActivity != null ? mCurActivity : mContext;
     }
 
     final public NativeObjectManager getNativeObjectManager() {

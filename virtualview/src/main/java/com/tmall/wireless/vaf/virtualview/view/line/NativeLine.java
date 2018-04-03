@@ -41,7 +41,7 @@ public class NativeLine extends LineBase {
     public NativeLine(VafContext context, ViewCache viewCache) {
         super(context, viewCache);
 
-        mNative = new NativeLineImp(context.getContext(), this);
+        mNative = new NativeLineImp(context.forViewConstruction(), this);
     }
 
     @Override
