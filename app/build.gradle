@@ -75,7 +75,7 @@ dependencies {
     provided('com.alibaba.android:virtual-common:1.0.9') {
         changing = true
     }
-    compile('com.alibaba.android:virtual-compiler:1.0.7@jar') {
+    compile('com.alibaba.android:virtual-compiler:1.0.10@jar') {
         exclude group: 'xmlpull', module: 'xmlpull'
         exclude group: 'net.sf.kxml', module: 'kxml2'
         changing = true
