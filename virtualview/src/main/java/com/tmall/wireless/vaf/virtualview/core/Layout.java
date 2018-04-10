@@ -30,6 +30,7 @@ import java.util.List;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
+
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.LayoutCommon;
@@ -121,7 +122,9 @@ public abstract class Layout extends ViewBase {
             int h = v.getComMeasuredHeight();
             if (x >= l && x < (l + w) && y >= t && y <= t + h) {
                 shouldHandle = v.handleEvent(x, y);
-                break;
+                if (shouldHandle) {
+                    break;
+                }
             }
         }
         if (!shouldHandle) {
@@ -142,7 +145,9 @@ public abstract class Layout extends ViewBase {
             int h = v.getComMeasuredHeight();
             if (x >= l && x < (l + w) && y >= t && y <= t + h) {
                 deal = v.click(x, y, isLong);
-                break;
+                if (deal) {
+                    break;
+                }
             }
         }
 
