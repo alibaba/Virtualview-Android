@@ -442,6 +442,14 @@ public abstract class ViewBase implements IView {
         mKeyedTags.put(key, tag);
     }
 
+    public void setFlag(int flag, int flagMask) {
+        mFlag = (mFlag & ~flagMask) | (flag & flagMask);
+    }
+
+    public void clear(int flagMask) {
+        mFlag = mFlag & ~flagMask;
+    }
+
     public IBean getBean() {
         return mBean;
     }
