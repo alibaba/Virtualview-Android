@@ -645,7 +645,7 @@ public abstract class ViewBase implements IView {
             }
         }
 
-        if (isClickable()) {
+        if (isClickable() && isVisible()) {
            ret = mContext.getEventManager().emitEvent(EventManager.TYPE_Click, EventData.obtainData(mContext, this));
         }
 
