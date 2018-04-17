@@ -153,6 +153,16 @@ public class NativeLayoutImpl extends ViewGroup implements IContainer, INativeLa
         }
     }
 
+    public void setVirtualViewOnly(ViewBase view) {
+        if (null != view) {
+            mView = view;
+            mView.setHoldView(this);
+            if (mView.shouldDraw()) {
+                setWillNotDraw(false);
+            }
+        }
+    }
+
     @Override
     public ViewBase getVirtualView() {
         return mView;
