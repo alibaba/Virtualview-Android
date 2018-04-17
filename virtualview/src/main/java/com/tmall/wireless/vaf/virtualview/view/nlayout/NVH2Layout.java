@@ -50,7 +50,7 @@ public class NVH2Layout extends VH2Layout implements INativeLayout {
         ViewCache viewCache) {
         super(context, viewCache);
         mNative = new NativeLayoutImpl(context.forViewConstruction());
-        mNative.setVirtualView(this);
+        mNative.setVirtualViewOnly(this);
     }
 
     public View getNativeView() {

@@ -88,7 +88,9 @@ public abstract class ViewBase implements IView {
 
     protected View mDisplayViewContainer;
 
+    /** absolute value in virtual container, relative value in native container **/
     protected int mDrawLeft;
+    /** absolute value in virtual container, relative value in native container **/
     protected int mDrawTop;
     protected Paint mPaint;
 
@@ -442,6 +444,14 @@ public abstract class ViewBase implements IView {
         mKeyedTags.put(key, tag);
     }
 
+    public void setFlag(int flag, int flagMask) {
+        mFlag = (mFlag & ~flagMask) | (flag & flagMask);
+    }
+
+    public void clear(int flagMask) {
+        mFlag = mFlag & ~flagMask;
+    }
+
     public IBean getBean() {
         return mBean;
     }
@@ -579,9 +589,9 @@ public abstract class ViewBase implements IView {
 
     protected boolean handleRoute(int id) {
         boolean ret = onCheckHandle(id);
-        if (!ret && null != mParent) {
-            ret = mParent.handleRoute(id);
-        }
+        //if (!ret && null != mParent) {
+        //    ret = mParent.handleRoute(id);
+        //}
         return ret;
     }
 
@@ -596,9 +606,9 @@ public abstract class ViewBase implements IView {
         } else {
             ret = onClick(id);
         }
-        if (!ret && null != mParent) {
-            ret = mParent.clickRoute(mParent.mId, isLong);
-        }
+        //if (!ret && null != mParent) {
+        //    ret = mParent.clickRoute(mParent.mId, isLong);
+        //}
         return ret;
     }
 
@@ -637,7 +647,7 @@ public abstract class ViewBase implements IView {
             }
         }
 
-        if (isClickable()) {
+        if (isClickable() && isVisible()) {
            ret = mContext.getEventManager().emitEvent(EventManager.TYPE_Click, EventData.obtainData(mContext, this));
         }
 
