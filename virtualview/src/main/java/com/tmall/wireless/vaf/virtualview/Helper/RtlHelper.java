@@ -16,12 +16,22 @@ import java.util.Locale;
  */
 public class RtlHelper {
 
+    private static boolean sEnable = true;
+
+    public static boolean isEnable() {
+        return sEnable;
+    }
+
+    public static void setEnable(boolean enable) {
+        sEnable = enable;
+    }
+
     /**
      * In Rtl env or not.
      * @return true if in Rtl env.
      */
     public static boolean isRtl() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (sEnable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             return View.LAYOUT_DIRECTION_RTL == TextUtils.getLayoutDirectionFromLocale(Locale.getDefault());
         }
 
