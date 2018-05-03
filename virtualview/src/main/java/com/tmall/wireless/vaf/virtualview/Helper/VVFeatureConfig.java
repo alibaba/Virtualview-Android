@@ -57,4 +57,16 @@ public class VVFeatureConfig {
     public static boolean isSliderCompat() {
         return sliderCompat;
     }
+
+    /**
+     * @param available true, enable rtl in layout duration.
+     */
+    public static void setRtlAvailable(boolean available) {
+        RtlHelper.setEnable(available);
+    }
+
+    public static boolean isRtlAvailable() {
+        return RtlHelper.isEnable();
+    }
+
 }
