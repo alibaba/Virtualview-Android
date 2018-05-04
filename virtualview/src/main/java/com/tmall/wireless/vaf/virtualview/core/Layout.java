@@ -116,8 +116,6 @@ public abstract class Layout extends ViewBase {
         boolean shouldHandle = false;
         for (int i = mSubViews.size() - 1; i >= 0; i--) {
             ViewBase v = mSubViews.get(i);
-            //int l = v.getDrawLeft();
-            //int t = v.getDrawTop();
             int l = v.getAbsoluteDrawLeft();
             int t = v.getAbsoluteDrawTop();
             int w = v.getComMeasuredWidth();
@@ -141,8 +139,6 @@ public abstract class Layout extends ViewBase {
 
         for (int i = mSubViews.size() - 1; i >= 0; i--) {
             ViewBase v = mSubViews.get(i);
-            //int l = v.getDrawLeft();
-            //int t = v.getDrawTop();
             int l = v.getAbsoluteDrawLeft();
             int t = v.getAbsoluteDrawTop();
             int w = v.getComMeasuredWidth();
