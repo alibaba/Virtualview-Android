@@ -116,8 +116,10 @@ public abstract class Layout extends ViewBase {
         boolean shouldHandle = false;
         for (int i = mSubViews.size() - 1; i >= 0; i--) {
             ViewBase v = mSubViews.get(i);
-            int l = v.getDrawLeft();
-            int t = v.getDrawTop();
+            //int l = v.getDrawLeft();
+            //int t = v.getDrawTop();
+            int l = v.getAbsoluteDrawLeft();
+            int t = v.getAbsoluteDrawTop();
             int w = v.getComMeasuredWidth();
             int h = v.getComMeasuredHeight();
             if (x >= l && x < (l + w) && y >= t && y <= t + h) {
@@ -139,8 +141,10 @@ public abstract class Layout extends ViewBase {
 
         for (int i = mSubViews.size() - 1; i >= 0; i--) {
             ViewBase v = mSubViews.get(i);
-            int l = v.getDrawLeft();
-            int t = v.getDrawTop();
+            //int l = v.getDrawLeft();
+            //int t = v.getDrawTop();
+            int l = v.getAbsoluteDrawLeft();
+            int t = v.getAbsoluteDrawTop();
             int w = v.getComMeasuredWidth();
             int h = v.getComMeasuredHeight();
             if (x >= l && x < (l + w) && y >= t && y <= t + h) {
