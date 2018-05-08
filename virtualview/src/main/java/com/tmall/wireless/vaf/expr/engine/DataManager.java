@@ -24,6 +24,7 @@
 
 package com.tmall.wireless.vaf.expr.engine;
 
+import android.support.annotation.Keep;
 import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,7 @@ import java.util.Map;
 /**
  * Created by gujicheng on 17/3/27.
  */
-
+@Keep
 public class DataManager {
     private JSONObject mData = new JSONObject();
 
