@@ -58,6 +58,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewCache.Item;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
+import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayout;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayoutImpl;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -662,13 +663,54 @@ public abstract class ViewBase implements IView {
         return false;
     }
 
+    /**
+     *
+     * @return left value relative to its nearest native parent container
+     */
     final public int getDrawLeft() {
         return mDrawLeft;
     }
 
+    /**
+     *
+     * @return top value relative to is nearest native parent container
+     */
     final public int getDrawTop() {
         return mDrawTop;
     }
+
+    /**
+     *
+     * @return absolute left value in its root container
+     */
+    final public int getAbsoluteDrawLeft() {
+        int result = mDrawLeft;
+        ViewBase parent = this.mParent;
+        while (parent != null) {
+            if (parent instanceof INativeLayout) {
+                result += parent.getDrawLeft();
+            }
+            parent = parent.mParent;
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @return absolute top value in its root container
+     */
+    final public int getAbsoluteDrawTop() {
+        int result = mDrawTop;
+        ViewBase parent = this.mParent;
+        while (parent != null) {
+            if (parent instanceof INativeLayout) {
+                result += parent.getDrawTop();
+            }
+            parent = parent.mParent;
+        }
+        return result;
+    }
+
 
     final public void setHoldView(View v) {
         mViewCache.setHoldView(v);
