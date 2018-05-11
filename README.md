@@ -38,6 +38,11 @@ For more information, see [this](http://tangram.pingguohe.net/docs/virtualview/a
 + Support simple basic logical expression in XML template.
 + Ship with tools to help developing.
 
+## Real-time compile tools
+[I'm docs](https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview)
+
+![](https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif)
+
 ## User Guide
 
 ### Use It Independently

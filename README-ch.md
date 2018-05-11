@@ -38,6 +38,12 @@ XML 模板实现组件的动态性，虚拟化的技术提升组件的渲染性�
 + 支持在模板里写事件触发的逻辑表达式。
 + 提供配套的开发工具，辅助模板开发工具。
 
+## 实时编译预览工具
+[文档传送门](https://github.com/alibaba/virtualview_tools/tree/master/compiler-tools/RealtimePreview)
+
+效果图：
+![](https://raw.githubusercontent.com/alibaba/virtualview_tools/master/compiler-tools/RealtimePreview/screenshot.gif)
+
 ## 接入教程
 
 ### 单独使用
