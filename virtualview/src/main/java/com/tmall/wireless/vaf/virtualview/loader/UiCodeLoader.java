@@ -55,8 +55,8 @@ public class UiCodeLoader {
             ret = mTypeToCodeReader.get(type);
             ret.seek(mTypeToPos.get(type));
         } else {
-            Log.e(TAG, "getCode type invalide type:" + type + mTypeToCodeReader.containsKey(type) + " " + mTypeToPos
-                .containsKey(type));
+//            Log.e(TAG, "getCode type invalide type:" + type + mTypeToCodeReader.containsKey(type) + " " + mTypeToPos
+//                .containsKey(type));
         }
         return ret;
     }
