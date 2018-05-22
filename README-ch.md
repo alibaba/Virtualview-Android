@@ -17,6 +17,10 @@
 + [Virtualview-iOS](https://github.com/alibaba/VirtualView-iOS)
 + [LazyScrollView](https://github.com/alibaba/lazyscrollview)
 
+### Server
+
++ [TAC](https://github.com/alibaba/tac)
+
 在 Tangram 体系里，页面结构可以通过配置动态更新，然而业务组件是通过 Native 代码实现的，无法动态更新。VirtualView 就是为了解决业务组件的动态更新而生的，它提供了一系列基础 UI 组件和布局组件能力，通过 XML 来搭建业务组件，并将 XML 模板编译成二进制数据，然后主体框架解析二进制数据并渲染出视图。当 XML 模板数据能动态下发的时候，客户端上的业务组件视图也就能动态更新了。
 
 编写 XML 模板的方式、序列化成二进制数据的协议，VirtualView 都很大程度上吸取了 Android 原生开发的开发方式和原理，但增加了数据绑定、表达式相关的能力，可以更好的与 Tangram 体系结合。
