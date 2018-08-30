@@ -405,10 +405,10 @@ public class ViewCache {
                                 break;
                             } else {
                                 String value = sb.toString();
-                                try {
-                                    int intValue = Integer.parseInt(value);
+                                int intValue = parseInt(value);
+                                if (intValue != Integer.MIN_VALUE) {
                                     exprFragment.add(Integer.valueOf(intValue));
-                                } catch (NumberFormatException e) {
+                                } else {
                                     exprFragment.add(value);
                                 }
                                 sb.delete(0, sb.length());
@@ -418,10 +418,10 @@ public class ViewCache {
                             if (state == STATE_COMMON) {
                                 if (sb.length() > 0) {
                                     String value = sb.toString();
-                                    try {
-                                        int intValue = Integer.parseInt(value);
+                                    int intValue = parseInt(value);
+                                    if (intValue != Integer.MIN_VALUE) {
                                         exprFragment.add(Integer.valueOf(intValue));
-                                    } catch (NumberFormatException e) {
+                                    } else {
                                         exprFragment.add(value);
                                     }
                                     sb.delete(0, sb.length());
@@ -435,10 +435,10 @@ public class ViewCache {
                         case ARRAY_END:
                             if (state == STATE_ARRAY_START) {
                                 String value = sb.toString();
-                                try {
-                                    int intValue = Integer.parseInt(value);
+                                int intValue = Integer.parseInt(value);
+                                if (intValue != Integer.MIN_VALUE) {
                                     exprFragment.add(Integer.valueOf(intValue));
-                                } catch (NumberFormatException e) {
+                                } else {
                                     exprFragment.add(value);
                                 }
                                 sb.delete(0, sb.length());
@@ -455,10 +455,10 @@ public class ViewCache {
                 }
                 if (state == STATE_COMMON) {
                     String value = sb.toString();
-                    try {
-                        int intValue = Integer.parseInt(value);
+                    int intValue = parseInt(value);
+                    if (intValue != Integer.MIN_VALUE) {
                         exprFragment.add(Integer.valueOf(intValue));
-                    } catch (NumberFormatException e) {
+                    } else {
                         exprFragment.add(value);
                     }
                 }
@@ -621,5 +621,76 @@ public class ViewCache {
         }
 
     }
+
+    /*
+     * Avoid exception when parsing integer, in VirtualView situation, integer should not be negative,
+     * so we make Integer.MIN_VALUE as invalid input
+     */
+    public static int parseInt(String s) {
+        return parseInt(s,10);
+    }
+
+    public static int parseInt(String s, int radix) {
+        /*
+         * WARNING: This method may be invoked early during VM initialization
+         * before IntegerCache is initialized. Care must be taken to not use
+         * the valueOf method.
+         */
+
+        if (s == null) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (radix < Character.MIN_RADIX) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (radix > Character.MAX_RADIX) {
+            return Integer.MIN_VALUE;
+        }
+
+        int result = 0;
+        boolean negative = false;
+        int i = 0, len = s.length();
+        int limit = -Integer.MAX_VALUE;
+        int multmin;
+        int digit;
+
+        if (len > 0) {
+            char firstChar = s.charAt(0);
+            if (firstChar < '0') { // Possible leading "+" or "-"
+                if (firstChar == '-') {
+                    negative = true;
+                    limit = Integer.MIN_VALUE;
+                } else if (firstChar != '+') {
+                    return Integer.MIN_VALUE;
+                }
+
+                if (len == 1) // Cannot have lone "+" or "-"
+                    return Integer.MIN_VALUE;
+                i++;
+            }
+            multmin = limit / radix;
+            while (i < len) {
+                // Accumulating negatively avoids surprises near MAX_VALUE
+                digit = Character.digit(s.charAt(i++),radix);
+                if (digit < 0) {
+                    return Integer.MIN_VALUE;
+                }
+                if (result < multmin) {
+                    return Integer.MIN_VALUE;
+                }
+                result *= radix;
+                if (result < limit + digit) {
+                    return Integer.MIN_VALUE;
+                }
+                result -= digit;
+            }
+        } else {
+            return Integer.MIN_VALUE;
+        }
+        return negative ? result : -result;
+    }
+
 
 }
