@@ -105,7 +105,12 @@ public class VafContext {
             mContainerService.setPageContext(this);
         }
         mImageLoader = ImageLoader.build(context);
-        SLOP = ViewConfiguration.get(context).getScaledTouchSlop();
+        try {
+            SLOP = ViewConfiguration.get(context).getScaledTouchSlop();
+        } catch (Exception e) {
+            e.printStackTrace();
+            SLOP = 8;
+        }
     }
 
     public void init(Context context) {

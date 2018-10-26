@@ -160,7 +160,7 @@ public abstract class Layout extends ViewBase {
 
     @Override
     public ViewBase getChild(int index) {
-        if (index > 0 && index < mSubViews.size()) {
+        if (index >= 0 && index < mSubViews.size()) {
             return mSubViews.get(index);
         }
 

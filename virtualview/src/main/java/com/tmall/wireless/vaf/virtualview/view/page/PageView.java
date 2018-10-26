@@ -255,6 +255,7 @@ public class PageView extends ViewGroup {
             } else {
                 replace(mCurPos);
             }
+            mCanSlide = false;
         } else if (count > 1) {
             int pre = (mCurPos - 1);
             if (pre < 0) {
