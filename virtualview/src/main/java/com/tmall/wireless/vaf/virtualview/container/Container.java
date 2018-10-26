@@ -71,8 +71,15 @@ public class Container extends ViewGroup implements IContainer, IView {
         if (view instanceof Layout) {
             View v = view.getNativeView();
             if (null != v) {
-                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
-                addView(v, layoutParams);
+                if (v.getParent() == null) {
+                    LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                    addView(v, layoutParams);
+                } else {
+                    LayoutParams layoutParams = v.getLayoutParams();
+                    layoutParams.width = view.getComLayoutParams().mLayoutWidth;
+                    layoutParams.height = view.getComLayoutParams().mLayoutHeight;
+                    v.setLayoutParams(layoutParams);
+                }
                 if (v instanceof INativeLayoutImpl) {
                     Layout layout = (Layout) view;
                     List<ViewBase> subViews = layout.getSubViews();
@@ -96,9 +103,17 @@ public class Container extends ViewGroup implements IContainer, IView {
         } else {
             View v = view.getNativeView();
             if (null != v) {
-                LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
-                addView(v, layoutParams);
+                if (v.getParent() == null) {
+                    LayoutParams layoutParams = new LayoutParams(view.getComLayoutParams().mLayoutWidth, view.getComLayoutParams().mLayoutHeight);
+                    addView(v, layoutParams);
+                } else {
+                    LayoutParams layoutParams = v.getLayoutParams();
+                    layoutParams.width = view.getComLayoutParams().mLayoutWidth;
+                    layoutParams.height = view.getComLayoutParams().mLayoutHeight;
+                    v.setLayoutParams(layoutParams);
+                }
             }
+
         }
     }
 
