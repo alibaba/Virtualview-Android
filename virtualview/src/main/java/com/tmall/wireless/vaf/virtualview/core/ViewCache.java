@@ -25,17 +25,22 @@
 package com.tmall.wireless.vaf.virtualview.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.support.v4.app.ShareCompat.IntentBuilder;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+
 import com.libra.TextUtils;
 import com.libra.Utils;
 import com.libra.virtualview.common.TextBaseCommon;
 import com.libra.virtualview.common.ViewBaseCommon;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -49,7 +54,7 @@ public class ViewCache {
 
     private List<ViewBase> mCacheView = new ArrayList<>();
 
-    private ArrayMap<ViewBase, List<Item>> mCacheItem = new ArrayMap<>();
+    private ConcurrentHashMap<ViewBase, List<Item>> mCacheItem = new ConcurrentHashMap<>();
 
     private Object mComponentData;
 
@@ -244,7 +249,6 @@ public class ViewCache {
                         }
 
 
-
                         break;
                     case TYPE_STRING:
                         mView.setAttribute(mKey, Utils.toString(value));
@@ -314,8 +318,8 @@ public class ViewCache {
             mCacheView = null;
         }
         if (mCacheItem != null) {
-            for (int i = 0, size = mCacheItem.size(); i < size; i++) {
-                List<Item> items = mCacheItem.valueAt(i);
+            for (Map.Entry<ViewBase, List<Item>> entry : mCacheItem.entrySet()) {
+                List<Item> items = entry.getValue();
                 if (items != null) {
                     for (int j = 0, length = items.size(); j < length; j++) {
                         Item item = items.get(j);
@@ -481,14 +485,14 @@ public class ViewCache {
                                 result = jsonObject;
                             } else {
                                 if (jsonObject instanceof JSONObject) {
-                                    result = ((JSONObject)jsonObject).opt(key);
+                                    result = ((JSONObject) jsonObject).opt(key);
                                 } else {
                                     break;
                                 }
                             }
                         } else if (node instanceof Integer) {
                             if (jsonObject instanceof JSONArray) {
-                                result = ((JSONArray)jsonObject).opt(((Integer)node).intValue());
+                                result = ((JSONArray) jsonObject).opt(((Integer) node).intValue());
                             } else {
                                 break;
                             }
@@ -586,23 +590,23 @@ public class ViewCache {
                     if (conditionValue == null) {
                         determine = false;
                     } else if (conditionValue instanceof Boolean) {
-                        determine = ((Boolean)conditionValue).booleanValue();
+                        determine = ((Boolean) conditionValue).booleanValue();
                     } else if (conditionValue instanceof String) {
-                        if (TextUtils.isEmpty((CharSequence)conditionValue)) {
+                        if (TextUtils.isEmpty((CharSequence) conditionValue)) {
                             determine = false;
                         } else {
-                            if (TextUtils.equals((CharSequence)conditionValue, "null")) {
+                            if (TextUtils.equals((CharSequence) conditionValue, "null")) {
                                 determine = false;
-                            } else if (TextUtils.equals(((String)conditionValue).toLowerCase(), "false")) {
+                            } else if (TextUtils.equals(((String) conditionValue).toLowerCase(), "false")) {
                                 determine = false;
                             }
                         }
                     } else if (conditionValue instanceof JSONObject) {
-                        if (((JSONObject)conditionValue).length() == 0) {
+                        if (((JSONObject) conditionValue).length() == 0) {
                             determine = false;
                         }
                     } else if (conditionValue instanceof JSONArray) {
-                        if (((JSONArray)conditionValue).length() == 0) {
+                        if (((JSONArray) conditionValue).length() == 0) {
                             determine = false;
                         }
                     } else if (conditionValue.equals(JSONObject.NULL)) {
@@ -627,7 +631,7 @@ public class ViewCache {
      * so we make Integer.MIN_VALUE as invalid input
      */
     public static int parseInt(String s) {
-        return parseInt(s,10);
+        return parseInt(s, 10);
     }
 
     public static int parseInt(String s, int radix) {
@@ -673,7 +677,7 @@ public class ViewCache {
             multmin = limit / radix;
             while (i < len) {
                 // Accumulating negatively avoids surprises near MAX_VALUE
-                digit = Character.digit(s.charAt(i++),radix);
+                digit = Character.digit(s.charAt(i++), radix);
                 if (digit < 0) {
                     return Integer.MIN_VALUE;
                 }
