@@ -24,16 +24,6 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import android.support.v4.app.ShareCompat.IntentBuilder;
-import android.support.v4.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 
 import com.libra.TextUtils;
@@ -43,6 +33,12 @@ import com.libra.virtualview.common.ViewBaseCommon;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 16/12/6.
@@ -76,7 +72,7 @@ public class ViewCache {
 
         public String mAttrEL;
 
-        private ArrayMap<Integer, Object> cacheTargetValue = new ArrayMap<>();
+        private ConcurrentHashMap<Integer, Object> cacheTargetValue = new ConcurrentHashMap<>();
 
         private int mValueType = TYPE_INT;
 

@@ -26,12 +26,14 @@ package com.tmall.wireless.vaf.framework;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
+
 import com.tmall.wireless.vaf.virtualview.ViewFactory;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -46,7 +48,7 @@ public class ViewManager {
 
     private ViewFactory mViewFactory = new ViewFactory();
 
-    private ArrayMap<String, List<ViewBase>> mViewCache = new ArrayMap<>();
+    private ConcurrentHashMap<String, List<ViewBase>> mViewCache = new ConcurrentHashMap<>();
     private SparseArray<ViewBase> mUuidContainers = new SparseArray<>();
 
     private VafContext mAppContext;
@@ -81,10 +83,10 @@ public class ViewManager {
     }
 
     public void destroy() {
-        for (int i = 0; i < mViewCache.size(); ++i) {
-            List<ViewBase> viewBases = mViewCache.valueAt(i);
+        for (Map.Entry<String, List<ViewBase>> entry : mViewCache.entrySet()) {
+            List<ViewBase> viewBases = entry.getValue();
             if (null != viewBases) {
-                for ( int j = 0; j < viewBases.size(); ++j) {
+                for (int j = 0; j < viewBases.size(); ++j) {
                     ViewBase viewBase = viewBases.get(j);
                     viewBase.destroy();
                     ViewCache viewCache = viewBase.getViewCache();

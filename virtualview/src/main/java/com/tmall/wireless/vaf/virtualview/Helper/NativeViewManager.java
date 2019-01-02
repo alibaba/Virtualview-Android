@@ -24,8 +24,9 @@
 
 package com.tmall.wireless.vaf.virtualview.Helper;
 
-import android.support.v4.util.ArrayMap;
 import com.libra.TextUtils;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by longerian on 2017/7/12.
@@ -38,7 +39,7 @@ public class NativeViewManager {
 
     private final static String TAG = "CompactNativeManager_TMTEST";
 
-    private ArrayMap<String, Class<?>> mBeanArrayMap = new ArrayMap<>();
+    private ConcurrentHashMap<String, Class<?>> mBeanArrayMap = new ConcurrentHashMap<>();
 
     public void register(String type, Class<?> processor) {
         if (null != processor && !TextUtils.isEmpty(type)) {

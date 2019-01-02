@@ -24,14 +24,14 @@
 
 package com.tmall.wireless.vaf.framework.cm;
 
-import android.support.v4.util.ArrayMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 17/4/10.
  */
 
 public class ComContainerTypeMap {
-    private ArrayMap<String, Integer> mMap = new ArrayMap<String, Integer>();
+    private ConcurrentHashMap<String, Integer> mMap = new ConcurrentHashMap<String, Integer>();
 
     public void register(String comMap, int containerType) {
         if (comMap != null && containerType > -1) {

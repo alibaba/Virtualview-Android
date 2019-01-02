@@ -24,9 +24,9 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SparseArrayCompat;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +47,7 @@ public class ArrayAdapter extends Adapter {
     private final static String TAG = "ArrayAdapter_TMTEST";
 
     private AtomicInteger mTypeId = new AtomicInteger(0);
-    private ArrayMap<String, Integer> mTypeMap = new ArrayMap<>();
+    private ConcurrentHashMap<String, Integer> mTypeMap = new ConcurrentHashMap<>();
     private SparseArrayCompat<String> mId2Types = new SparseArrayCompat<>();
     private JSONArray mData;
 

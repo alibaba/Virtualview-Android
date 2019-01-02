@@ -24,9 +24,9 @@
 
 package com.tmall.wireless.vaf.virtualview.view.scroller;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -69,7 +69,7 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
     private ViewGroup mStickyView;
     private int mSpan = 0;
 
-    private ArrayMap<String, Integer> mTypeMap = new ArrayMap<>();
+    private ConcurrentHashMap<String, Integer> mTypeMap = new ConcurrentHashMap<>();
     private SparseArrayCompat<String> mId2Types = new SparseArrayCompat<>();
 
     public ScrollerRecyclerViewAdapter(VafContext context, ScrollerImp scrollerImp) {

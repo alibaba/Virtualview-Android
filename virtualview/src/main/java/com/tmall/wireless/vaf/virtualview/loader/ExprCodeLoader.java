@@ -24,15 +24,11 @@
 
 package com.tmall.wireless.vaf.virtualview.loader;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
-import android.util.SparseIntArray;
 import com.libra.expr.common.ExprCode;
-import com.libra.virtualview.common.Common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 16/9/12.
@@ -40,7 +36,7 @@ import java.util.List;
 public class ExprCodeLoader {
     private final static String TAG = "CodeManager_TMTEST";
 
-    private ArrayMap<Integer, ExprCode> mCodeMap = new ArrayMap();
+    private ConcurrentHashMap<Integer, ExprCode> mCodeMap = new ConcurrentHashMap();
 
     public void reset() {
     }
