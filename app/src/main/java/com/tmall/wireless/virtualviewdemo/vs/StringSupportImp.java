@@ -24,18 +24,13 @@
 
 package com.tmall.wireless.virtualviewdemo.vs;
 
-import android.support.v4.util.ArrayMap;
-import android.text.TextUtils;
-
 import android.util.Log;
+
 import com.libra.expr.common.StringSupport;
 import com.libra.virtualview.common.StringBase;
-import com.tmall.wireless.vaf.virtualview.loader.CodeReader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 17/3/27.
@@ -45,13 +40,13 @@ public class StringSupportImp extends StringBase implements StringSupport {
 
     final private static String TAG = "StringSupportImp_TMTEST";
 
-    private Map<String, Integer> mString2Index = new ArrayMap<>();
+    private Map<String, Integer> mString2Index = new ConcurrentHashMap<>();
 
-    private Map<Integer, String> mIndex2String = new ArrayMap<>();
+    private Map<Integer, String> mIndex2String = new ConcurrentHashMap<>();
 
-    private Map<String, Integer> mSysString2Index = new ArrayMap<>();
+    private Map<String, Integer> mSysString2Index = new ConcurrentHashMap<>();
 
-    private Map<Integer, String> mSysIndex2String = new ArrayMap<>();
+    private Map<Integer, String> mSysIndex2String = new ConcurrentHashMap<>();
 
     public StringSupportImp() {
         for (int i = 0; i < StringBase.STR_ID_SYS_KEY_COUNT; ++i) {

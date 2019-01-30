@@ -26,6 +26,7 @@ package com.tmall.wireless.vaf.virtualview.core;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -36,7 +37,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Trace;
-import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -166,7 +166,7 @@ public abstract class ViewBase implements IView {
     /**
      * Map used to store views' tags.
      */
-    private SimpleArrayMap<String, Object> mKeyedTags;
+    private ConcurrentHashMap<String, Object> mKeyedTags;
 
     protected ExprCode mClickCode;
     protected ExprCode mBeforeLoadDataCode;
@@ -439,7 +439,7 @@ public abstract class ViewBase implements IView {
 
     public void setTag(String key, Object tag) {
         if (mKeyedTags == null) {
-            mKeyedTags = new SimpleArrayMap<>();
+            mKeyedTags = new ConcurrentHashMap<>();
         }
 
         mKeyedTags.put(key, tag);

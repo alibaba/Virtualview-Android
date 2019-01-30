@@ -24,7 +24,6 @@
 
 package com.tmall.wireless.vaf.expr.engine;
 
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -37,6 +36,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 16/9/12.
@@ -45,7 +45,7 @@ public class NativeObjectManager {
     private final static String TAG = "NObjManager_TMTEST";
 
     private List<ViewBase> mViews = new ArrayList<>();
-    private Map<String, Object> mNativeObjects = new ArrayMap<>();
+    private Map<String, Object> mNativeObjects = new ConcurrentHashMap<>();
     private StringSupport mStringLoader;
 
     public void setStringManager(StringSupport sm) {

@@ -25,10 +25,9 @@
 package com.tmall.wireless.vaf.virtualview.loader;
 
 import java.nio.charset.Charset;
+import java.util.concurrent.ConcurrentHashMap;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
-import com.libra.virtualview.common.Common;
 
 /**
  * Created by gujicheng on 16/11/8.
@@ -37,8 +36,8 @@ import com.libra.virtualview.common.Common;
 public class UiCodeLoader {
     private final static String TAG = "UiCodeLoader_TMTEST";
 
-    private ArrayMap<String, Integer> mTypeToPos = new ArrayMap<>();
-    private ArrayMap<String, CodeReader> mTypeToCodeReader = new ArrayMap<>();
+    private ConcurrentHashMap<String, Integer> mTypeToPos = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, CodeReader> mTypeToCodeReader = new ConcurrentHashMap<>();
 
     public void clear() {
         mTypeToPos.clear();

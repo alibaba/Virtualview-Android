@@ -25,10 +25,9 @@
 package com.tmall.wireless.vaf.virtualview.Helper;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 
 /**
  * Use for communicate with outside class.
@@ -36,7 +35,7 @@ import android.support.v4.util.ArrayMap;
  */
 
 public class ServiceManager {
-    private Map<Class<?>, Object> mServices = new ArrayMap<>();
+    private Map<Class<?>, Object> mServices = new ConcurrentHashMap<>();
 
     public <S> void register(@NonNull Class<S> type, @NonNull S service) {
         mServices.put(type, type.cast(service));

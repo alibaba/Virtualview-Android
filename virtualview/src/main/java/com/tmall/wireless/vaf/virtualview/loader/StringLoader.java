@@ -25,8 +25,8 @@
 package com.tmall.wireless.vaf.virtualview.loader;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import com.libra.TextUtils;
 import com.libra.expr.common.StringSupport;
@@ -38,17 +38,15 @@ import com.libra.virtualview.common.StringBase;
 public class StringLoader extends StringBase implements StringSupport {
     final private static String TAG = "StringLoader_TMTEST";
 
-    private Map<String, Integer> mString2Index = new ArrayMap<>();
+    private Map<String, Integer> mString2Index = new ConcurrentHashMap<>();
 
-    private Map<Integer, String> mIndex2String = new ArrayMap<>();
+    private Map<Integer, String> mIndex2String = new ConcurrentHashMap<>();
 
-    private Map<String, Integer> mSysString2Index = new ArrayMap<>();
+    private Map<String, Integer> mSysString2Index = new ConcurrentHashMap<>();
 
-    private Map<Integer, String> mSysIndex2String = new ArrayMap<>();
+    private Map<Integer, String> mSysIndex2String = new ConcurrentHashMap<>();
 
     private int mCurPage;
-
-
 
     public StringLoader() {
         for (int i = 0; i < StringBase.STR_ID_SYS_KEY_COUNT; ++i) {
@@ -144,25 +142,4 @@ public class StringLoader extends StringBase implements StringSupport {
     public boolean isSysString(String string) {
         return mSysString2Index.containsKey(string);
     }
-
-    //private int addNewItem(String str) {
-    //    int ret;
-    //
-    //    Map<Integer, String> arr = (Map<Integer, String>)mIndex2StringTab[mCurPage];
-    //    if (null == arr) {
-    //        arr = new ArrayMap<>(30);
-    //        mIndex2StringTab[mCurPage] = arr;
-    //    }
-    //    arr.add(str);
-    //
-    //    Map<String, Integer> map = (Map<String, Integer>)mString2IndexTab[mCurPage];
-    //    if (null == map) {
-    //        map = new HashMap<>();
-    //        mString2IndexTab[mCurPage] = map;
-    //    }
-    //    ret = mCurPage * Common.MAX_PAGE_ITEM_COUNT + map.size();
-    //    map.put(str, ret);
-    //
-    //    return ret;
-    //}
 }

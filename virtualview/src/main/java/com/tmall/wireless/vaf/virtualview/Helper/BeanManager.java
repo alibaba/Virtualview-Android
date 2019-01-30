@@ -24,10 +24,11 @@
 
 package com.tmall.wireless.vaf.virtualview.Helper;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import com.libra.TextUtils;
 import com.tmall.wireless.vaf.virtualview.core.IBean;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by longerian on 2017/7/12.
@@ -40,7 +41,7 @@ public class BeanManager {
 
     private final static String TAG = "BeanManager_TMTEST";
 
-    private ArrayMap<String, Class<? extends IBean>> mBeanArrayMap = new ArrayMap<>();
+    private ConcurrentHashMap<String, Class<? extends IBean>> mBeanArrayMap = new ConcurrentHashMap<>();
 
     public void register(String type, Class<? extends IBean> processor) {
         if (null != processor && !TextUtils.isEmpty(type)) {

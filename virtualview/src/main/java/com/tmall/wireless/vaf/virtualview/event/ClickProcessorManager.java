@@ -24,11 +24,11 @@
 
 package com.tmall.wireless.vaf.virtualview.event;
 
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
-import android.util.SparseArray;
 
 import org.json.JSONObject;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by gujicheng on 17/1/11.
@@ -37,7 +37,7 @@ import org.json.JSONObject;
 public class ClickProcessorManager {
     private final static String TAG = "CliProManager_TMTEST";
 
-    private ArrayMap<String, IClickProcessor> mProcessors = new ArrayMap<>();
+    private ConcurrentHashMap<String, IClickProcessor> mProcessors = new ConcurrentHashMap<>();
     private IClickProcessor mDefaultProcessor;
 
     public void register(String type, IClickProcessor p) {
