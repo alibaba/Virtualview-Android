@@ -256,9 +256,6 @@ public class ViewFactory {
         synchronized (LOCK) {
             cr = mUiCodeLoader.getCode(type);
             if (cr == null) {
-                if (!(type.equals("container-banner") || type.equals("container-scroll"))) {
-                    Log.d(TAG, "load " + type + " start when getVersion ");
-                }
                 mTmplWorker.executeTask(type);
                 cr = mUiCodeLoader.getCode(type);
             }

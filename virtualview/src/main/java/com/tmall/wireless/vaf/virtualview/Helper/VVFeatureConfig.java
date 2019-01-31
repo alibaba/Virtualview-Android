@@ -38,8 +38,6 @@ public class VVFeatureConfig {
 
     private static boolean sliderCompat = false;
 
-    private static boolean parallelLoadingTmpl = false;
-
     /**
      * Call this before create {@link VafContext} instance.
      * @param enableBorderRadius true, enable border radius and clip view.
@@ -71,11 +69,4 @@ public class VVFeatureConfig {
         return RtlHelper.isEnable();
     }
 
-    public static boolean isParallelLoadingTmpl() {
-        return parallelLoadingTmpl;
-    }
-
-    public static void setParallelLoadingTmpl(boolean parallelLoadingTmpl) {
-        VVFeatureConfig.parallelLoadingTmpl = parallelLoadingTmpl;
-    }
 }
