@@ -24,12 +24,18 @@
 
 package com.tmall.wireless.vaf.virtualview;
 
+import java.lang.ref.WeakReference;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
-
+import com.libra.TextUtils;
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.Helper.VVFeatureConfig;
@@ -71,9 +77,6 @@ import com.tmall.wireless.vaf.virtualview.view.text.NativeText;
 import com.tmall.wireless.vaf.virtualview.view.text.VirtualText;
 import com.tmall.wireless.vaf.virtualview.view.vh.VH;
 
-import java.util.List;
-import java.util.Stack;
-
 /**
  * Created by gujicheng on 16/8/16.
  */
@@ -87,6 +90,8 @@ public class ViewFactory {
     private static UiCodeLoader mUiCodeLoader = new UiCodeLoader();
     private static ExprCodeLoader mExprCodeLoader = new ExprCodeLoader();
     private static BinaryLoader mLoader = new BinaryLoader();
+    private static final Object LOCK = new Object();
+    private static TmplWorker mTmplWorker = new TmplWorker();
     private Stack<ViewBase> mComArr = new Stack<>();
 
     static {
@@ -128,6 +133,10 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_NRatioLayout, new NRatioLayout.Builder());
         mBuilders.put(Common.VIEW_ID_NVH2Layout, new NVH2Layout.Builder());
         mBuilders.put(Common.VIEW_ID_NVHLayout, new NVHLayout.Builder());
+        mTmplWorker.setViewFactory(this);
+        if (!mTmplWorker.isRunning()) {
+            mTmplWorker.start();
+        }
     }
 
     public void destroy() {
@@ -160,15 +169,40 @@ public class ViewFactory {
     }
 
     public int loadBinFile(String resPath) {
-        return mLoader.loadFromFile(resPath);
+        synchronized (LOCK) {
+            return mLoader.loadFromFile(resPath);
+        }
     }
 
     public int loadBinBuffer(byte[] buf) {
-        return mLoader.loadFromBuffer(buf);
+        synchronized (LOCK) {
+            return mLoader.loadFromBuffer(buf);
+        }
     }
 
     public int loadBinBuffer(byte[] buf, boolean override) {
-        return mLoader.loadFromBuffer(buf, override);
+        synchronized (LOCK) {
+            try {
+                return mLoader.loadFromBuffer(buf, override);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "load exception ");
+                return -1;
+            }
+        }
+    }
+
+    public void loadBinBufferAsync(String type, byte[] buf) {
+        loadBinBufferAsync(type, buf, false);
+    }
+
+    public void loadBinBufferAsync(String type, byte[] buf, boolean override) {
+        if (!TextUtils.isEmpty(type) && buf != null) {
+            if (mTmplWorker.isRunning()) {
+                Log.d(TAG, "load " + type + " start ");
+                mTmplWorker.offerTask(new TmplTask(type, buf, override));
+            }
+        }
     }
 
     public boolean registerBuilder(int id, ViewBase.IBuilder builder) {
@@ -218,7 +252,17 @@ public class ViewFactory {
     }
 
     public int getViewVersion(String type) {
-        CodeReader cr = mUiCodeLoader.getCode(type);
+        CodeReader cr = null;
+        synchronized (LOCK) {
+            cr = mUiCodeLoader.getCode(type);
+            if (cr == null) {
+                if (!(type.equals("container-banner") || type.equals("container-scroll"))) {
+                    Log.d(TAG, "load " + type + " start when getVersion ");
+                }
+                mTmplWorker.executeTask(type);
+                cr = mUiCodeLoader.getCode(type);
+            }
+        }
         if (cr != null) {
             return cr.getPatchVersion();
         }
@@ -233,7 +277,15 @@ public class ViewFactory {
         ViewBase ret = null;
 
         if (null != mLoader) {
-            CodeReader cr = mUiCodeLoader.getCode(type);
+            CodeReader cr = null;
+            synchronized (LOCK) {
+                cr = mUiCodeLoader.getCode(type);
+                if (cr == null) {
+                    Log.d(TAG, "load " + type + " start when createView ");
+                    mTmplWorker.executeTask(type);
+                    cr = mUiCodeLoader.getCode(type);
+                }
+            }
             if (null != cr) {
                 mComArr.clear();
                 ViewBase curView = null;
@@ -387,4 +439,100 @@ public class ViewFactory {
         }
         return null;
     }
+
+    private static class TmplTask {
+
+        private final String type;
+
+        private final byte[] buffer;
+
+        private final boolean override;
+
+        private TmplTask(String type, byte[] buffer, boolean override) {
+            this.type = type;
+            this.buffer = buffer;
+            this.override = override;
+        }
+    }
+
+    private static class TmplWorker extends Thread {
+
+        private final LinkedBlockingQueue<TmplTask> mLoadingPool = new LinkedBlockingQueue<>();
+        private WeakReference<ViewFactory> mViewFactory;
+        private volatile boolean isRunning;
+        private int count = 0;
+
+        private TmplWorker() {
+            super("VirtualView-TmplWorker");
+            isRunning = false;
+        }
+
+        public void setViewFactory(ViewFactory viewFactory) {
+            mViewFactory = new WeakReference<>(viewFactory);
+        }
+
+        public boolean isRunning() {
+            return isRunning;
+        }
+
+        public void offerTask(TmplTask task) {
+            try {
+                mLoadingPool.put(task);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void executeTask(String type) {
+            if (TextUtils.isEmpty(type)) {
+                return;
+            }
+            Iterator<TmplTask> itr = mLoadingPool.iterator();
+            while (itr.hasNext()) {
+                TmplTask next = itr.next();
+                if (type.equals(next.type)) {
+                    ViewFactory viewFactory = mViewFactory.get();
+                    if (viewFactory != null) {
+                        Log.d(TAG, "load " + type + " force - " + " size " + mLoadingPool.size());
+                        viewFactory.loadBinBuffer(next.buffer, next.override);
+                        itr.remove();
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public synchronized void start() {
+            super.start();
+            isRunning = true;
+        }
+
+        public void stopSelf() {
+            isRunning = false;
+            interrupt();
+        }
+
+        @Override
+        public void run() {
+            while (isRunning) {
+                try {
+                    TmplTask task = mLoadingPool.take();
+                    Log.d(TAG, "take " + task.type);
+                    if (task != null) {
+                        ViewFactory viewFactory = mViewFactory.get();
+                        if (viewFactory != null) {
+                            Log.d(TAG, "load " + task.type + " doing " + (++count));
+                            viewFactory.loadBinBuffer(task.buffer, task.override);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            mLoadingPool.clear();
+            isRunning = false;
+        }
+    }
+
 }
