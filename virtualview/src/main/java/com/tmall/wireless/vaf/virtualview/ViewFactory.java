@@ -464,15 +464,15 @@ public class ViewFactory {
             isRunning = false;
         }
 
-        public void setViewFactory(ViewFactory viewFactory) {
+        public synchronized void setViewFactory(ViewFactory viewFactory) {
             mViewFactory = new WeakReference<>(viewFactory);
         }
 
-        public boolean isRunning() {
+        public synchronized boolean isRunning() {
             return isRunning;
         }
 
-        public void offerTask(TmplTask task) {
+        public synchronized void offerTask(TmplTask task) {
             try {
                 mLoadingPool.put(task);
             } catch (InterruptedException e) {
@@ -480,7 +480,7 @@ public class ViewFactory {
             }
         }
 
-        public void executeTask(String type) {
+        public synchronized void executeTask(String type) {
             if (TextUtils.isEmpty(type)) {
                 return;
             }
@@ -505,7 +505,7 @@ public class ViewFactory {
             isRunning = true;
         }
 
-        public void stopSelf() {
+        public synchronized void stopSelf() {
             isRunning = false;
             interrupt();
         }
