@@ -133,9 +133,11 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_NRatioLayout, new NRatioLayout.Builder());
         mBuilders.put(Common.VIEW_ID_NVH2Layout, new NVH2Layout.Builder());
         mBuilders.put(Common.VIEW_ID_NVHLayout, new NVHLayout.Builder());
-        mTmplWorker.setViewFactory(this);
-        if (!mTmplWorker.isRunning()) {
-            mTmplWorker.start();
+        synchronized (LOCK) {
+            mTmplWorker.setViewFactory(this);
+            if (!mTmplWorker.isRunning()) {
+                mTmplWorker.start();
+            }
         }
     }
 
