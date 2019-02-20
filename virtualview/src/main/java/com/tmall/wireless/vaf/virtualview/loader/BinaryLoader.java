@@ -33,6 +33,8 @@ import com.tmall.wireless.vaf.framework.VafContext;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 /**
  * Created by gujicheng on 16/8/4.
@@ -104,13 +106,12 @@ public class BinaryLoader {
 
             if (buf.length > 27) {
                 // check tag
-                int tagLen = Common.TAG.length();
-                String tag = new String(buf, 0, tagLen);
-                if (TextUtils.equals(Common.TAG, tag)) {
+                byte[] tagArray = Arrays.copyOfRange(buf, 0, Common.TAG.length());
+                if (Arrays.equals(Common.TAG.getBytes(), tagArray)) {
                     CodeReader reader = new CodeReader();
 
                     reader.setCode(buf);
-                    reader.seekBy(tagLen);
+                    reader.seekBy(Common.TAG.length());
 
                     // check version
                     int majorVersion = reader.readShort();
@@ -185,7 +186,7 @@ public class BinaryLoader {
                         Log.e(TAG, "version dismatch");
                     }
                 } else {
-                    Log.e(TAG, "loadFromBuffer failed tag is invalidate:" + tag);
+                    Log.e(TAG, "loadFromBuffer failed tag is invalidate.");
                 }
             } else {
                 Log.e(TAG, "file len invalidate:" + buf.length);
