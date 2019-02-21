@@ -54,8 +54,6 @@ public class UiCodeLoader {
             ret = mTypeToCodeReader.get(type);
             ret.seek(mTypeToPos.get(type));
         } else {
-//            Log.e(TAG, "getCode type invalide type:" + type + mTypeToCodeReader.containsKey(type) + " " + mTypeToPos
-//                .containsKey(type));
         }
         return ret;
     }
@@ -65,7 +63,6 @@ public class UiCodeLoader {
 
         int count = reader.readInt();
         //count should be 1
-//        Log.w(TAG, "load view count: " + count);
         short nameSize = reader.readShort();
         String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
         CodeReader oldCodeReader = mTypeToCodeReader.get(name);
@@ -88,7 +85,6 @@ public class UiCodeLoader {
 
         int count = reader.readInt();
         //count should be 1
-//        Log.w(TAG, "load view count: " + count);
         short nameSize = reader.readShort();
         String name = new String(reader.getCode(), reader.getPos(), nameSize, Charset.forName("UTF-8"));
         ret = loadFromBufferInternally(reader, nameSize, name);
@@ -97,7 +93,6 @@ public class UiCodeLoader {
 
     private boolean loadFromBufferInternally(CodeReader reader, short nameSize, String name) {
         boolean ret = true;
-//        Log.w(TAG, "load view name " + name);
         mTypeToCodeReader.put(name, reader);
         reader.seekBy(nameSize);
 
