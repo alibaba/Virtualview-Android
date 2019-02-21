@@ -95,6 +95,7 @@ public class ViewFactory {
     private Stack<ViewBase> mComArr = new Stack<>();
 
     static {
+        mTmplWorker.start();
         mLoader.setUiCodeManager(mUiCodeLoader);
         mLoader.setExprCodeManager(mExprCodeLoader);
     }
@@ -135,9 +136,6 @@ public class ViewFactory {
         mBuilders.put(Common.VIEW_ID_NVHLayout, new NVHLayout.Builder());
         synchronized (LOCK) {
             mTmplWorker.setViewFactory(this);
-            if (!mTmplWorker.isRunning()) {
-                mTmplWorker.start();
-            }
         }
     }
 
