@@ -35,6 +35,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
+
 import com.libra.TextUtils;
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
@@ -76,6 +77,7 @@ import com.tmall.wireless.vaf.virtualview.view.slider.SliderCompact;
 import com.tmall.wireless.vaf.virtualview.view.text.NativeText;
 import com.tmall.wireless.vaf.virtualview.view.text.VirtualText;
 import com.tmall.wireless.vaf.virtualview.view.vh.VH;
+import com.tmall.wireless.virtualview.BuildConfig;
 
 /**
  * Created by gujicheng on 16/8/16.
@@ -99,6 +101,7 @@ public class ViewFactory {
         mLoader.setUiCodeManager(mUiCodeLoader);
         mLoader.setExprCodeManager(mExprCodeLoader);
     }
+
     private SparseArray<ViewBase.IBuilder> mBuilders = new SparseArray<>();
 
     private VafContext mAppContext;
@@ -199,7 +202,9 @@ public class ViewFactory {
     public void loadBinBufferAsync(String type, byte[] buf, boolean override) {
         if (!TextUtils.isEmpty(type) && buf != null) {
             if (mTmplWorker.isRunning()) {
-                Log.d(TAG, "load " + type + " start ");
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "load " + type + " start ");
+                }
                 mTmplWorker.offerTask(new TmplTask(type, buf, override));
             }
         }
@@ -298,7 +303,7 @@ public class ViewFactory {
                             if (null != view) {
                                 Layout.Params p;
                                 if (null != curView) {
-                                    p = ((Layout)curView).generateParams();
+                                    p = ((Layout) curView).generateParams();
                                     mComArr.push(curView);
                                 } else {
                                     p = new Layout.Params();
@@ -417,7 +422,7 @@ public class ViewFactory {
                     ret = curView;
                     cr.seek(Common.TAG.length() + 4);
                     int version = cr.readShort();
-                    ret.setVersion(version );
+                    ret.setVersion(version);
                 }
             } else {
                 Log.e(TAG, "can not find component type:" + type);

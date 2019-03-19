@@ -29,6 +29,7 @@ import android.util.Log;
 
 import com.libra.virtualview.common.Common;
 import com.tmall.wireless.vaf.framework.VafContext;
+import com.tmall.wireless.virtualview.BuildConfig;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -158,7 +159,9 @@ public class BinaryLoader {
                                     Log.e(TAG, "mStringManager is null");
                                 }
                             } else {
-                                Log.e(TAG, "string pos error:" + strStartPos + "  read pos:" + reader.getPos());
+                                if (BuildConfig.DEBUG) {
+                                    Log.e(TAG, "string pos error:" + strStartPos + "  read pos:" + reader.getPos());
+                                }
                             }
 
                             // parse expr
@@ -169,13 +172,17 @@ public class BinaryLoader {
                                     Log.e(TAG, "mExprCodeStore is null");
                                 }
                             } else {
-                                Log.e(TAG, "expr pos error:" + exprCodeStartPos + "  read pos:" + reader.getPos());
+                                if (BuildConfig.DEBUG) {
+                                    Log.e(TAG, "expr pos error:" + exprCodeStartPos + "  read pos:" + reader.getPos());
+                                }
                             }
 
                             // load extra data
                             if (reader.getPos() == extraStartPos) {
                             } else {
-                                Log.e(TAG, "extra pos error:" + extraStartPos + "  read pos:" + reader.getPos());
+                                if (BuildConfig.DEBUG) {
+                                    Log.e(TAG, "extra pos error:" + extraStartPos + "  read pos:" + reader.getPos());
+                                }
                             }
 
                             if (result) {

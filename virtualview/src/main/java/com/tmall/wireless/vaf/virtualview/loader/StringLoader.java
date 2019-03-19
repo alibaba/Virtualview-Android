@@ -28,9 +28,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.util.Log;
+
 import com.libra.TextUtils;
 import com.libra.expr.common.StringSupport;
 import com.libra.virtualview.common.StringBase;
+import com.tmall.wireless.virtualview.BuildConfig;
 
 /**
  * Created by gujicheng on 16/8/3.
@@ -108,7 +110,9 @@ public class StringLoader extends StringBase implements StringSupport {
         if (mIndex2String.containsKey(id)) {
             return mIndex2String.get(id);
         }
-        Log.e(TAG, "getString null:" + id);
+        if (BuildConfig.DEBUG) {
+            Log.e(TAG, "getString null:" + id);
+        }
         return null;
     }
 
