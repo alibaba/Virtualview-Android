@@ -93,7 +93,7 @@ public class Page extends NativeViewBase implements PageView.Listener {
             try {
                 if (null != engine) {
                     engine.getEngineContext().getDataManager().replaceData(
-                        (JSONObject)getViewCache().getComponentData());
+                            getViewCache().getComponentData());
                 }
                 if (null != engine && engine.execute(this, mPageFlipCode)) {
                 } else {

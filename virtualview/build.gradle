@@ -111,6 +111,7 @@ dependencies {
         changing = true
     }
     compile 'com.android.support:recyclerview-v7:26.0.2@aar'
+    compile 'com.alibaba:fastjson:1.1.70.android'
 }
 
 File deployConfig = rootProject.file('jcenterInstall.gradle')

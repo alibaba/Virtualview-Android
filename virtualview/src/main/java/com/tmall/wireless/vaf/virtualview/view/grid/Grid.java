@@ -75,8 +75,8 @@ public class Grid extends NativeViewBase {
     private void recycleViews() {
         ContainerService cm = mContext.getContainerService();
         int childCount = mNative.getChildCount();
-        for(int i = 0; i < childCount; ++i) {
-            IContainer c = (IContainer)mNative.getChildAt(i);
+        for (int i = 0; i < childCount; ++i) {
+            IContainer c = (IContainer) mNative.getChildAt(i);
             cm.recycle(c);
         }
         mNative.removeAllViews();
@@ -87,14 +87,17 @@ public class Grid extends NativeViewBase {
         super.setData(data);
 
         if (data instanceof JSONObject) {
-            JSONObject obj = (JSONObject)data;
+            JSONObject obj = (JSONObject) data;
             data = obj.optJSONArray(this.getDataTag());
+        } else if (data instanceof com.alibaba.fastjson.JSONObject) {
+            com.alibaba.fastjson.JSONObject obj = (com.alibaba.fastjson.JSONObject) data;
+            data = obj.getJSONArray(this.getDataTag());
         }
 
         recycleViews();
 
         if (data instanceof JSONArray) {
-            JSONArray arr = (JSONArray)data;
+            JSONArray arr = (JSONArray) data;
 
             ContainerService cm = mContext.getContainerService();
             int len = arr.length();
@@ -105,7 +108,7 @@ public class Grid extends NativeViewBase {
                     if (!TextUtils.isEmpty(type)) {
                         View v = cm.getContainer(type);
                         if (null != v) {
-                            ViewBase vb = ((IContainer)v).getVirtualView();
+                            ViewBase vb = ((IContainer) v).getVirtualView();
                             vb.setVData(obj);
 
                             mNative.addView(v);
@@ -123,6 +126,34 @@ public class Grid extends NativeViewBase {
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "get json object failed:" + e);
+                }
+            }
+        } else if (data instanceof com.alibaba.fastjson.JSONArray) {
+            com.alibaba.fastjson.JSONArray arr = (com.alibaba.fastjson.JSONArray) data;
+
+            ContainerService cm = mContext.getContainerService();
+            int len = arr.size();
+            for (int i = 0; i < len; ++i) {
+                com.alibaba.fastjson.JSONObject obj = arr.getJSONObject(i);
+                String type = obj.getString(TYPE);
+                if (!TextUtils.isEmpty(type)) {
+                    View v = cm.getContainer(type);
+                    if (null != v) {
+                        ViewBase vb = ((IContainer) v).getVirtualView();
+                        vb.setVData(obj);
+
+                        mNative.addView(v);
+
+                        if (vb.supportExposure()) {
+                            mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure, EventData.obtainData(mContext, vb));
+                        }
+
+                        vb.ready();
+                    } else {
+                        Log.e(TAG, "create view failed");
+                    }
+                } else {
+                    Log.e(TAG, "get type failed");
                 }
             }
         } else {

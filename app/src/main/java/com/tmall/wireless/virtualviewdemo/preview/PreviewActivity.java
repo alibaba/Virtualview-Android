@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -55,7 +56,7 @@ public class PreviewActivity extends AppCompatActivity {
     private static final int FROM_REAL_PREVIEW = 2;
 
     protected String mTemplateName;
-    protected JSONObject mJsonData;
+    protected com.alibaba.fastjson.JSONObject mJsonData;
 
     public static void startForScanPreview(Context context, String url) {
         Intent intent = new Intent(context, PreviewActivity.class);
@@ -126,7 +127,7 @@ public class PreviewActivity extends AppCompatActivity {
         setTitle(mTemplateName);
     }
 
-    protected void preview(String templateName, JSONObject jsonData) {
+    protected void preview(String templateName, com.alibaba.fastjson.JSONObject jsonData) {
         if (TextUtils.isEmpty(templateName)) {
             Log.e(TAG, "Template name should not be empty!!!!");
             return;
@@ -218,9 +219,9 @@ public class PreviewActivity extends AppCompatActivity {
                                     JsonObject json = previewData.data;
                                     if (json != null) {
                                         try {
-                                            mJsonData = new JSONObject(json.toString());
+                                            mJsonData = JSON.parseObject(json.toString());
                                             preview(mTemplateName, mJsonData);
-                                        } catch (JSONException e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                     }

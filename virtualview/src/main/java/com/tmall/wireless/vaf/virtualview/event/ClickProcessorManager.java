@@ -63,12 +63,19 @@ public class ClickProcessorManager {
     public boolean process(EventData data) {
         boolean ret = false;
         if (null != data) {
-            JSONObject comData = (JSONObject) data.mVB.getViewCache().getComponentData();
-            if (null != comData) {
-                IClickProcessor p = mProcessors.get(comData.optString("type"));
+            String type = null;
+            if (data.mVB.getViewCache().getComponentData() instanceof JSONObject) {
+                JSONObject comData = (JSONObject) data.mVB.getViewCache().getComponentData();
+                type = comData.optString("type");
+            } else if (data.mVB.getViewCache().getComponentData() instanceof com.alibaba.fastjson.JSONObject) {
+                com.alibaba.fastjson.JSONObject comData = (com.alibaba.fastjson.JSONObject) data.mVB.getViewCache().getComponentData();
+                type = comData.getString("type");
+            }
+            if (!TextUtils.isEmpty(type)) {
+                IClickProcessor p = mProcessors.get(type);
                 if (null != p) {
                     ret = p.process(data);
-                } else if (null != mDefaultProcessor){
+                } else if (null != mDefaultProcessor) {
                     // default
                     ret = mDefaultProcessor.process(data);
                 } else {

@@ -27,9 +27,11 @@ package com.tmall.wireless.vaf.expr.engine.executor;
 import java.util.Set;
 
 import android.util.Log;
+
 import com.tmall.wireless.vaf.expr.engine.DataManager;
 import com.tmall.wireless.vaf.expr.engine.data.Data;
 import com.tmall.wireless.vaf.expr.engine.data.Value;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,23 +83,36 @@ public class ArrayExecutor extends ArithExecutor {
         Object p = param.getValue();
         if (p instanceof Integer) {
             ret = true;
-            int index = (Integer)p;
+            int index = (Integer) p;
             for (Object obj : objs) {
-                JSONArray arr;
-                if (obj instanceof DataManager) {
-                    arr = (JSONArray) mDataManager.getData(arrName);
-                } else if (obj instanceof JSONObject) {
-                    arr = ((JSONObject)obj).optJSONArray(arrName);
-                } else if (obj instanceof JSONArray) {
-                    arr = (JSONArray) obj;
-                } else {
-                    Log.e(TAG, "error object:" + obj);
-                    ret = false;
-                    break;
-                }
-
+                Object returnValue = null;
                 try {
-                    Object returnValue = arr.get(index);
+                    if (obj instanceof DataManager) {
+                        if (mDataManager.getData(arrName) instanceof JSONArray) {
+                            JSONArray arr = (JSONArray) mDataManager.getData(arrName);
+                            returnValue = arr.get(index);
+                        } else if (mDataManager.getData(arrName) instanceof com.alibaba.fastjson.JSONArray) {
+                            com.alibaba.fastjson.JSONArray arr = (com.alibaba.fastjson.JSONArray) mDataManager.getData(arrName);
+                            returnValue = arr.get(index);
+                        }
+                    } else if (obj instanceof JSONObject) {
+                        JSONArray arr = ((JSONObject) obj).optJSONArray(arrName);
+                        returnValue = arr.get(index);
+                    } else if (obj instanceof JSONArray) {
+                        JSONArray arr = (JSONArray) obj;
+                        returnValue = arr.get(index);
+                    } else if (obj instanceof com.alibaba.fastjson.JSONArray) {
+                        com.alibaba.fastjson.JSONArray arr = (com.alibaba.fastjson.JSONArray) obj;
+                        returnValue = arr.get(index);
+                    } else if (obj instanceof com.alibaba.fastjson.JSONObject) {
+                        com.alibaba.fastjson.JSONArray arr = ((com.alibaba.fastjson.JSONObject) obj).getJSONArray(arrName);
+                        returnValue = arr.get(index);
+                    } else {
+                        Log.e(TAG, "error object:" + obj);
+                        ret = false;
+                        break;
+                    }
+
 //                    Log.d(TAG, "returnValue:" + returnValue);
                     Data result = mRegisterManger.get(resultRegId);
                     if (null != returnValue) {
@@ -110,7 +125,7 @@ public class ArrayExecutor extends ArithExecutor {
                         result.reset();
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(TAG, "set value failed");
                     ret = false;

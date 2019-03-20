@@ -50,6 +50,7 @@ public class ArrayAdapter extends Adapter {
     private ConcurrentHashMap<String, Integer> mTypeMap = new ConcurrentHashMap<>();
     private SparseArrayCompat<String> mId2Types = new SparseArrayCompat<>();
     private JSONArray mData;
+    private com.alibaba.fastjson.JSONArray mFastData;
 
     public ArrayAdapter(VafContext context) {
         super(context);
@@ -59,8 +60,11 @@ public class ArrayAdapter extends Adapter {
     public void setData(Object str) {
         if (null == str) {
             mData = null;
+            mFastData = null;
         } else if (str instanceof JSONArray) {
             mData = (JSONArray) str;
+        } else if (str instanceof com.alibaba.fastjson.JSONArray) {
+            mFastData = (com.alibaba.fastjson.JSONArray) str;
         } else {
             Log.e(TAG, "setData failed:" + str);
         }
@@ -70,6 +74,8 @@ public class ArrayAdapter extends Adapter {
     public int getItemCount() {
         if (null != mData) {
             return mData.length();
+        } else if (null != mFastData) {
+            return mFastData.size();
         }
         return 0;
     }
@@ -90,6 +96,17 @@ public class ArrayAdapter extends Adapter {
                 }
             } catch (JSONException e) {
             }
+        } else if (null != mFastData) {
+            com.alibaba.fastjson.JSONObject obj = mFastData.getJSONObject(pos);
+            String type = obj.getString(TYPE);
+            if (mTypeMap.containsKey(type)) {
+                return mTypeMap.get(type).intValue();
+            } else {
+                int newType = mTypeId.getAndIncrement();
+                mTypeMap.put(type, newType);
+                mId2Types.put(newType, type);
+                return newType;
+            }
         }
         return 0;
     }
@@ -97,11 +114,28 @@ public class ArrayAdapter extends Adapter {
     @Override
     public void onBindViewHolder(Adapter.ViewHolder vh, int pos) {
         try {
-            Object obj = mData.get(pos);
+            Object obj = null;
+            if (mData != null) {
+                obj = mData.get(pos);
+            } else if (mFastData != null) {
+                obj = mFastData.get(pos);
+            }
 
             if (obj instanceof JSONObject) {
-                JSONObject jObj = (JSONObject)obj;
-                ViewBase vb = ((IContainer)vh.mItemView).getVirtualView();
+                JSONObject jObj = (JSONObject) obj;
+                ViewBase vb = ((IContainer) vh.mItemView).getVirtualView();
+                if (null != vb) {
+                    vb.setVData(jObj);
+                }
+
+                if (vb.supportExposure()) {
+                    mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure, EventData.obtainData(mContext, vb));
+                }
+
+                vb.ready();
+            } else if (obj instanceof com.alibaba.fastjson.JSONObject) {
+                com.alibaba.fastjson.JSONObject jObj = (com.alibaba.fastjson.JSONObject) obj;
+                ViewBase vb = ((IContainer) vh.mItemView).getVirtualView();
                 if (null != vb) {
                     vb.setVData(jObj);
                 }

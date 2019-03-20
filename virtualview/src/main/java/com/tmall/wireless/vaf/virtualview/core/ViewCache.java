@@ -482,6 +482,8 @@ public class ViewCache {
                             } else {
                                 if (jsonObject instanceof JSONObject) {
                                     result = ((JSONObject) jsonObject).opt(key);
+                                } else if (jsonObject instanceof com.alibaba.fastjson.JSONObject) {
+                                    result = ((com.alibaba.fastjson.JSONObject) jsonObject).get(key);
                                 } else {
                                     break;
                                 }
@@ -489,6 +491,8 @@ public class ViewCache {
                         } else if (node instanceof Integer) {
                             if (jsonObject instanceof JSONArray) {
                                 result = ((JSONArray) jsonObject).opt(((Integer) node).intValue());
+                            } else if (jsonObject instanceof com.alibaba.fastjson.JSONArray) {
+                                result = ((com.alibaba.fastjson.JSONArray) jsonObject).get(((Integer) node).intValue());
                             } else {
                                 break;
                             }

@@ -92,8 +92,11 @@ public class Scroller extends NativeViewBase {
         super.setData(data);
 
         if (data instanceof JSONObject) {
-            JSONObject obj = (JSONObject)data;
+            JSONObject obj = (JSONObject) data;
             data = obj.optJSONArray(mDataTag);
+        } else if (data instanceof com.alibaba.fastjson.JSONObject) {
+            com.alibaba.fastjson.JSONObject obj = (com.alibaba.fastjson.JSONObject) data;
+            data = obj.getJSONArray(mDataTag);
         }
         mNative.setData(data);
     }
@@ -103,6 +106,8 @@ public class Scroller extends NativeViewBase {
         super.appendData(data);
         if (data instanceof JSONObject) {
             data = ((JSONObject) data).opt(mDataTag);
+        } else if (data instanceof com.alibaba.fastjson.JSONObject) {
+            data = ((com.alibaba.fastjson.JSONObject) data).get(mDataTag);
         }
 
         mNative.appendData(data);
@@ -113,9 +118,9 @@ public class Scroller extends NativeViewBase {
             ExprEngine engine = mContext.getExprEngine();
             if (null != engine) {
                 engine.getEngineContext().getDataManager().replaceData(
-                    (JSONObject)getViewCache().getComponentData());
+                        getViewCache().getComponentData());
             }
-            if (null != engine && engine.execute(this, mAutoRefreshCode) ) {
+            if (null != engine && engine.execute(this, mAutoRefreshCode)) {
             } else {
                 Log.e(TAG, "callAutoRefresh execute failed");
             }
@@ -345,9 +350,9 @@ public class Scroller extends NativeViewBase {
                 View nativeView = mScroller.getNativeView();
                 ScrollerImp s;
                 if (nativeView instanceof ScrollerStickyParent) {
-                    s = (ScrollerImp)((ScrollerStickyParent)nativeView).getChildAt(0);
+                    s = (ScrollerImp) ((ScrollerStickyParent) nativeView).getChildAt(0);
                 } else {
-                    s = (ScrollerImp)mScroller.getNativeView();
+                    s = (ScrollerImp) mScroller.getNativeView();
                 }
                 RecyclerView.Adapter adapter = s.getAdapter();
                 if (null != adapter) {

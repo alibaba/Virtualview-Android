@@ -26,6 +26,7 @@ package com.tmall.wireless.vaf.expr.engine;
 
 import android.support.annotation.Keep;
 import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,17 +40,23 @@ import java.util.Map;
 @Keep
 public class DataManager {
     private JSONObject mData = new JSONObject();
+    private com.alibaba.fastjson.JSONObject mFastData = new com.alibaba.fastjson.JSONObject();
 
     public DataManager() {
         try {
             mData.put("time", 10);
         } catch (JSONException e) {
         }
+        mFastData.put("time", 10);
     }
 
-    public void replaceData(JSONObject obj) {
+    public void replaceData(Object obj) {
         if (null != obj) {
-            mData = obj;
+            if (obj instanceof JSONObject) {
+                mData = (JSONObject) obj;
+            } else if (obj instanceof com.alibaba.fastjson.JSONObject) {
+                mFastData = (com.alibaba.fastjson.JSONObject) obj;
+            }
         }
     }
 
@@ -57,6 +64,7 @@ public class DataManager {
         if (!TextUtils.isEmpty(key)) {
             try {
                 mData.put(key, value);
+                mFastData.put(key, value);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -71,6 +79,7 @@ public class DataManager {
                 Object value = map.get(key);
                 try {
                     mData.put(key, value);
+                    mFastData.put(key, value);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -81,10 +90,11 @@ public class DataManager {
     public Object getData(String key) {
         return mData.opt(key);
     }
-	
-	public void setData(String key, Object value) {
+
+    public void setData(String key, Object value) {
         try {
             mData.put(key, value);
+            mFastData.put(key, value);
         } catch (JSONException e) {
             e.printStackTrace();
         }

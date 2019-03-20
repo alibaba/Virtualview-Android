@@ -36,6 +36,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -110,16 +111,16 @@ public class TMReminderTagsView extends View implements IViewInterface {
 
     }
 
-    //public void setTags(com.alibaba.fastjson.JSONArray tags) {
-    //    if (tags != null) {
-    //        int length = tags.size();
-    //        String[] newTags = new String[length];
-    //        for (int i = 0; i < length; i++) {
-    //            newTags[i] = tags.getString(i);
-    //        }
-    //        setTags(newTags);
-    //    }
-    //}
+    public void setTags(com.alibaba.fastjson.JSONArray tags) {
+        if (tags != null) {
+            int length = tags.size();
+            String[] newTags = new String[length];
+            for (int i = 0; i < length; i++) {
+                newTags[i] = tags.getString(i);
+            }
+            setTags(newTags);
+        }
+    }
 
     public void setTags(String[] tags) {
         if (tags != null && this.tags != tags) {
@@ -153,8 +154,8 @@ public class TMReminderTagsView extends View implements IViewInterface {
             canvas.drawRect(tagRect, bgPaint);
 
             canvas.drawText(tags[i], left + hPadding,
-                canvas.getHeight() - getPaddingBottom() - textFontMetrics.descent,
-                textPaint);
+                    canvas.getHeight() - getPaddingBottom() - textFontMetrics.descent,
+                    textPaint);
             left += tagsGap + eachTagWidth[i];
         }
     }
@@ -162,19 +163,21 @@ public class TMReminderTagsView extends View implements IViewInterface {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(tagsWidth + getPaddingRight() + getPaddingLeft(),
-            tagsHeight + getPaddingTop() + getPaddingBottom());
+                tagsHeight + getPaddingTop() + getPaddingBottom());
     }
 
     @Override
     public void onBind(Object jsonObject) {
         if (jsonObject instanceof JSONArray) {
-            setTags((JSONArray)jsonObject);
+            setTags((JSONArray) jsonObject);
         } else if (jsonObject instanceof String) {
             try {
                 setTags(new JSONArray((String) jsonObject));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else if (jsonObject instanceof com.alibaba.fastjson.JSONArray) {
+            setTags((com.alibaba.fastjson.JSONArray) jsonObject);
         }
     }
 

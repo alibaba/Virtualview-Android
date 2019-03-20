@@ -60,6 +60,7 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
 
     private VafContext mContext;
     private JSONArray mData;
+    private com.alibaba.fastjson.JSONArray mFastData;
     private ContainerService mContainerService;
     private ScrollerImp mScrollerImp;
 
@@ -82,13 +83,15 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
         mSpan = span;
     }
 
-    public JSONObject getData(int index) {
+    public Object getData(int index) {
         if (null != mData && index < mData.length()) {
             try {
                 return mData.getJSONObject(index);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else if (null != mFastData && index < mFastData.size()) {
+            return mFastData.getJSONObject(index);
         }
 
         return null;
@@ -97,6 +100,7 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
     public void destroy() {
         mScrollerImp = null;
         mData = null;
+        mFastData = null;
         mContext = null;
         mContainerService = null;
     }
@@ -116,7 +120,8 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
     public void setData(Object data) {
         if (null != data && data instanceof JSONArray) {
             mData = (JSONArray) data;
-//            Log.d(TAG, "setData:" + mData);
+        } else if (null != data && data instanceof com.alibaba.fastjson.JSONArray) {
+            mFastData = (com.alibaba.fastjson.JSONArray) data;
         } else {
             Log.e(TAG, "setData failed:" + data);
         }
@@ -143,7 +148,20 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
                 }
                 this.notifyItemRangeChanged(startPos, len);
             }
+        } else if (data instanceof com.alibaba.fastjson.JSONArray) {
+            com.alibaba.fastjson.JSONArray arr = (com.alibaba.fastjson.JSONArray) data;
 
+            if (null == mFastData) {
+                mFastData = arr;
+                this.notifyDataSetChanged();
+            } else {
+                int startPos = mFastData.size();
+                int len = arr.size();
+                for (int i = 0; i < len; ++i) {
+                    mFastData.add(arr.get(i));
+                }
+                this.notifyItemRangeChanged(startPos, len);
+            }
         } else {
             Log.e(TAG, "appendData failed:" + data);
         }
@@ -195,7 +213,12 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
     @Override
     public void onBindViewHolder(ScrollerRecyclerViewAdapter.MyViewHolder myViewHolder, int pos) {
         try {
-            Object obj = mData.get(pos);
+            Object obj = null;
+            if (mData != null) {
+                obj = mData.get(pos);
+            } else if (mFastData != null) {
+                obj = mFastData.get(pos);
+            }
             myViewHolder.itemView.setTag(pos);
             if (obj instanceof JSONObject) {
                 JSONObject jObj = (JSONObject) obj;
@@ -224,15 +247,48 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
                     mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure, EventData.obtainData(mContext, myViewHolder.mViewBase));
                 }
                 myViewHolder.mViewBase.ready();
+            } else if (obj instanceof com.alibaba.fastjson.JSONObject) {
+                com.alibaba.fastjson.JSONObject jObj = (com.alibaba.fastjson.JSONObject) obj;
+
+                if (ScrollerCommon.MODE_StaggeredGrid == mScrollerImp.mMode) {
+                    StaggeredGridLayoutManager.LayoutParams clp1 = (StaggeredGridLayoutManager.LayoutParams) myViewHolder.itemView.getLayoutParams();
+                    if (jObj.getIntValue(WATERFALL) <= 0) {
+                        clp1.setFullSpan(true);
+                    } else {
+                        clp1.setFullSpan(false);
+                    }
+                }
+
+                if (jObj.getIntValue("stickyTop") > 0) {
+                    myViewHolder.mStickyTop = true;
+                    mStickyTopPos = pos;
+                } else {
+                    myViewHolder.mStickyTop = false;
+                }
+
+//                Log.d(TAG, "onBindViewHolder id:" + mScrollerImp.mScroller.getId() + "  obj:" + obj);
+
+                myViewHolder.mViewBase.setVData(obj);
+
+                if (myViewHolder.mViewBase.supportExposure()) {
+                    mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure, EventData.obtainData(mContext, myViewHolder.mViewBase));
+                }
+                myViewHolder.mViewBase.ready();
             } else {
                 Log.e(TAG, "failed");
             }
 
             int threshold = mAutoRefreshThreshold;
-            if (mData.length() < mAutoRefreshThreshold) {
+            int length = 0;
+            if (null != mData) {
+                length = mData.length();
+            } else if (null != mFastData) {
+                length = mFastData.size();
+            }
+            if (length < mAutoRefreshThreshold) {
                 threshold = 2;
             }
-            if (pos + threshold == mData.length()) {
+            if (pos + threshold == length) {
                 // load new data
                 mScrollerImp.callAutoRefresh();
             }
@@ -262,6 +318,20 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
             } catch (JSONException e) {
                 Log.e(TAG, "getItemViewType:" + e);
             }
+        } else if (null != mFastData) {
+            com.alibaba.fastjson.JSONObject obj = mFastData.getJSONObject(position);
+            String type = obj.getString(ViewBase.TYPE);
+            if (obj.getIntValue(STICKY_TOP) > 0) {
+                mStickyTopType = type;
+            }
+            if (mTypeMap.containsKey(type)) {
+                return mTypeMap.get(type).intValue();
+            } else {
+                int newType = mTypeId.getAndIncrement();
+                mTypeMap.put(type, newType);
+                mId2Types.put(newType, type);
+                return newType;
+            }
         } else {
             Log.e(TAG, "getItemViewType data is null");
         }
@@ -275,6 +345,8 @@ public class ScrollerRecyclerViewAdapter extends RecyclerView.Adapter<ScrollerRe
         if (null != mData) {
 //            Log.d(TAG, "getItemCount:" + mData.length());
             return mData.length();
+        } else if (null != mFastData) {
+            return mFastData.size();
         }
         return 0;
     }

@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.tmall.wireless.virtualviewdemo.preview.PreviewActivity;
 
 import org.json.JSONException;
@@ -55,7 +56,7 @@ public class ComponentActivity extends PreviewActivity {
         mTemplateName = getIntent().getStringExtra("name");
         String data = getIntent().getStringExtra("data");
         if (!TextUtils.isEmpty(data)) {
-            mJsonData = getJSONDataFromAsset(data);
+            mJsonData = getFastJsonDataFromAsset(data);
         }
 
         setTitle(mTemplateName);
@@ -79,6 +80,23 @@ public class ComponentActivity extends PreviewActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private com.alibaba.fastjson.JSONObject getFastJsonDataFromAsset(String name) {
+        try {
+            InputStream inputStream = getAssets().open(name);
+            BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder sb = new StringBuilder();
+            String str;
+            while ((str = inputStreamReader.readLine()) != null) {
+                sb.append(str);
+            }
+            inputStreamReader.close();
+            return JSON.parseObject(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

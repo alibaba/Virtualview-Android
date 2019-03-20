@@ -119,7 +119,7 @@ public class ScrollerImp extends RecyclerView implements IView, IContainer {
         }
     }
 
-    public JSONObject getData(int index) {
+    public Object getData(int index) {
         if (null != mAdapter) {
             return mAdapter.getData(index);
         }

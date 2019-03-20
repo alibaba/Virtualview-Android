@@ -42,6 +42,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.Common;
@@ -60,6 +61,7 @@ import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayout;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayoutImpl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -89,9 +91,13 @@ public abstract class ViewBase implements IView {
 
     protected View mDisplayViewContainer;
 
-    /** absolute value in virtual container, relative value in native container **/
+    /**
+     * absolute value in virtual container, relative value in native container
+     **/
     protected int mDrawLeft;
-    /** absolute value in virtual container, relative value in native container **/
+    /**
+     * absolute value in virtual container, relative value in native container
+     **/
     protected int mDrawTop;
     protected Paint mPaint;
 
@@ -514,7 +520,7 @@ public abstract class ViewBase implements IView {
             }
             ret = true;
         } else if (isContainer()) {
-            switch(finalVisibility) {
+            switch (finalVisibility) {
                 case ViewBaseCommon.INVISIBLE:
                     mViewCache.getHolderView().setVisibility(View.INVISIBLE);
                     break;
@@ -640,7 +646,7 @@ public abstract class ViewBase implements IView {
             ExprEngine engine = mContext.getExprEngine();
             if (null != engine) {
                 engine.getEngineContext().getDataManager().replaceData(
-                    (JSONObject)getViewCache().getComponentData());
+                        getViewCache().getComponentData());
             }
             if (null != engine && engine.execute(this, mClickCode)) {
             } else {
@@ -649,7 +655,7 @@ public abstract class ViewBase implements IView {
         }
 
         if (isClickable() && isVisible()) {
-           ret = mContext.getEventManager().emitEvent(EventManager.TYPE_Click, EventData.obtainData(mContext, this));
+            ret = mContext.getEventManager().emitEvent(EventManager.TYPE_Click, EventData.obtainData(mContext, this));
         }
 
         return ret;
@@ -664,7 +670,6 @@ public abstract class ViewBase implements IView {
     }
 
     /**
-     *
      * @return left value relative to its nearest native parent container
      */
     final public int getDrawLeft() {
@@ -672,7 +677,6 @@ public abstract class ViewBase implements IView {
     }
 
     /**
-     *
      * @return top value relative to is nearest native parent container
      */
     final public int getDrawTop() {
@@ -680,7 +684,6 @@ public abstract class ViewBase implements IView {
     }
 
     /**
-     *
      * @return absolute left value in its root container
      */
     final public int getAbsoluteDrawLeft() {
@@ -696,7 +699,6 @@ public abstract class ViewBase implements IView {
     }
 
     /**
-     *
      * @return absolute top value in its root container
      */
     final public int getAbsoluteDrawTop() {
@@ -820,13 +822,13 @@ public abstract class ViewBase implements IView {
             switch (mAutoDimDirection) {
                 case AUTO_DIM_DIR_X:
                     if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(widthMeasureSpec)) {
-                        heightMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(widthMeasureSpec) * mAutoDimY) / mAutoDimX), View.MeasureSpec.EXACTLY);
+                        heightMeasureSpec = View.MeasureSpec.makeMeasureSpec((int) ((View.MeasureSpec.getSize(widthMeasureSpec) * mAutoDimY) / mAutoDimX), View.MeasureSpec.EXACTLY);
                     }
                     break;
 
                 case AUTO_DIM_DIR_Y:
                     if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(heightMeasureSpec)) {
-                        widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int)((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
+                        widthMeasureSpec = View.MeasureSpec.makeMeasureSpec((int) ((View.MeasureSpec.getSize(heightMeasureSpec) * mAutoDimX) / mAutoDimY), View.MeasureSpec.EXACTLY);
                     }
                     break;
                 default:
@@ -875,7 +877,7 @@ public abstract class ViewBase implements IView {
         mViewCache.setComponentData(data);
         if (data instanceof JSONObject) {
             boolean invalidate = false;
-            if (((JSONObject)data).optBoolean(FLAG_INVALIDATE)) {
+            if (((JSONObject) data).optBoolean(FLAG_INVALIDATE)) {
                 invalidate = true;
             }
             List<ViewBase> cacheView = mViewCache.getCacheView();
@@ -884,7 +886,7 @@ public abstract class ViewBase implements IView {
                     ViewBase viewBase = cacheView.get(i);
                     List<Item> items = mViewCache.getCacheItem(viewBase);
                     if (null != items) {
-                        for(int j = 0, length = items.size(); j < length; j++) {
+                        for (int j = 0, length = items.size(); j < length; j++) {
                             Item item = items.get(j);
                             if (invalidate) {
                                 item.invalidate(data.hashCode());
@@ -894,14 +896,43 @@ public abstract class ViewBase implements IView {
                         viewBase.onParseValueFinished();
                         if (!viewBase.isRoot() && viewBase.supportExposure()) {
                             mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure,
-                                EventData
-                                    .obtainData(mContext, viewBase));
+                                    EventData
+                                            .obtainData(mContext, viewBase));
                         }
 
                     }
                 }
             }
-            ((JSONObject)data).remove(FLAG_INVALIDATE);
+            ((JSONObject) data).remove(FLAG_INVALIDATE);
+        } else if (data instanceof com.alibaba.fastjson.JSONObject) {
+            boolean invalidate = false;
+            if (((com.alibaba.fastjson.JSONObject) data).getBooleanValue(FLAG_INVALIDATE)) {
+                invalidate = true;
+            }
+            List<ViewBase> cacheView = mViewCache.getCacheView();
+            if (cacheView != null) {
+                for (int i = 0, size = cacheView.size(); i < size; i++) {
+                    ViewBase viewBase = cacheView.get(i);
+                    List<Item> items = mViewCache.getCacheItem(viewBase);
+                    if (null != items) {
+                        for (int j = 0, length = items.size(); j < length; j++) {
+                            Item item = items.get(j);
+                            if (invalidate) {
+                                item.invalidate(data.hashCode());
+                            }
+                            item.bind(data, isAppend);
+                        }
+                        viewBase.onParseValueFinished();
+                        if (!viewBase.isRoot() && viewBase.supportExposure()) {
+                            mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure,
+                                    EventData
+                                            .obtainData(mContext, viewBase));
+                        }
+
+                    }
+                }
+            }
+            ((com.alibaba.fastjson.JSONObject) data).remove(FLAG_INVALIDATE);
         }
         if (VERSION.SDK_INT >= 18) {
             Trace.endSection();
@@ -976,7 +1007,7 @@ public abstract class ViewBase implements IView {
         if (getNativeView() == null) {
             if (mBackground != Color.TRANSPARENT) {
                 VirtualViewUtils.drawBackground(canvas, mBackground, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-                    mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
+                        mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
                 //TODO clip canvas if border radius set
                 mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
@@ -987,7 +1018,7 @@ public abstract class ViewBase implements IView {
 
     public void drawBorder(Canvas canvas) {
         VirtualViewUtils.drawBorder(canvas, mBorderColor, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
-            mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
+                mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
     }
 
     public void onParseValueFinished() {
@@ -1181,7 +1212,7 @@ public abstract class ViewBase implements IView {
                 if (value > -1) {
                     this.mParams.mLayoutWidth = Utils.rp2px(value);
                 } else {
-                    this.mParams.mLayoutWidth = (int)value;
+                    this.mParams.mLayoutWidth = (int) value;
                 }
                 break;
             case StringBase.STR_ID_layoutMargin:
@@ -1220,7 +1251,7 @@ public abstract class ViewBase implements IView {
                 if (value > -1) {
                     this.mParams.mLayoutHeight = Utils.rp2px(value);
                 } else {
-                    this.mParams.mLayoutHeight = (int)value;
+                    this.mParams.mLayoutHeight = (int) value;
                 }
                 break;
             case StringBase.STR_ID_borderWidth:
@@ -1320,7 +1351,7 @@ public abstract class ViewBase implements IView {
                 if (value > -1) {
                     this.mParams.mLayoutWidth = Utils.dp2px(value);
                 } else {
-                    this.mParams.mLayoutWidth = (int)value;
+                    this.mParams.mLayoutWidth = (int) value;
                 }
                 break;
             case StringBase.STR_ID_layoutMargin:
@@ -1359,7 +1390,7 @@ public abstract class ViewBase implements IView {
                 if (value > -1) {
                     this.mParams.mLayoutHeight = Utils.dp2px(value);
                 } else {
-                    this.mParams.mLayoutHeight = (int)value;
+                    this.mParams.mLayoutHeight = (int) value;
                 }
                 break;
             case StringBase.STR_ID_borderWidth:
@@ -1968,14 +1999,14 @@ public abstract class ViewBase implements IView {
                     case ViewBaseCommon.AUTO_DIM_DIR_X:
                         if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(widthMeasureSpec)) {
                             mMeasuredWidth = View.MeasureSpec.getSize(widthMeasureSpec);
-                            mMeasuredHeight = (int)((mMeasuredWidth * autoY) / autoX);
+                            mMeasuredHeight = (int) ((mMeasuredWidth * autoY) / autoX);
                         }
                         return;
 
                     case AUTO_DIM_DIR_Y:
                         if (View.MeasureSpec.EXACTLY == View.MeasureSpec.getMode(heightMeasureSpec)) {
                             mMeasuredHeight = View.MeasureSpec.getSize(heightMeasureSpec);
-                            mMeasuredWidth = (int)((mMeasuredHeight * autoX) / autoY);
+                            mMeasuredWidth = (int) ((mMeasuredHeight * autoX) / autoY);
                         }
                         return;
                     default:
@@ -2045,6 +2076,7 @@ public abstract class ViewBase implements IView {
 
     /**
      * Use Rtl or not.
+     *
      * @return true if in locale use Rtl direction && this layout do not disable Rtl.
      */
     public boolean isRtl() {

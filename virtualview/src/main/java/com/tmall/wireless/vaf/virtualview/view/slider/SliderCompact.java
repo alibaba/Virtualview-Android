@@ -88,7 +88,7 @@ public class SliderCompact extends NativeViewBase implements SliderView.Listener
             ExprEngine engine = mContext.getExprEngine();
             if (null != engine) {
                 engine.getEngineContext().getDataManager().replaceData(
-                    (JSONObject)getViewCache().getComponentData());
+                        getViewCache().getComponentData());
             }
             if (null != engine && engine.execute(this, mScrollCode) ) {
             } else {

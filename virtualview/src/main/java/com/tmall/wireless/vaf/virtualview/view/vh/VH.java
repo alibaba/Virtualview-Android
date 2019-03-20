@@ -62,15 +62,15 @@ public class VH extends NativeViewBase {
     @Override
     public ViewBase getChild(int index) {
         View v = mNative.getChildAt(index);
-        ViewBase vb = ((IContainer)v).getVirtualView();
+        ViewBase vb = ((IContainer) v).getVirtualView();
         return vb;
     }
 
     private void recycleViews() {
         ContainerService cm = mContext.getContainerService();
         int childCount = mNative.getChildCount();
-        for(int i = 0; i < childCount; ++i) {
-            IContainer c = (IContainer)mNative.getChildAt(i);
+        for (int i = 0; i < childCount; ++i) {
+            IContainer c = (IContainer) mNative.getChildAt(i);
             cm.recycle(c);
         }
         mNative.removeAllViews();
@@ -80,7 +80,7 @@ public class VH extends NativeViewBase {
         recycleViews();
 
         ContainerService cm = mContext.getContainerService();
-        while(count > 0) {
+        while (count > 0) {
             View v = cm.getContainer(itemType);
             mNative.addView(v);
             --count;
@@ -92,12 +92,15 @@ public class VH extends NativeViewBase {
         super.setData(data);
 
         if (data instanceof JSONObject) {
-            JSONObject obj = (JSONObject)data;
+            JSONObject obj = (JSONObject) data;
             data = obj.optJSONArray(this.getDataTag());
+        } else if (data instanceof com.alibaba.fastjson.JSONObject) {
+            com.alibaba.fastjson.JSONObject obj = (com.alibaba.fastjson.JSONObject) data;
+            data = obj.getJSONArray(this.getDataTag());
         }
 
         if (data instanceof JSONArray) {
-            JSONArray arr = (JSONArray)data;
+            JSONArray arr = (JSONArray) data;
 
             int len = arr.length();
             recycleViews();
@@ -110,7 +113,7 @@ public class VH extends NativeViewBase {
                     if (!TextUtils.isEmpty(type)) {
                         View v = cm.getContainer(type);
                         if (null != v) {
-                            ViewBase vb = ((IContainer)v).getVirtualView();
+                            ViewBase vb = ((IContainer) v).getVirtualView();
                             vb.setVData(obj);
 
                             mNative.addView(v);
@@ -126,6 +129,34 @@ public class VH extends NativeViewBase {
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "get json object failed:" + e);
+                }
+            }
+        } else if (data instanceof com.alibaba.fastjson.JSONArray) {
+            com.alibaba.fastjson.JSONArray arr = (com.alibaba.fastjson.JSONArray) data;
+
+            int len = arr.size();
+            recycleViews();
+
+            ContainerService cm = mContext.getContainerService();
+            for (int i = 0; i < len; ++i) {
+                com.alibaba.fastjson.JSONObject obj = arr.getJSONObject(i);
+                String type = obj.getString(TYPE);
+                if (!TextUtils.isEmpty(type)) {
+                    View v = cm.getContainer(type);
+                    if (null != v) {
+                        ViewBase vb = ((IContainer) v).getVirtualView();
+                        vb.setVData(obj);
+
+                        mNative.addView(v);
+                        vb.ready();
+                        if (vb.supportExposure()) {
+                            mContext.getEventManager().emitEvent(EventManager.TYPE_Exposure, EventData.obtainData(mContext, vb));
+                        }
+                    } else {
+                        Log.e(TAG, "create view failed");
+                    }
+                } else {
+                    Log.e(TAG, "get type failed");
                 }
             }
         } else {
