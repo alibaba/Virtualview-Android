@@ -24,10 +24,12 @@
 
 package com.tmall.wireless.vaf.virtualview.view.image;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.ImageView;
+
+import com.libra.TextUtils;
 import com.libra.virtualview.common.ViewBaseCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -67,7 +69,36 @@ public class NativeImage extends ImageBase {
     @Override
     public void setSrc(String path) {
         mSrc = path;
-        this.mContext.getImageLoader().bindBitmap(mSrc, this, this.getComMeasuredWidth(), this.getComMeasuredHeight());
+        if (TextUtils.isEmpty(mSrc)) {
+            return;
+        }
+        Context context = mNative.getContext();
+        if (mSrc.startsWith("@drawable/")) {
+            try {
+                String name = mSrc.substring(10);
+                int resourceId = context.getResources().getIdentifier(name, "drawable",
+                        context.getPackageName());
+                if (resourceId > 0) {
+                    mNative.setImageResource(resourceId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (mSrc.startsWith("@mipmap/")) {
+            try {
+                String name = mSrc.substring(8);
+                int resourceId = context.getResources().getIdentifier(name, "mipmap",
+                        context.getPackageName());
+                if (resourceId > 0) {
+                    mNative.setImageResource(resourceId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.mContext.getImageLoader().bindBitmap(mSrc, this, this.getComMeasuredWidth(),
+                    this.getComMeasuredHeight());
+        }
     }
 
     @Override
