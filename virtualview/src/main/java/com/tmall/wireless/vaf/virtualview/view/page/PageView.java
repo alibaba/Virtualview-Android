@@ -37,15 +37,11 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.BaseInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
 import com.libra.virtualview.common.ViewBaseCommon;
-import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.Adapter;
 import com.tmall.wireless.vaf.virtualview.core.Adapter.ViewHolder;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
@@ -365,6 +361,26 @@ public class PageView extends ViewGroup {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (mAutoSwitch && mAdapter.getItemCount() > 1) {
+                    mAutoSwitchHandler.removeMessages(MSG_AUTO_SWITCH);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (mAutoSwitch && mAdapter.getItemCount() > 1) {
+                    mAutoSwitchHandler.removeMessages(MSG_AUTO_SWITCH);
+                    mAutoSwitchHandler.sendEmptyMessageDelayed(MSG_AUTO_SWITCH, mStayTime);
+                }
+                break;
+            default:
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
