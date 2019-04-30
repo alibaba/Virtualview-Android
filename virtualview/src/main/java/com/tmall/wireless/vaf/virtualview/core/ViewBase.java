@@ -24,17 +24,17 @@
 
 package com.tmall.wireless.vaf.virtualview.core;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Trace;
 import android.text.TextUtils;
@@ -42,6 +42,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.libra.Utils;
 import com.libra.expr.common.ExprCode;
 import com.libra.virtualview.common.Common;
@@ -60,8 +61,13 @@ import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayout;
 import com.tmall.wireless.vaf.virtualview.view.nlayout.INativeLayoutImpl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_NONE;
 import static com.libra.virtualview.common.ViewBaseCommon.AUTO_DIM_DIR_X;
@@ -920,21 +926,103 @@ public abstract class ViewBase implements IView {
         if (null == mMatrixBG) {
             mMatrixBG = new Matrix();
         }
-        mContext.getImageLoader().getBitmap(path, mMeasuredWidth, mMeasuredHeight, new ImageLoader.Listener() {
-            @Override
-            public void onImageLoadSuccess(Bitmap bmp) {
-                setBackgroundImage(bmp);
-            }
+        if (TextUtils.isEmpty(mBackgroundImagePath)) {
+            return;
+        }
+        if (getNativeView() != null) {
+            // Native View
+            Context context = getNativeView().getContext();
+            if (mBackgroundImagePath.startsWith("@drawable/")) {
+                try {
+                    String name = mBackgroundImagePath.substring(10);
+                    int resourceId = context.getResources().getIdentifier(name, "drawable",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        getNativeView().setBackgroundResource(resourceId);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (mBackgroundImagePath.startsWith("@mipmap/")) {
+                try {
+                    String name = mBackgroundImagePath.substring(8);
+                    int resourceId = context.getResources().getIdentifier(name, "mipmap",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        getNativeView().setBackgroundResource(resourceId);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                mContext.getImageLoader().getBitmap(path, mMeasuredWidth, mMeasuredHeight,
+                        new ImageLoader.Listener() {
+                            @Override
+                            public void onImageLoadSuccess(Bitmap bmp) {
+                                Drawable drawable = new BitmapDrawable(bmp);
+                                if (VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    getNativeView().setBackground(drawable);
+                                } else {
+                                    getNativeView().setBackgroundDrawable(drawable);
+                                }
+                            }
 
-            @Override
-            public void onImageLoadSuccess(Drawable drawable) {
+                            @Override
+                            public void onImageLoadSuccess(Drawable drawable) {
 
-            }
+                            }
 
-            @Override
-            public void onImageLoadFailed() {
+                            @Override
+                            public void onImageLoadFailed() {
+                            }
+                        });
             }
-        });
+        } else {
+            // Virtual View
+            Context context = mContext.forViewConstruction();
+            if (mBackgroundImagePath.startsWith("@drawable/")) {
+                try {
+                    String name = mBackgroundImagePath.substring(10);
+                    int resourceId = context.getResources().getIdentifier(name, "drawable",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        setBackgroundImage(BitmapFactory.decodeResource(context.getResources(),
+                                resourceId));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (mBackgroundImagePath.startsWith("@mipmap/")) {
+                try {
+                    String name = mBackgroundImagePath.substring(8);
+                    int resourceId = context.getResources().getIdentifier(name, "mipmap",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        setBackgroundImage(BitmapFactory.decodeResource(context.getResources(),
+                                resourceId));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                mContext.getImageLoader().getBitmap(path, mMeasuredWidth, mMeasuredHeight,
+                        new ImageLoader.Listener() {
+                            @Override
+                            public void onImageLoadSuccess(Bitmap bmp) {
+                                setBackgroundImage(bmp);
+                            }
+
+                            @Override
+                            public void onImageLoadSuccess(Drawable drawable) {
+
+                            }
+
+                            @Override
+                            public void onImageLoadFailed() {
+                            }
+                        });
+            }
+        }
     }
 
     public void ready() {
