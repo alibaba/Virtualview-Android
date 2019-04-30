@@ -46,6 +46,7 @@ import com.tmall.wireless.vaf.virtualview.core.Adapter;
 import com.tmall.wireless.vaf.virtualview.core.Adapter.ViewHolder;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,14 +116,7 @@ public class PageView extends ViewGroup {
 
         mCurPos = 0;
 
-        mAutoSwitchHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (MSG_AUTO_SWITCH == msg.what) {
-                    autoSwitch();
-                }
-            }
-        };
+        mAutoSwitchHandler = new AutoSwitchHandler(this);
 
         mMaxVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
@@ -714,6 +708,21 @@ public class PageView extends ViewGroup {
                 return new SpringInterpolator();
             default:
                 return new LinearInterpolator();
+        }
+    }
+
+    static class AutoSwitchHandler extends Handler {
+        private PageView mPageView;
+
+        AutoSwitchHandler(PageView pageView) {
+            mPageView = new WeakReference<>(pageView).get();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (mPageView != null && MSG_AUTO_SWITCH == msg.what) {
+                mPageView.autoSwitch();
+            }
         }
     }
 
