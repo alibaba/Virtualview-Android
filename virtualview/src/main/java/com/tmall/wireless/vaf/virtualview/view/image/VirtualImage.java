@@ -24,11 +24,14 @@
 
 package com.tmall.wireless.vaf.virtualview.view.image;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.text.TextUtils;
+
 import com.libra.virtualview.common.ImageCommon;
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
@@ -87,8 +90,34 @@ public class VirtualImage extends ImageBase {
 
     @Override
     public void loadImage(String path) {
-        if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0) {
-            mContext.getImageLoader().bindBitmap(path, this, this.mMeasuredWidth, this.mMeasuredHeight);
+        if (this.mMeasuredWidth > 0 && this.mMeasuredHeight > 0 && !TextUtils.isEmpty(path)) {
+            Context context = mContext.forViewConstruction();
+            if (path.startsWith("@drawable/")) {
+                try {
+                    String name = path.substring(10);
+                    int resourceId = context.getResources().getIdentifier(name, "drawable",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        setBitmap(BitmapFactory.decodeResource(context.getResources(), resourceId));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (path.startsWith("@mipmap/")) {
+                try {
+                    String name = path.substring(8);
+                    int resourceId = context.getResources().getIdentifier(name, "mipmap",
+                            context.getPackageName());
+                    if (resourceId > 0) {
+                        setBitmap(BitmapFactory.decodeResource(context.getResources(), resourceId));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                mContext.getImageLoader().bindBitmap(path, this, this.mMeasuredWidth,
+                        this.mMeasuredHeight);
+            }
         }
     }
 
