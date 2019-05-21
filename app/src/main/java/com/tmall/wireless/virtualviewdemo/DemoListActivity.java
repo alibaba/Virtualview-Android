@@ -24,11 +24,6 @@
 
 package com.tmall.wireless.virtualviewdemo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -39,7 +34,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.tmall.wireless.virtualviewdemo.preview.IPDialog;
 import com.tmall.wireless.virtualviewdemo.preview.PreviewListActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by longerian on 2017/7/24.
@@ -87,7 +88,15 @@ public class DemoListActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        Map<String, String> item = (Map<String, String>)l.getItemAtPosition(position);
+        if (position < 4) {
+            startActivity(l, position);
+        } else {
+            new IPDialog(this).setOnOKClickListener(view -> startActivity(l, position)).show();
+        }
+    }
+
+    private void startActivity(ListView l, int position) {
+        Map<String, String> item = (Map<String, String>) l.getItemAtPosition(position);
         String className = item.get("class");
         if (className != null) {
             Intent intent = new Intent();

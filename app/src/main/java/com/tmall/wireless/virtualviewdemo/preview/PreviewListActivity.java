@@ -78,7 +78,7 @@ public class PreviewListActivity extends ListActivity {
     }
 
     private String getUrl() {
-        return HttpUtil.getHostUrl() + ".dir";
+        return HttpUtil.getHostUrl(this) + ".dir";
     }
 
 }

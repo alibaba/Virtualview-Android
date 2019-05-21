@@ -240,7 +240,7 @@ public class PreviewActivity extends AppCompatActivity {
 
 
     private String getUrl(String name) {
-        return HttpUtil.getHostUrl() + name + "/data.json";
+        return HttpUtil.getHostUrl(this) + name + "/data.json";
     }
 
     private void loadTemplates(ArrayList<String> templates){
