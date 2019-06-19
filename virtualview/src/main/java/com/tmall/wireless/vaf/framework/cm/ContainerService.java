@@ -27,13 +27,14 @@ package com.tmall.wireless.vaf.framework.cm;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.view.ViewGroup.MarginLayoutParams;
+
 import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 import com.tmall.wireless.vaf.virtualview.core.Layout;
 import com.tmall.wireless.vaf.virtualview.core.ViewBase;
+import com.tmall.wireless.vaf.virtualview.listener.MonitorListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class ContainerService {
                 if (null != vb) {
                     mVM.recycle(vb);
                     if (container instanceof ViewGroup) {
-                        ((ViewGroup)container).removeAllViews();
+                        ((ViewGroup) container).removeAllViews();
                     } else {
                     }
                 } else {
@@ -145,6 +146,9 @@ public class ContainerService {
         if (null == vb) {
             vb = mVM.getDefaultImage();
             vb.setViewType(viewType);
+            if (mAppContext.getService(MonitorListener.class) != null) {
+                mAppContext.getService(MonitorListener.class).onTemplateNotFound();
+            }
         }
 
         if (vb.isContainer()) {
@@ -167,11 +171,11 @@ public class ContainerService {
                 marginLayoutParams.topMargin = p.mLayoutMarginTop;
                 marginLayoutParams.rightMargin = p.mLayoutMarginRight;
                 marginLayoutParams.bottomMargin = p.mLayoutMarginBottom;
-                ((View)container).setLayoutParams(marginLayoutParams);
+                ((View) container).setLayoutParams(marginLayoutParams);
             }
 
             container.attachViews();
         }
-        return (View)container;
+        return (View) container;
     }
 }
