@@ -147,7 +147,7 @@ public class ContainerService {
             vb = mVM.getDefaultImage();
             vb.setViewType(viewType);
             if (mAppContext.getService(MonitorListener.class) != null) {
-                mAppContext.getService(MonitorListener.class).onTemplateNotFound();
+                mAppContext.getService(MonitorListener.class).onTemplateNotFound(viewType);
             }
         }
 
