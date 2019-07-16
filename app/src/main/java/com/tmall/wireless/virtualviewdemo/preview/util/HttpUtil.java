@@ -1,5 +1,7 @@
 package com.tmall.wireless.virtualviewdemo.preview.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import java.net.URI;
@@ -12,13 +14,23 @@ import java.net.URISyntaxException;
  * @author bianyue
  */
 public class HttpUtil {
+    private static final String DEFAULT_IP = "10.0.2.2";
+    private static final String SP_NAME = "virtualviewdemo";
+    private static final String SP_IP = "sp_ip";
 
-    public static String getHostIp() {
-        return "10.0.2.2";
+    public static void setHostIp(Context context, String ip) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(SP_IP, ip);
+        editor.apply();
     }
 
-    public static String getHostUrl() {
-        return "http://" + HttpUtil.getHostIp() + ":7788/";
+    public static String getHostIp(Context context) {
+        return context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE).getString(SP_IP,
+                DEFAULT_IP);
+    }
+
+    public static String getHostUrl(Context context) {
+        return "http://" + HttpUtil.getHostIp(context) + ":7788/";
     }
 
     public static String getFirstPath(String str) {

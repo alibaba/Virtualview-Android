@@ -27,7 +27,6 @@ package com.tmall.wireless.vaf.virtualview.view.text;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -35,6 +34,7 @@ import android.text.style.LineHeightSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+
 import com.libra.Utils;
 import com.libra.virtualview.common.StringBase;
 import com.libra.virtualview.common.TextBaseCommon;
@@ -187,6 +187,14 @@ public class NativeText extends TextBase {
             setRealText(mText);
         } else {
             setRealText("");
+        }
+
+        if (!TextUtils.isEmpty(mTypeface)) {
+            try {
+                mNative.setTypeface(Typeface.createFromAsset(mNative.getContext().getAssets(), mTypeface));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

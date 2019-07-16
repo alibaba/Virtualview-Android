@@ -24,13 +24,11 @@
 
 package com.tmall.wireless.virtualviewdemo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import com.libra.virtualview.common.BizCommon;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso.LoadedFrom;
@@ -40,7 +38,6 @@ import com.tmall.wireless.vaf.framework.VafContext;
 import com.tmall.wireless.vaf.framework.ViewManager;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.IImageLoaderAdapter;
 import com.tmall.wireless.vaf.virtualview.Helper.ImageLoader.Listener;
-import com.tmall.wireless.vaf.virtualview.Helper.VVFeatureConfig;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
 import com.tmall.wireless.vaf.virtualview.view.image.ImageBase;
 import com.tmall.wireless.virtualviewdemo.bytes.CLICKSCRIPT;
@@ -89,6 +86,9 @@ import com.tmall.wireless.virtualviewdemo.custom.PicassoImage;
 import com.tmall.wireless.virtualviewdemo.custom.TMReminderTagsView;
 import com.tmall.wireless.virtualviewdemo.custom.TotalContainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by longerian on 2018/1/6.
  *
@@ -118,7 +118,9 @@ public class VirtualViewApplication extends Application {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, LoadedFrom from) {
-            mImageBase.setBitmap(bitmap, true);
+            if (mImageBase != null) {
+                mImageBase.setBitmap(bitmap, true);
+            }
             if (mListener != null) {
                 mListener.onImageLoadSuccess(bitmap);
             }

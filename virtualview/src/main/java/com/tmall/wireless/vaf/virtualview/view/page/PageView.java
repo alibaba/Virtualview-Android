@@ -37,19 +37,16 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.BaseInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
 import com.libra.virtualview.common.ViewBaseCommon;
-import com.tmall.wireless.vaf.virtualview.container.Container;
 import com.tmall.wireless.vaf.virtualview.core.Adapter;
 import com.tmall.wireless.vaf.virtualview.core.Adapter.ViewHolder;
 import com.tmall.wireless.vaf.virtualview.core.IContainer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,14 +116,7 @@ public class PageView extends ViewGroup {
 
         mCurPos = 0;
 
-        mAutoSwitchHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (MSG_AUTO_SWITCH == msg.what) {
-                    autoSwitch();
-                }
-            }
-        };
+        mAutoSwitchHandler = new AutoSwitchHandler(this);
 
         mMaxVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
@@ -365,6 +355,26 @@ public class PageView extends ViewGroup {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (mAutoSwitch && mAdapter.getItemCount() > 1) {
+                    mAutoSwitchHandler.removeMessages(MSG_AUTO_SWITCH);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                if (mAutoSwitch && mAdapter.getItemCount() > 1) {
+                    mAutoSwitchHandler.removeMessages(MSG_AUTO_SWITCH);
+                    mAutoSwitchHandler.sendEmptyMessageDelayed(MSG_AUTO_SWITCH, mStayTime);
+                }
+                break;
+            default:
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -698,6 +708,21 @@ public class PageView extends ViewGroup {
                 return new SpringInterpolator();
             default:
                 return new LinearInterpolator();
+        }
+    }
+
+    static class AutoSwitchHandler extends Handler {
+        private PageView mPageView;
+
+        AutoSwitchHandler(PageView pageView) {
+            mPageView = new WeakReference<>(pageView).get();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (mPageView != null && MSG_AUTO_SWITCH == msg.what) {
+                mPageView.autoSwitch();
+            }
         }
     }
 
