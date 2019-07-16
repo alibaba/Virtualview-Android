@@ -30,6 +30,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.NinePatch;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -105,6 +106,8 @@ public abstract class ViewBase implements IView {
     protected String mBackgroundImagePath;
     protected Bitmap mBackgroundImage = null;
     protected Matrix mMatrixBG = null;
+    protected NinePatch mBgNinePatch;
+    protected Rect mBgRect;
 
     protected int mBorderWidth = 0;
     protected int mBorderColor = Color.BLACK;
@@ -917,6 +920,13 @@ public abstract class ViewBase implements IView {
 
     protected void setBackgroundImage(Bitmap bmp) {
         mBackgroundImage = bmp;
+        byte[] ninePatchChunk = mBackgroundImage.getNinePatchChunk();
+        if (ninePatchChunk != null && NinePatch.isNinePatchChunk(ninePatchChunk)) {
+            mBgNinePatch = new NinePatch(mBackgroundImage, ninePatchChunk, mBackgroundImagePath);
+            mBgRect = new Rect();
+        } else {
+            mBgNinePatch = null;
+        }
         refresh();
     }
 
@@ -1066,9 +1076,18 @@ public abstract class ViewBase implements IView {
                 VirtualViewUtils.drawBackground(canvas, mBackground, mMeasuredWidth, mMeasuredHeight, mBorderWidth,
                     mBorderTopLeftRadius, mBorderTopRightRadius, mBorderBottomLeftRadius, mBorderBottomRightRadius);
             } else if (null != mBackgroundImage) {
-                //TODO clip canvas if border radius set
-                mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(), ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
-                canvas.drawBitmap(mBackgroundImage, mMatrixBG, null);
+                if (mBgNinePatch != null && mBgRect != null) {
+                    mBgRect.left = 0;
+                    mBgRect.top = 0;
+                    mBgRect.right = mMeasuredWidth;
+                    mBgRect.bottom = mMeasuredHeight;
+                    mBgNinePatch.draw(canvas, mBgRect);
+                } else {
+                    //TODO clip canvas if border radius set
+                    mMatrixBG.setScale(((float) mMeasuredWidth) / mBackgroundImage.getWidth(),
+                            ((float) mMeasuredHeight) / mBackgroundImage.getHeight());
+                    canvas.drawBitmap(mBackgroundImage, mMatrixBG, null);
+                }
             }
         }
     }
