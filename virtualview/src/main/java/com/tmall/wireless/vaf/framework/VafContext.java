@@ -44,6 +44,7 @@ import com.tmall.wireless.vaf.virtualview.core.ViewBase;
 import com.tmall.wireless.vaf.virtualview.event.ClickProcessorManager;
 import com.tmall.wireless.vaf.virtualview.event.EventData;
 import com.tmall.wireless.vaf.virtualview.event.EventManager;
+import com.tmall.wireless.vaf.virtualview.listener.MonitorListener;
 import com.tmall.wireless.vaf.virtualview.loader.StringLoader;
 
 /**
@@ -72,6 +73,8 @@ public class VafContext {
     protected ClickProcessorManager mClickProcessorManager = new ClickProcessorManager();
 
     protected Activity mCurActivity;
+
+    public static MonitorListener monitorListener;
 
     public ComContainerTypeMap getComContainerTypeMap() {
         return mComContainerTypeMap;

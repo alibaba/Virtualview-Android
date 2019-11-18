@@ -146,8 +146,8 @@ public class ContainerService {
         if (null == vb) {
             vb = mVM.getDefaultImage();
             vb.setViewType(viewType);
-            if (mAppContext.getService(MonitorListener.class) != null) {
-                mAppContext.getService(MonitorListener.class).onTemplateNotFound(viewType);
+            if (VafContext.monitorListener != null) {
+                VafContext.monitorListener.onTemplateNotFound(viewType);
             }
         }
 
@@ -160,6 +160,10 @@ public class ContainerService {
             } else {
                 Log.e(TAG, "getContainer type invalidate:" + containerType);
             }
+        }
+
+        if (VafContext.monitorListener != null){
+            VafContext.monitorListener.monitorUsage(viewType);
         }
 
         if (null != container) {
