@@ -1,3 +1,5 @@
+# 注意，该项目停止维护！！！
+
 # VirtualView
 
 [English Document](README.md)
